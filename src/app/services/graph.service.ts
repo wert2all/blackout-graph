@@ -17,6 +17,7 @@ export class GraphService {
     group: GraphGroups,
     weekday: WeekDay,
     hour: number,
+    limit: number,
   ): LightItem[] {
     const hourString = this.hourToString(hour);
     const currentWeekDay = weekday;
@@ -46,7 +47,7 @@ export class GraphService {
     return (
       this.sliceTimelime([...previousItems, ...currentItems, ...nextItems]) ||
       currentItems
-    );
+    ).slice(0, limit);
   }
 
   private sliceTimelime(allItems: LightItem[]): LightItem[] | undefined {
@@ -65,7 +66,7 @@ export class GraphService {
       )
       .reverse();
 
-    return [...start, ...allItems].slice(0, 24);
+    return [...start, ...allItems];
   }
 
   private getSearchStartCheck(type: LightType) {
