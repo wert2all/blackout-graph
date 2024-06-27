@@ -7,4 +7,4 @@ import { Component } from '@angular/core';
   templateUrl: './layout.component.html',
   imports: [CommonModule],
 })
-export class LayoutComponent { }
+export class LayoutComponent {}
