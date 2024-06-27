@@ -10,11 +10,11 @@
     @for (item of viewItems(); track $index) {
       <tr
         [class.active]="item.active"
-        [class.start-blackout]="isFirstBlackoutBlock(item, $index)"
-        [class.end-blackout]="isLastBlackoutBlock(item, $index)"
         [class.blackout]="item.type === LightType.BLACKOUT"
         [class.maybe-blackout]="item.type === LightType.MAYBE_BLACKOUT"
         [class.normal]="item.type === LightType.NORMAL"
+        [class.start]="isStartBlock(item, $index)"
+        [class.end]="isEndBlock(item, $index)"
       >
         <td></td>
         <td class="cellContent">

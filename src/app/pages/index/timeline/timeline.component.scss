@@ -33,15 +33,23 @@
       margin-top: 2px;
       margin-bottom: 2px;
     }
+    &.normal .cellContent div.grid {
+      @apply bg-success;
+    }
+    &.normal.start .cellContent div.grid {
+      margin-top: 20px;
+    }
+    &.normal.end .cellContent div.grid {
+      margin-bottom: 20px;
+    }
+
     &.blackout .cellContent div.grid {
       @apply bg-base-300;
     }
     &.maybe-blackout .cellContent div.grid {
       @apply bg-base-200;
     }
-    &.normal .cellContent div.grid {
-      @apply bg-success;
-    }
+
     &.blackout .cellContent,
     &.maybe-blackout .cellContent {
       @apply border-warning;
@@ -49,10 +57,13 @@
       border-inline-end-width: 1px;
       border-inline-start-width: 1px;
     }
-    &.start-blackout .cellContent {
+    &.blackout.start .cellContent,
+    &.maybe-blackout.start .cellContent {
       border-top-width: 1px;
     }
-    &.end-blackout .cellContent {
+
+    &.blackout.end .cellContent,
+    &.maybe-blackout.end .cellContent {
       border-bottom-width: 1px;
     }
   }
