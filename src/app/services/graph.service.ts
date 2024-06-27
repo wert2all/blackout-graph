@@ -43,7 +43,35 @@ export class GraphService {
       () => false,
     );
 
-    return [...previousItems, ...currentItems, ...nextItems];
+    return (
+      this.sliceTimelime([...previousItems, ...currentItems, ...nextItems]) ||
+      currentItems
+    );
+  }
+
+  private sliceTimelime(allItems: LightItem[]): LightItem[] | undefined {
+    const activeItemIndex = allItems.findIndex((item) => item.active) - 1;
+    if (activeItemIndex < 0) {
+      return undefined;
+    }
+    const searchStartCheck = this.getSearchStartCheck(
+      allItems[activeItemIndex].type,
+    );
+    const startReverse = allItems.splice(0, activeItemIndex + 1).reverse();
+    const start = startReverse
+      .slice(
+        0,
+        startReverse.findIndex((item) => searchStartCheck(item.type)),
+      )
+      .reverse();
+
+    return [...start, ...allItems].slice(0, 24);
+  }
+
+  private getSearchStartCheck(type: LightType) {
+    return type === LightType.NORMAL
+      ? (type: LightType) => type !== LightType.NORMAL
+      : (type: LightType) => type === LightType.NORMAL;
   }
 
   private getNextWeekDay(weekDay: number): WeekDay {
