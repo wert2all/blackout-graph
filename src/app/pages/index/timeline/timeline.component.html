@@ -1,0 +1,19 @@
+<table class="table">
+  <tbody>
+    @for (item of timeItems; track $index) {
+      <tr [class.active]="item.active">
+        <td class="w-1"></td>
+        <td
+          class="text-center"
+          [class.start-blackout]="isFirst(item, $index)"
+          [class.end-blackout]="isLast(item, $index)"
+          [class.blackout]="item.type === LightType.BLACKOUT"
+          [class.maybe-blackout]="item.type === LightType.MAYBE_BLACKOUT"
+        >
+          {{ item.time }}
+        </td>
+        <td class="w-1"></td>
+      </tr>
+    }
+  </tbody>
+</table>

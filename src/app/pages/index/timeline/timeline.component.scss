@@ -1,0 +1,25 @@
+.table {
+  :where(thead tr, tbody tr:not(:last-child), tbody tr:first-child:last-child) {
+    border-bottom-style: none;
+  }
+  border-collapse: collapse;
+
+  tr.active {
+    @apply bg-neutral;
+  }
+
+  tr {
+    td.blackout,
+    td.maybe-blackout {
+      @apply border-accent;
+      border-inline-end-width: 1px;
+      border-inline-start-width: 1px;
+    }
+    td.start-blackout {
+      border-top-width: 1px;
+    }
+    td.end-blackout {
+      border-bottom-width: 1px;
+    }
+  }
+}
