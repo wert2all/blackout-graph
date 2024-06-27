@@ -1,6 +1,6 @@
 <table class="table">
   <tbody>
-    @for (item of timeItems; track $index) {
+    @for (item of viewItems(); track $index) {
       <tr [class.active]="item.active">
         <td class="w-1"></td>
         <td
