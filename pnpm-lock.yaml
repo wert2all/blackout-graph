@@ -35,7 +35,7 @@ importers:
       '@ng-icons/core':
         specifier: ^28.0.0
         version: 28.0.0
-      '@ng-icons/huge-icons':
+      '@ng-icons/iconsax':
         specifier: ^28.0.0
         version: 28.0.0
       '@ngrx/effects':
@@ -1481,8 +1481,8 @@ packages:
   '@ng-icons/core@28.0.0':
     resolution: {integrity: sha512-rp4W6mHqm8n0JcLnAMpruluw2cWcKJjzKtlwzBVCzyMlOHI4A/YIPZZDYdOLAayIHr1sz1ZNCAYFHSEpixF+hQ==}
 
-  '@ng-icons/huge-icons@28.0.0':
-    resolution: {integrity: sha512-dsuqNHRMON8AJsTw46Zjn4ihSJZ6w6Zsqus0IFa571KzI4YRxmNPDd//5mpLnb4psBv9okVqF2tR6//GyysyPw==}
+  '@ng-icons/iconsax@28.0.0':
+    resolution: {integrity: sha512-SCVpg4h3Oz7thypHJmBb/k5mUvovuhOFukdIAqGLIG7h7CfwemEAwdIb5aV7lmsVae/5RpshYCDjYmTYvB/bmw==}
 
   '@ngrx/effects@18.0.0':
     resolution: {integrity: sha512-njDbltV4XnUO10VaIOoiXF+aCyhVnvg6NTLudG9uhK/+cuv3D10cTZ3pHv7ycjpc40Pp16Sz0SY+daj9HfvdKg==}
@@ -6706,7 +6706,7 @@ snapshots:
     dependencies:
       tslib: 2.6.3
 
-  '@ng-icons/huge-icons@28.0.0':
+  '@ng-icons/iconsax@28.0.0':
     dependencies:
       tslib: 2.6.3
 

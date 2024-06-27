@@ -10,6 +10,9 @@
           [class.blackout]="item.type === LightType.BLACKOUT"
           [class.maybe-blackout]="item.type === LightType.MAYBE_BLACKOUT"
         >
+          @if (item.icon) {
+            <ng-icon [svg]="item.icon" size="28"></ng-icon>
+          }
           {{ item.time }}
         </td>
         <td class="w-1"></td>
