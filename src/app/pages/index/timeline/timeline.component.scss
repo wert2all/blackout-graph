@@ -5,25 +5,21 @@
   border-collapse: collapse;
 
   tr.active {
-    @apply bg-neutral;
+    @apply bg-warning;
 
-    td.blackout span,
-    td.maybe-blackout span {
+    td.normal .cellContent,
+    td.blackout .cellContent,
+    td.maybe-blackout .cellContent {
       background-color: unset;
     }
   }
 
   tr.weekday {
     td {
-      padding-top: 20px;
-      padding-bottom: 40px;
-
       @apply bg-info;
 
-      td.blackout span,
-      td.maybe-blackout span {
-        background-color: unset;
-      }
+      padding-top: 20px;
+      padding-bottom: 40px;
     }
   }
 
@@ -32,16 +28,21 @@
       padding: 2px;
       padding-top: 4px;
     }
-    td.blackout span {
+
+    td.blackout .cellContent {
       @apply bg-base-300;
     }
-    td.maybe-blackout span {
+    td.maybe-blackout .cellContent {
       @apply bg-base-200;
+    }
+    td.normal .cellContent {
+      @apply bg-success;
     }
 
     td.blackout,
     td.maybe-blackout {
       @apply border-warning;
+
       border-inline-end-width: 1px;
       border-inline-start-width: 1px;
     }
