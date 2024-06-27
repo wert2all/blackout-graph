@@ -32,6 +32,15 @@ importers:
       '@angular/router':
         specifier: ^18.0.5
         version: 18.0.5(@angular/common@18.0.5(@angular/core@18.0.5(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.0.5(rxjs@7.8.1)(zone.js@0.14.7))(@angular/platform-browser@18.0.5(@angular/animations@18.0.5(@angular/core@18.0.5(rxjs@7.8.1)(zone.js@0.14.7)))(@angular/common@18.0.5(@angular/core@18.0.5(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.0.5(rxjs@7.8.1)(zone.js@0.14.7)))(rxjs@7.8.1)
+      '@ngrx/effects':
+        specifier: ^18.0.0
+        version: 18.0.0(@angular/core@18.0.5(rxjs@7.8.1)(zone.js@0.14.7))(@ngrx/store@18.0.0(@angular/core@18.0.5(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(rxjs@7.8.1)
+      '@ngrx/signals':
+        specifier: 18.0.0-rc.1
+        version: 18.0.0-rc.1(@angular/core@18.0.5(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1)
+      '@ngrx/store':
+        specifier: ^18.0.0
+        version: 18.0.0(@angular/core@18.0.5(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1)
       eslint-plugin-simple-import-sort:
         specifier: ^12.1.0
         version: 12.1.0(eslint@9.5.0)
@@ -66,6 +75,12 @@ importers:
       '@commitlint/config-conventional':
         specifier: ^19.2.2
         version: 19.2.2
+      '@ngrx/eslint-plugin':
+        specifier: ^18.0.0
+        version: 18.0.0(@typescript-eslint/utils@7.14.1(eslint@9.5.0)(typescript@5.4.5))(eslint@9.5.0)(typescript@5.4.5)
+      '@ngrx/store-devtools':
+        specifier: ^18.0.0
+        version: 18.0.0(@ngrx/store@18.0.0(@angular/core@18.0.5(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(rxjs@7.8.1)
       '@types/jasmine':
         specifier: ~5.1.4
         version: 5.1.4
@@ -1450,6 +1465,46 @@ packages:
     resolution: {integrity: sha512-x0fWaQtYp4E6sktbsdAqnehxDgEc/VwM7uLsRCYWaiGu0ykYdZPiS8zCWdnjHwyiumousxfBm4SO31eXqwEZhQ==}
     cpu: [x64]
     os: [win32]
+
+  '@ngrx/effects@18.0.0':
+    resolution: {integrity: sha512-njDbltV4XnUO10VaIOoiXF+aCyhVnvg6NTLudG9uhK/+cuv3D10cTZ3pHv7ycjpc40Pp16Sz0SY+daj9HfvdKg==}
+    peerDependencies:
+      '@angular/core': ^18.0.0
+      '@ngrx/store': 18.0.0
+      rxjs: ^6.5.3 || ^7.5.0
+
+  '@ngrx/eslint-plugin@18.0.0':
+    resolution: {integrity: sha512-o3hQhDU3TuRJUypUrVYSHQua17XWhnf8g8/qPUPRySx0mPCTWhoL+uq3WiPd60nLu4fJDA80qIe/xprILxLA0A==}
+    peerDependencies:
+      '@typescript-eslint/utils': ^7.11.0 || ^8.0.0-alpha.20
+      eslint: ^8.57.0 || ^9.0.0
+      typescript: '*'
+
+  '@ngrx/operators@17.0.0-beta.0':
+    resolution: {integrity: sha512-EbO8AONuQ6zo2v/mPyBOi4y0CTAp1x4Z+bx7ZF+Pd8BL5ma53BTCL1TmzaeK5zPUe0yApudLk9/ZbHXPnVox5A==}
+    peerDependencies:
+      rxjs: ^6.5.3 || ^7.4.0
+
+  '@ngrx/signals@18.0.0-rc.1':
+    resolution: {integrity: sha512-kH58iRtr94mAW0O3RZLGkA16Acg4KXObe1JzRUJX4VH/RB1nj6hT2DnfmxYCfZGrEQeA7yZgkIkAw1A4oilpgQ==}
+    peerDependencies:
+      '@angular/core': ^18.0.0
+      rxjs: ^6.5.3 || ^7.4.0
+    peerDependenciesMeta:
+      rxjs:
+        optional: true
+
+  '@ngrx/store-devtools@18.0.0':
+    resolution: {integrity: sha512-0XbUnDjpaYq8trJs/RqfEfvFQRgQ0Hm648ImZHTfF1CwHwDe5qZAkLuOt0D/e4YO8itMc4MymZJzEkfJz4HVWw==}
+    peerDependencies:
+      '@ngrx/store': 18.0.0
+      rxjs: ^6.5.3 || ^7.5.0
+
+  '@ngrx/store@18.0.0':
+    resolution: {integrity: sha512-U/0cX7cQ7kkQrleNq5PQ1gD84lSI+ox2SIiDNAAxm8li7/S63QuRATFJIkMcVavR8yoa7gZ0WpyEKTlYGxEE2g==}
+    peerDependencies:
+      '@angular/core': ^18.0.0
+      rxjs: ^6.5.3 || ^7.5.0
 
   '@ngtools/webpack@18.0.6':
     resolution: {integrity: sha512-chSRbPpnqTThURQqUvWAgEGkLcn5TQnUQPD1HBf4WcoO/OkaK4Q1Sa8FrEllkC6/Dlyj7myi8rskQz+V8K7GSg==}
@@ -6648,6 +6703,46 @@ snapshots:
 
   '@msgpackr-extract/msgpackr-extract-win32-x64@3.0.3':
     optional: true
+
+  '@ngrx/effects@18.0.0(@angular/core@18.0.5(rxjs@7.8.1)(zone.js@0.14.7))(@ngrx/store@18.0.0(@angular/core@18.0.5(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(rxjs@7.8.1)':
+    dependencies:
+      '@angular/core': 18.0.5(rxjs@7.8.1)(zone.js@0.14.7)
+      '@ngrx/operators': 17.0.0-beta.0(rxjs@7.8.1)
+      '@ngrx/store': 18.0.0(@angular/core@18.0.5(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1)
+      rxjs: 7.8.1
+      tslib: 2.6.3
+
+  '@ngrx/eslint-plugin@18.0.0(@typescript-eslint/utils@7.14.1(eslint@9.5.0)(typescript@5.4.5))(eslint@9.5.0)(typescript@5.4.5)':
+    dependencies:
+      '@typescript-eslint/utils': 7.14.1(eslint@9.5.0)(typescript@5.4.5)
+      eslint: 9.5.0
+      semver: 7.6.2
+      strip-json-comments: 3.1.1
+      typescript: 5.4.5
+
+  '@ngrx/operators@17.0.0-beta.0(rxjs@7.8.1)':
+    dependencies:
+      rxjs: 7.8.1
+      tslib: 2.6.3
+
+  '@ngrx/signals@18.0.0-rc.1(@angular/core@18.0.5(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1)':
+    dependencies:
+      '@angular/core': 18.0.5(rxjs@7.8.1)(zone.js@0.14.7)
+      tslib: 2.6.3
+    optionalDependencies:
+      rxjs: 7.8.1
+
+  '@ngrx/store-devtools@18.0.0(@ngrx/store@18.0.0(@angular/core@18.0.5(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(rxjs@7.8.1)':
+    dependencies:
+      '@ngrx/store': 18.0.0(@angular/core@18.0.5(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1)
+      rxjs: 7.8.1
+      tslib: 2.6.3
+
+  '@ngrx/store@18.0.0(@angular/core@18.0.5(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1)':
+    dependencies:
+      '@angular/core': 18.0.5(rxjs@7.8.1)(zone.js@0.14.7)
+      rxjs: 7.8.1
+      tslib: 2.6.3
 
   '@ngtools/webpack@18.0.6(@angular/compiler-cli@18.0.5(@angular/compiler@18.0.5(@angular/core@18.0.5(rxjs@7.8.1)(zone.js@0.14.7)))(typescript@5.4.5))(typescript@5.4.5)(webpack@5.91.0(esbuild@0.21.3))':
     dependencies:
