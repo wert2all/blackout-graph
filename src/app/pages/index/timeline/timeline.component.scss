@@ -6,12 +6,28 @@
 
   tr.active {
     @apply bg-neutral;
+
+    td.blackout span,
+    td.maybe-blackout span {
+      background-color: unset;
+    }
   }
 
   tr {
+    td {
+      padding: 2px;
+      padding-top: 4px;
+    }
+    td.blackout span {
+      @apply bg-base-300;
+    }
+    td.maybe-blackout span {
+      @apply bg-base-200;
+    }
+
     td.blackout,
     td.maybe-blackout {
-      @apply border-accent;
+      @apply border-warning;
       border-inline-end-width: 1px;
       border-inline-start-width: 1px;
     }
