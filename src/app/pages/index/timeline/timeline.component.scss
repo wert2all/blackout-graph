@@ -13,6 +13,20 @@
     }
   }
 
+  tr.weekday {
+    td {
+      padding-top: 20px;
+      padding-bottom: 40px;
+
+      @apply bg-info;
+
+      td.blackout span,
+      td.maybe-blackout span {
+        background-color: unset;
+      }
+    }
+  }
+
   tr {
     td {
       padding: 2px;

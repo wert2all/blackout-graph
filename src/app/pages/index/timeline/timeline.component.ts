@@ -8,12 +8,16 @@ import {
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { saxFlash1Bold, saxFlashSlashBold } from '@ng-icons/iconsax/bold';
 import { saxFlashBulk, saxFlashSlashBulk } from '@ng-icons/iconsax/bulk';
-import { DateTime } from 'luxon';
+import { DateTime, Info } from 'luxon';
 
 import { GraphGroups, LightItem, LightType } from '../../../app.types';
 import { GraphService } from '../../../services/graph.service';
 
-type ViewLigthItem = LightItem & { active: boolean; icon: string | undefined };
+type ViewLigthItem = LightItem & {
+  active: boolean;
+  icon: string | undefined;
+  weekdayName: string;
+};
 
 @Component({
   selector: 'app-timeline',
@@ -49,8 +53,11 @@ export class TimelineComponent {
     return this.timeItems().map((item): ViewLigthItem => {
       return {
         ...item,
-        active: item.time === this.dateTime.toFormat('HH:00'),
+        active:
+          item.weekday === this.dateTime.weekday &&
+          item.time === this.dateTime.toFormat('HH:00'),
         icon: this.getIcon(item.type),
+        weekdayName: Info.weekdays()[item.weekday - 1],
       };
     });
   });

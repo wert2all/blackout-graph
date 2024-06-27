@@ -8,6 +8,13 @@
   </thead>
   <tbody>
     @for (item of viewItems(); track $index) {
+      @if (item.weekday !== viewItems()[$index - 1]?.weekday) {
+        <tr class="weekday">
+          <td></td>
+          <td class="text-center text-3xl">{{ item.weekdayName }}</td>
+          <td></td>
+        </tr>
+      }
       <tr [class.active]="item.active">
         <td class="w-1"></td>
         <td
