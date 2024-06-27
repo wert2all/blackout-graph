@@ -1,15 +1,15 @@
 <table class="table">
   <thead>
     <tr>
-      <th class="w-1"></th>
+      <th class="w-10"></th>
       <th></th>
-      <th class="w-1"></th>
+      <th class="w-10"></th>
     </tr>
   </thead>
   <tbody>
     @for (item of viewItems(); track $index) {
       <tr [class.active]="item.active">
-        <td class="w-1"></td>
+        <td></td>
         <td
           class="text-center"
           [class.start-blackout]="isFirst(item, $index)"
@@ -21,7 +21,10 @@
           <div class="cellContent grid grid-cols-12 mx-1 py-2">
             <div class="col-span-10 flex justify-center items-center">
               @if (item.icon) {
-                <ng-icon [svg]="item.icon" size="28"></ng-icon>
+                <ng-icon
+                  [svg]="item.icon"
+                  [size]="item.active ? '36' : '24'"
+                ></ng-icon>
               }
               <span>{{ item.time }}</span>
             </div>
@@ -34,7 +37,7 @@
             </div>
           </div>
         </td>
-        <td class="w-1"></td>
+        <td></td>
       </tr>
     }
   </tbody>
