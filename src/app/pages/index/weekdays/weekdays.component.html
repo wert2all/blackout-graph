@@ -1,0 +1,20 @@
+<div class="join">
+  <a
+    href="#"
+    class="btn btn-accent join-item"
+    [class.btn-active]="isTodayActive()"
+  >
+    Today
+  </a>
+  <div class="divider divider-horizontal"></div>
+  @for (item of weekdays(); track $index) {
+    <a
+      href="#"
+      class="btn btn-ghost join-item"
+      [class.btn-active]="item.active"
+      (click)="item.active = true"
+    >
+      {{ item.name }}
+    </a>
+  }
+</div>
