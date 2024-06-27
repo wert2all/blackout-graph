@@ -5,8 +5,12 @@
   border-collapse: collapse;
 
   tr.active {
-    @apply bg-warning;
+    @apply bg-warning text-3xl;
 
+    td {
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
     td.normal .cellContent,
     td.blackout .cellContent,
     td.maybe-blackout .cellContent {
