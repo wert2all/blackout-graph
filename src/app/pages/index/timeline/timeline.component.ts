@@ -47,6 +47,8 @@ export class TimelineComponent {
     { time: '15:00', type: LightType.MAYBE_BLACKOUT },
     { time: '16:00', type: LightType.MAYBE_BLACKOUT },
     { time: '17:00', type: LightType.NORMAL },
+    { time: '18:00', type: LightType.NORMAL },
+    { time: '19:00', type: LightType.NORMAL },
   ]);
 
   viewItems = computed(() => {

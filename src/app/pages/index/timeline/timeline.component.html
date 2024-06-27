@@ -1,4 +1,11 @@
 <table class="table">
+  <thead>
+    <tr>
+      <th class="w-1"></th>
+      <th></th>
+      <th class="w-1"></th>
+    </tr>
+  </thead>
   <tbody>
     @for (item of viewItems(); track $index) {
       <tr [class.active]="item.active">
@@ -10,10 +17,12 @@
           [class.blackout]="item.type === LightType.BLACKOUT"
           [class.maybe-blackout]="item.type === LightType.MAYBE_BLACKOUT"
         >
-          @if (item.icon) {
-            <ng-icon [svg]="item.icon" size="28"></ng-icon>
-          }
-          {{ item.time }}
+          <span class="flex items-center justify-center py-2">
+            @if (item.icon) {
+              <ng-icon [svg]="item.icon" size="28"></ng-icon>
+            }
+            {{ item.time }}
+          </span>
         </td>
         <td class="w-1"></td>
       </tr>
