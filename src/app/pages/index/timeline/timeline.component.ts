@@ -58,20 +58,26 @@ export class TimelineComponent {
     });
   });
 
-  isFirstBlackoutBlock(item: ViewLigthItem, itemIndex: number): boolean {
-    if (item.type !== LightType.NORMAL) {
-      const previous = this.timeItems()[itemIndex - 1];
-      return previous === undefined || previous.type === LightType.NORMAL;
-    }
-    return false;
+  isStartBlock(item: LightItem, index: number) {
+    return this.isBlockChange(item, this.timeItems()[index - 1]);
   }
 
-  isLastBlackoutBlock(item: ViewLigthItem, itemIndex: number): boolean {
-    if (item.type !== LightType.NORMAL) {
-      const next = this.timeItems()[itemIndex + 1];
-      return next === undefined || next.type === LightType.NORMAL;
+  isEndBlock(item: LightItem, index: number) {
+    return this.isBlockChange(item, this.timeItems()[index + 1]);
+  }
+
+  private isBlockChange(item: LightItem, second: LightItem | undefined) {
+    if (second === undefined) {
+      return true;
     }
-    return false;
+    switch (item.type) {
+      case LightType.NORMAL:
+        return second.type !== LightType.NORMAL;
+      case LightType.MAYBE_BLACKOUT:
+        return second.type === LightType.NORMAL;
+      case LightType.BLACKOUT:
+        return second.type === LightType.NORMAL;
+    }
   }
 
   private getIcon(type: LightType): string | undefined {
