@@ -2,7 +2,8 @@
 const eslint = require("@eslint/js");
 const tseslint = require("typescript-eslint");
 const angular = require("angular-eslint");
-  
+const eslintConfigPrettier = require("eslint-config-prettier");
+
 module.exports = tseslint.config(
   {
     files: ["**/*.ts"],
@@ -14,6 +15,7 @@ module.exports = tseslint.config(
     ],
     processor: angular.processInlineTemplates,
     rules: {
+      ...eslintConfigPrettier.rules,
       "@angular-eslint/directive-selector": [
         "error",
         {
@@ -39,5 +41,5 @@ module.exports = tseslint.config(
       ...angular.configs.templateAccessibility,
     ],
     rules: {},
-  }
+  },
 );
