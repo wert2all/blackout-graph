@@ -1,7 +1,10 @@
-import { Component, computed, signal } from '@angular/core';
-import { DateTime, Info } from 'luxon';
+import { Component, computed, inject, signal } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Info } from 'luxon';
 
 import { WeekDay } from '../../../app.types';
+import { WeekDayActions } from '../../../store/graph.actions';
+import { graphFeature } from '../../../store/graph.reducers';
 
 @Component({
   standalone: true,
@@ -9,19 +12,26 @@ import { WeekDay } from '../../../app.types';
   templateUrl: './weekdays.component.html',
 })
 export class WeekdaysComponent {
-  private readonly dateTime = DateTime.now();
   private readonly info = signal(Info.weekdays());
+  private readonly store = inject(Store);
+
+  isTodayActive = this.store.selectSignal(graphFeature.selectIsToday);
+  selectedWeekDay = this.store.selectSignal(graphFeature.selectSelectedWeekDay);
   weekdays = computed(() => {
     return this.info().map((name, index) => {
       return {
         name: name,
-        day: index as WeekDay,
-        active: this.dateTime.weekday === index + 1,
+        day: (index + 1) as WeekDay,
+        active: index + 1 === this.selectedWeekDay(),
       };
     });
   });
 
-  isTodayActive() {
-    return true;
+  switchToToday() {
+    this.store.dispatch(WeekDayActions.switchToToday());
+  }
+
+  switchWeekDay(weekday: WeekDay) {
+    this.store.dispatch(WeekDayActions.switchWeekDay({ weekday: weekday }));
   }
 }

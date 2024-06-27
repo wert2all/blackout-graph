@@ -1,18 +1,21 @@
 <div class="join">
   <a
-    href="#"
-    class="btn btn-accent join-item"
-    [class.btn-active]="isTodayActive()"
+    (click)="switchToToday()"
+    (keyup)="switchToToday()"
+    tabindex="0"
+    class="btn btn-ghost join-item"
+    [class.btn-active]="isTodayActive() === true"
   >
     Today
   </a>
   <div class="divider divider-horizontal"></div>
   @for (item of weekdays(); track $index) {
     <a
-      href="#"
       class="btn btn-ghost join-item"
+      [attr.tabindex]="$index + 1"
       [class.btn-active]="item.active"
-      (click)="item.active = true"
+      (click)="switchWeekDay(item.day)"
+      (keyup)="switchWeekDay(item.day)"
     >
       {{ item.name }}
     </a>
