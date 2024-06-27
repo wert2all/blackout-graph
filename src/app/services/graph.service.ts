@@ -1,8 +1,14 @@
 import { Injectable } from '@angular/core';
 
-import { GraphGroups, LightItem, LightType, WeekDay } from '../app.types';
+import {
+  GraphGroups,
+  GraphLightItem,
+  LightItem,
+  LightType,
+  WeekDay,
+} from '../app.types';
 
-type Graph = Record<GraphGroups, Record<WeekDay, LightItem[]>>;
+type Graph = Record<GraphGroups, Record<WeekDay, GraphLightItem[]>>;
 
 @Injectable({ providedIn: 'root' })
 export class GraphService {
@@ -157,19 +163,42 @@ export class GraphService {
     weekday: WeekDay,
     hour: number,
   ): LightItem[] {
-    const groupItems = this.graph[group][weekday];
-    const listTime = this.generateTime();
-    return listTime.map(
-      (time) =>
-        groupItems.find((item) => item.time === time) || {
-          time,
-          type: LightType.NORMAL,
-        },
+    const currentWeekDay = weekday;
+    const previousWeekDay = this.getPreviousWeekDay(weekday);
+
+    const currentWeekdayItems = this.graph[group][weekday];
+    const previousWeekdayItems = this.graph[group][previousWeekDay];
+
+    const previousItems = this.getListItems(
+      previousWeekdayItems,
+      previousWeekDay,
     );
+    const currentItems = this.getListItems(currentWeekdayItems, currentWeekDay);
+
+    return [...previousItems, ...currentItems];
   }
+  private getPreviousWeekDay(weekday: WeekDay): WeekDay {
+    return weekday === 1 ? 7 : ((weekday - 1) as WeekDay);
+  }
+
   private generateTime(): string[] {
     return Array.from({ length: 24 }, (_, i) => i).map(
       (hour) => (hour < 10 ? '0' : '') + `${hour}:00`,
     );
+  }
+
+  private getListItems(items: GraphLightItem[], weekday: WeekDay): LightItem[] {
+    return this.generateTime()
+      .map(
+        (time) =>
+          items.find((item) => item.time === time) || {
+            time,
+            type: LightType.NORMAL,
+          },
+      )
+      .map((item) => ({
+        ...item,
+        weekday: weekday,
+      }));
   }
 }
