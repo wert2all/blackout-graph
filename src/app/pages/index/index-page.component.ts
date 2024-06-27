@@ -4,6 +4,7 @@ import { ContentComponent } from '../../share/layout/content/content.component';
 import { HeaderComponent } from '../../share/layout/header/header.component';
 import { LayoutComponent } from '../../share/layout/layout.component';
 import { TimelineComponent } from './timeline/timeline.component';
+import { WeekdaysComponent } from './weekdays/weekdays.component';
 
 @Component({
   selector: 'app-index-page',
@@ -15,6 +16,7 @@ import { TimelineComponent } from './timeline/timeline.component';
     ContentComponent,
     HeaderComponent,
     TimelineComponent,
+    WeekdaysComponent,
   ],
 })
 export class IndexPageComponent {}
