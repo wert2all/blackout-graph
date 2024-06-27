@@ -4,6 +4,9 @@ import {
   computed,
   signal,
 } from '@angular/core';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { saxFlash1Bold, saxFlashSlashBold } from '@ng-icons/iconsax/bold';
+import { saxFlashBulk, saxFlashSlashBulk } from '@ng-icons/iconsax/bulk';
 import { DateTime } from 'luxon';
 enum LightType {
   BLACKOUT = 'blackout',
@@ -15,11 +18,21 @@ interface LightItem {
   time: string;
   type: LightType;
 }
-type ViewLigthItem = LightItem & { active: boolean };
+type ViewLigthItem = LightItem & { active: boolean; icon: string | undefined };
+
 @Component({
   selector: 'app-timeline',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIconComponent],
+  viewProviders: [
+    provideIcons({
+      saxFlashSlashBold,
+      saxFlash1Bold,
+      saxFlashBulk,
+      saxFlashSlashBulk,
+    }),
+  ],
   templateUrl: './timeline.component.html',
   styleUrls: ['./timeline.component.scss'],
 })
@@ -38,12 +51,14 @@ export class TimelineComponent {
 
   viewItems = computed(() => {
     const dt = DateTime.now();
-    return this.timeItems().map(
-      (item): ViewLigthItem => ({
+
+    return this.timeItems().map((item): ViewLigthItem => {
+      return {
         ...item,
         active: item.time === dt.toFormat('HH:00'),
-      }),
-    );
+        icon: this.getIcon(item.type),
+      };
+    });
   });
 
   isFirst(item: ViewLigthItem, itemIndex: number): boolean {
@@ -59,5 +74,15 @@ export class TimelineComponent {
       return next === undefined || next.type === LightType.NORMAL;
     }
     return false;
+  }
+  private getIcon(type: LightType): string | undefined {
+    switch (type) {
+      case LightType.BLACKOUT:
+        return saxFlashSlashBulk;
+      case LightType.MAYBE_BLACKOUT:
+        return saxFlashBulk;
+      case LightType.NORMAL:
+        return saxFlash1Bold;
+    }
   }
 }
