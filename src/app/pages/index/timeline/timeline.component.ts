@@ -58,20 +58,22 @@ export class TimelineComponent {
     });
   });
 
-  isFirst(item: ViewLigthItem, itemIndex: number): boolean {
+  isFirstBlackoutBlock(item: ViewLigthItem, itemIndex: number): boolean {
     if (item.type !== LightType.NORMAL) {
       const previous = this.timeItems()[itemIndex - 1];
       return previous === undefined || previous.type === LightType.NORMAL;
     }
     return false;
   }
-  isLast(item: ViewLigthItem, itemIndex: number): boolean {
+
+  isLastBlackoutBlock(item: ViewLigthItem, itemIndex: number): boolean {
     if (item.type !== LightType.NORMAL) {
       const next = this.timeItems()[itemIndex + 1];
       return next === undefined || next.type === LightType.NORMAL;
     }
     return false;
   }
+
   private getIcon(type: LightType): string | undefined {
     switch (type) {
       case LightType.BLACKOUT:

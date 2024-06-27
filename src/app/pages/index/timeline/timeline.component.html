@@ -8,17 +8,17 @@
   </thead>
   <tbody>
     @for (item of viewItems(); track $index) {
-      <tr [class.active]="item.active">
+      <tr
+        [class.active]="item.active"
+        [class.start-blackout]="isFirstBlackoutBlock(item, $index)"
+        [class.end-blackout]="isLastBlackoutBlock(item, $index)"
+        [class.blackout]="item.type === LightType.BLACKOUT"
+        [class.maybe-blackout]="item.type === LightType.MAYBE_BLACKOUT"
+        [class.normal]="item.type === LightType.NORMAL"
+      >
         <td></td>
-        <td
-          class="text-center"
-          [class.start-blackout]="isFirst(item, $index)"
-          [class.end-blackout]="isLast(item, $index)"
-          [class.blackout]="item.type === LightType.BLACKOUT"
-          [class.maybe-blackout]="item.type === LightType.MAYBE_BLACKOUT"
-          [class.normal]="item.type === LightType.NORMAL"
-        >
-          <div class="cellContent grid grid-cols-12 mx-1 py-2">
+        <td class="cellContent">
+          <div class="grid grid-cols-12 mx-1 py-2">
             <div class="col-span-10 flex justify-center items-center">
               @if (item.icon) {
                 <ng-icon

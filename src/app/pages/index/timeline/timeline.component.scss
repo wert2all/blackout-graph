@@ -11,9 +11,10 @@
       padding-top: 10px;
       padding-bottom: 10px;
     }
-    td.normal .cellContent,
-    td.blackout .cellContent,
-    td.maybe-blackout .cellContent {
+
+    &.normal .cellContent div.grid,
+    &.blackout .cellContent div.grid,
+    &.maybe-blackout .cellContent div.grid {
       background-color: unset;
     }
   }
@@ -21,39 +22,37 @@
   tr.weekday {
     td {
       @apply bg-info;
-
-      padding-top: 20px;
-      padding-bottom: 40px;
     }
   }
 
   tr {
     td {
-      padding: 2px;
-      padding-top: 4px;
+      padding: 0;
     }
-
-    td.blackout .cellContent {
+    .cellContent div.grid {
+      margin-top: 2px;
+      margin-bottom: 2px;
+    }
+    &.blackout .cellContent div.grid {
       @apply bg-base-300;
     }
-    td.maybe-blackout .cellContent {
+    &.maybe-blackout .cellContent div.grid {
       @apply bg-base-200;
     }
-    td.normal .cellContent {
+    &.normal .cellContent div.grid {
       @apply bg-success;
     }
-
-    td.blackout,
-    td.maybe-blackout {
+    &.blackout .cellContent,
+    &.maybe-blackout .cellContent {
       @apply border-warning;
 
       border-inline-end-width: 1px;
       border-inline-start-width: 1px;
     }
-    td.start-blackout {
+    &.start-blackout .cellContent {
       border-top-width: 1px;
     }
-    td.end-blackout {
+    &.end-blackout .cellContent {
       border-bottom-width: 1px;
     }
   }
