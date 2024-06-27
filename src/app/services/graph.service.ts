@@ -18,7 +18,7 @@ export class GraphService {
     weekday: WeekDay,
     hour: number,
   ): LightItem[] {
-    const hourString = hour < 10 ? `0${hour}:00` : `${hour}:00`;
+    const hourString = this.hourToString(hour);
     const currentWeekDay = weekday;
     const previousWeekDay = this.getPreviousWeekDay(currentWeekDay);
     const nextWeekDay = this.getNextWeekDay(currentWeekDay);
@@ -54,29 +54,31 @@ export class GraphService {
     return weekday === 1 ? 7 : ((weekday - 1) as WeekDay);
   }
 
-  private generateTime(): string[] {
-    return Array.from({ length: 24 }, (_, i) => i).map(
-      (hour) => (hour < 10 ? '0' : '') + `${hour}:00`,
-    );
-  }
-
   private getListItems(
     items: GraphLightItem[],
     weekday: WeekDay,
     isActive: (item: GraphLightItem) => boolean,
   ): LightItem[] {
-    return this.generateTime()
+    return Array.from({ length: 24 }, (_, i) => i)
+      .map((hour) => this.hourToString(hour))
       .map(
         (time) =>
-          items.find((item) => item.time === time) || {
-            time,
-            type: LightType.NORMAL,
-          },
+          items.find((item) => item.time === time) || this.getDefaultItem(time),
       )
       .map((item) => ({
         ...item,
         active: isActive(item),
         weekday: weekday,
       }));
+  }
+  private hourToString(hour: number) {
+    return hour < 10 ? `0${hour}:00` : `${hour}:00`;
+  }
+
+  private getDefaultItem(time: string): GraphLightItem {
+    return {
+      time: time,
+      type: LightType.NORMAL,
+    };
   }
 }
