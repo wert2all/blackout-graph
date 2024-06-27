@@ -2,22 +2,17 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   signal,
 } from '@angular/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { saxFlash1Bold, saxFlashSlashBold } from '@ng-icons/iconsax/bold';
 import { saxFlashBulk, saxFlashSlashBulk } from '@ng-icons/iconsax/bulk';
 import { DateTime } from 'luxon';
-enum LightType {
-  BLACKOUT = 'blackout',
-  MAYBE_BLACKOUT = 'maybe-blackout',
-  NORMAL = 'normal',
-}
 
-interface LightItem {
-  time: string;
-  type: LightType;
-}
+import { GraphGroups, LightItem, LightType } from '../../../app.types';
+import { GraphService } from '../../../services/graph.service';
+
 type ViewLigthItem = LightItem & { active: boolean; icon: string | undefined };
 
 @Component({
@@ -37,27 +32,24 @@ type ViewLigthItem = LightItem & { active: boolean; icon: string | undefined };
   styleUrls: ['./timeline.component.scss'],
 })
 export class TimelineComponent {
+  private readonly graphService = inject(GraphService);
+  private readonly dateTime = DateTime.now();
+  private readonly group: GraphGroups = 'group3';
+
   LightType = LightType;
-  timeItems = signal<LightItem[]>([
-    { time: '10:00', type: LightType.NORMAL },
-    { time: '11:00', type: LightType.BLACKOUT },
-    { time: '12:00', type: LightType.BLACKOUT },
-    { time: '13:00', type: LightType.BLACKOUT },
-    { time: '14:00', type: LightType.BLACKOUT },
-    { time: '15:00', type: LightType.MAYBE_BLACKOUT },
-    { time: '16:00', type: LightType.MAYBE_BLACKOUT },
-    { time: '17:00', type: LightType.NORMAL },
-    { time: '18:00', type: LightType.NORMAL },
-    { time: '19:00', type: LightType.NORMAL },
-  ]);
+  timeItems = signal<LightItem[]>(
+    this.graphService.getLightItems(
+      this.group,
+      this.dateTime.weekday,
+      this.dateTime.hour,
+    ),
+  );
 
   viewItems = computed(() => {
-    const dt = DateTime.now();
-
     return this.timeItems().map((item): ViewLigthItem => {
       return {
         ...item,
-        active: item.time === dt.toFormat('HH:00'),
+        active: item.time === this.dateTime.toFormat('HH:00'),
         icon: this.getIcon(item.type),
       };
     });
