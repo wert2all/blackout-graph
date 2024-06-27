@@ -6,6 +6,7 @@ const eslintConfigPrettier = require("eslint-config-prettier");
 const sonarjs = require("eslint-plugin-sonarjs");
 const unusedImports = require("eslint-plugin-unused-imports");
 const simpleImportSort = require("eslint-plugin-simple-import-sort");
+const ngrx = require("@ngrx/eslint-plugin/v9");
 
 module.exports = tseslint.config(
   {
@@ -15,6 +16,12 @@ module.exports = tseslint.config(
       ...tseslint.configs.recommended,
       ...tseslint.configs.stylistic,
       ...angular.configs.tsRecommended,
+      ...ngrx.configs.all,
+      ...ngrx.configs.store,
+      ...ngrx.configs.effects,
+      ...ngrx.configs.componentStore,
+      ...ngrx.configs.operators,
+      ...ngrx.configs.signals,
     ],
     plugins: {
       sonarjs,
