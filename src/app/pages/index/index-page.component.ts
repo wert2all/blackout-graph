@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { LayoutComponent } from '../../share/layout/layout.component';
 import { ContentComponent } from '../../share/layout/content/content.component';
 import { HeaderComponent } from '../../share/layout/header/header.component';
+import { LayoutComponent } from '../../share/layout/layout.component';
 
 @Component({
   selector: 'app-index-page',
@@ -11,4 +11,4 @@ import { HeaderComponent } from '../../share/layout/header/header.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [LayoutComponent, ContentComponent, HeaderComponent],
 })
-export class IndexPageComponent { }
+export class IndexPageComponent {}

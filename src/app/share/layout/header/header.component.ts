@@ -7,4 +7,4 @@ import { Component } from '@angular/core';
   imports: [CommonModule],
   templateUrl: './header.component.html',
 })
-export class HeaderComponent { }
+export class HeaderComponent {}
