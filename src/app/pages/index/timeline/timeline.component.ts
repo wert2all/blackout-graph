@@ -14,7 +14,6 @@ import { GraphGroups, LightItem, LightType } from '../../../app.types';
 import { GraphService } from '../../../services/graph.service';
 
 type ViewLigthItem = LightItem & {
-  active: boolean;
   icon: string | undefined;
   weekdayName: string;
 };
@@ -53,9 +52,6 @@ export class TimelineComponent {
     return this.timeItems().map((item): ViewLigthItem => {
       return {
         ...item,
-        active:
-          item.weekday === this.dateTime.weekday &&
-          item.time === this.dateTime.toFormat('HH:00'),
         icon: this.getIcon(item.type),
         weekdayName: Info.weekdays()[item.weekday - 1],
       };
