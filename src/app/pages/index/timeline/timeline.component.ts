@@ -8,10 +8,12 @@ import {
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { saxFlash1Bold, saxFlashSlashBold } from '@ng-icons/iconsax/bold';
 import { saxFlashBulk, saxFlashSlashBulk } from '@ng-icons/iconsax/bulk';
+import { Store } from '@ngrx/store';
 import { DateTime, Info } from 'luxon';
 
 import { GraphGroups, LightItem, LightType } from '../../../app.types';
 import { GraphService } from '../../../services/graph.service';
+import { graphFeature } from '../../../store/graph.reducers';
 
 type ViewLigthItem = LightItem & {
   icon: string | undefined;
@@ -35,11 +37,15 @@ type ViewLigthItem = LightItem & {
   styleUrls: ['./timeline.component.scss'],
 })
 export class TimelineComponent {
+  private readonly store = inject(Store);
   private readonly graphService = inject(GraphService);
   private readonly dateTime = DateTime.now();
   private readonly group: GraphGroups = 'group3';
 
   LightType = LightType;
+  allItems = this.store.selectSignal(graphFeature.selectThreeDaysItems);
+  newTimeline = this.store.selectSignal(graphFeature.selectTimeline);
+
   timeItems = signal<LightItem[]>(
     this.graphService.getLightItems(
       this.group,
@@ -49,15 +55,15 @@ export class TimelineComponent {
     ),
   );
 
-  viewItems = computed(() => {
-    return this.timeItems().map((item): ViewLigthItem => {
-      return {
+  viewItems = computed(() =>
+    this.newTimeline().map(
+      (item): ViewLigthItem => ({
         ...item,
         icon: this.getIcon(item.type),
         weekdayName: Info.weekdays()[item.weekday - 1],
-      };
-    });
-  });
+      }),
+    ),
+  );
 
   isStartBlock(item: LightItem, index: number) {
     return this.isBlockChange(item, this.timeItems()[index - 1]);
