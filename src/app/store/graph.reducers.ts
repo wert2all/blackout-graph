@@ -24,9 +24,10 @@ const selectItems = (weekday: WeekDay, group: GraphGroups) =>
 const hourToString = (hour: number) =>
   hour < 10 ? `0${hour}:00` : `${hour}:00`;
 
-const selectActiveItems = (isActive: (item: GraphLightItem) => boolean) => {
-  return (items: GraphLightItem[], weekday: WeekDay): LightItem[] => {
-    return Array.from({ length: 24 }, (_, i) => i)
+const createActiveItemsProjector =
+  (currentWeekday: WeekDay, hourString: string) =>
+  (items: GraphLightItem[], weekday: WeekDay): LightItem[] =>
+    Array.from({ length: 24 }, (_, i) => i)
       .map((hour) => hourToString(hour))
       .map(
         (time) =>
@@ -37,11 +38,9 @@ const selectActiveItems = (isActive: (item: GraphLightItem) => boolean) => {
       )
       .map((item) => ({
         ...item,
-        active: isActive(item),
+        active: currentWeekday == weekday && item.time === hourString,
         weekday: weekday,
       }));
-  };
-};
 
 const getSearchStartCheck = (type: LightType) =>
   type === LightType.NORMAL
@@ -76,12 +75,18 @@ export const graphFeature = createFeature({
   }) => {
     const datetime = DateTime.now();
     const hour = datetime.hour;
+    const weekday = datetime.weekday;
+
+    const selectItemProjector = createActiveItemsProjector(
+      weekday,
+      hourToString(hour),
+    );
 
     const selectCurrentWeekday = createSelector(
       selectIsToday,
       selectSelectedWeekDay,
       (isToday, selectedWeekDay): WeekDay =>
-        isToday ? datetime.weekday : selectedWeekDay || 1,
+        isToday ? weekday : selectedWeekDay || 1,
     );
     const selectPreviousWeekday = createSelector(
       selectCurrentWeekday,
@@ -112,17 +117,17 @@ export const graphFeature = createFeature({
     const selectCurrentItems = createSelector(
       selectCurrentWeekdayItems,
       selectCurrentWeekday,
-      selectActiveItems((item) => item.time === hourToString(hour)),
+      selectItemProjector,
     );
     const selectPreviousItems = createSelector(
       selectPreviousWeekdayItems,
       selectPreviousWeekday,
-      selectActiveItems(() => false),
+      selectItemProjector,
     );
     const selectNextItems = createSelector(
       selectNextWeekdayItems,
       selectNextWeekday,
-      selectActiveItems(() => false),
+      selectItemProjector,
     );
 
     const selectThreeDaysItems = createSelector(
