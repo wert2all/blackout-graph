@@ -12,7 +12,14 @@
       <div class="stat-title" [class.text-base-200]="accent() === true">
         {{ current.title }}
       </div>
-      <div class="stat-value text-primary">{{ current.duration }}</div>
+      <div class="stat-value text-primary">
+        @if (current.duration?.hours) {
+          {{ current.duration?.hours }}год
+        }
+        @if (current.duration?.minutes) {
+          {{ current.duration?.minutes }}хв
+        }
+      </div>
     </div>
 
     <div class="stat">

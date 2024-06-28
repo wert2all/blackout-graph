@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 
 import { LightType } from '../../app.types';
 import { graphFeature } from '../../store/graph.reducers';
+import { Duration } from '../../store/graph.types';
 
 interface Future {
   title: string;
@@ -22,7 +23,7 @@ interface Future {
 interface Current {
   title: string;
   time: string;
-  duration: string;
+  duration: Duration | undefined;
   icon: string;
   type: LightType;
 }
@@ -48,12 +49,12 @@ export class CurrentSituationComponent {
     const activeItem = this.activeItem();
     return activeItem
       ? {
-        title: this.createActiveTitle(activeItem.type),
-        duration: '2год 23хв',
-        type: activeItem.type,
-        icon: activeItem.icon,
-        time: activeItem.time,
-      }
+          title: this.createActiveTitle(activeItem.type),
+          duration: activeItem.duration,
+          type: activeItem.type,
+          icon: activeItem.icon,
+          time: activeItem.time,
+        }
       : null;
   });
 

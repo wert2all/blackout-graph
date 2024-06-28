@@ -1,10 +1,25 @@
-import { GraphGroups, GraphLightItem, LightType, WeekDay } from '../app.types';
+import {
+  GraphGroups,
+  GraphLightItem,
+  LightItemWithBlock,
+  LightType,
+  WeekDay,
+} from '../app.types';
 
 export interface GraphState {
   isToday: boolean;
   selectedWeekDay: WeekDay | null;
   selectedGroup: GraphGroups;
 }
+export interface Duration {
+  hours: number;
+  minutes: number;
+}
+export type ActiveItem = LightItemWithBlock & {
+  start: number | undefined;
+  end: number | undefined;
+  duration: Duration | undefined;
+};
 export type Graph = Record<GraphGroups, Record<WeekDay, GraphLightItem[]>>;
 
 export const GraphStore: Graph = {

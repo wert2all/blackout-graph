@@ -2,6 +2,7 @@ import { saxFlash1Bold } from '@ng-icons/iconsax/bold';
 import { saxFlashBulk, saxFlashSlashBulk } from '@ng-icons/iconsax/bulk';
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 import { DateTime } from 'luxon';
+import { Valid } from 'luxon/src/_util';
 
 import {
   GraphGroups,
@@ -12,7 +13,7 @@ import {
   WeekDay,
 } from '../app.types';
 import { WeekDayActions } from './graph.actions';
-import { GraphState, GraphStore } from './graph.types';
+import { ActiveItem, GraphState, GraphStore } from './graph.types';
 
 const initialState: GraphState = {
   isToday: true,
@@ -89,6 +90,27 @@ const isBlockChange = (item: LightItem, second: LightItem | undefined) => {
     case LightType.BLACKOUT:
       return second.type === LightType.NORMAL;
   }
+};
+const extractBlockHour = (
+  items: LightItemWithBlock[],
+  filter: (item: LightItemWithBlock) => boolean,
+) => {
+  const item = items.find(filter)?.time.split(':')[0];
+  return item ? Number.parseInt(item, 10) : undefined;
+};
+
+const getActiveItemDuration = (from: DateTime<Valid>, to: DateTime<Valid>) => {
+  const duration = from
+    .diff(to)
+    .shiftTo('hours', 'minutes', 'seconds')
+    .toObject();
+  if (duration.hours && duration.minutes) {
+    return {
+      hours: Math.round(duration.hours),
+      minutes: Math.round(duration.minutes),
+    };
+  }
+  return undefined;
 };
 
 export const graphFeature = createFeature({
@@ -219,13 +241,66 @@ export const graphFeature = createFeature({
       updateBlock,
     );
 
-    const selectActiveItem = createSelector(selectCurrentItems, (items) =>
-      items.find((item) => item.active),
+    const selectActiveBlock = createSelector(
+      selectTimelineWithBlocks,
+      (items) => {
+        const activeItemIndex = items.findIndex((item) => item.active);
+
+        const endList = items.slice(activeItemIndex);
+        const endIndex = endList.findIndex((item) => item.blockEnd);
+
+        const startList = items.slice(0, activeItemIndex).reverse();
+        const startIndex = startList.findIndex((item) => item.blockStart);
+
+        return [
+          ...startList.slice(0, startIndex + 1).reverse(),
+          ...endList.slice(0, endIndex + 1),
+        ];
+      },
     );
+    const selectActiveBlockStartEnd = createSelector(
+      selectActiveBlock,
+      (items) => ({
+        start: extractBlockHour(items, (item) => item.blockStart),
+        end: extractBlockHour(items, (item) => item.blockEnd),
+      }),
+    );
+
+    const selectActiveItem = createSelector(
+      selectActiveBlock,
+      selectActiveBlockStartEnd,
+      (items, startEnd): ActiveItem | undefined => {
+        const activeItem = items.find((item) => item.active);
+        const now = DateTime.now();
+
+        const duration = startEnd.start
+          ? getActiveItemDuration(
+              now,
+              (now.hour > startEnd.start ? now : now.minus({ day: 1 })).set({
+                hour: startEnd.start,
+                minute: 0,
+                second: 0,
+                millisecond: 0,
+              }),
+            )
+          : undefined;
+
+        return activeItem
+          ? {
+              ...activeItem,
+              start: startEnd.start,
+              end: startEnd.end,
+              duration: duration,
+            }
+          : undefined;
+      },
+    );
+
     return {
       selectTimelineWithBlocks,
       selectThreeDaysItemsWithBlock,
       selectActiveItem,
+      selectActiveBlock,
     };
   },
 });
