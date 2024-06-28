@@ -16,28 +16,32 @@
         [class.start]="item.blockStart"
         [class.end]="item.blockEnd"
       >
-        <td></td>
-        <td class="cellContent">
-          <div class="grid grid-cols-12 mx-1 py-2">
-            <div class="col-span-10 flex justify-center items-center">
-              @if (item.icon) {
-                <ng-icon
-                  [svg]="item.icon"
-                  [size]="item.active ? '36' : '24'"
-                ></ng-icon>
-              }
-              <span>{{ item.time }}</span>
+        @if (item.active) {
+          <td colspan="3"><app-current-situation [accent]="true" /></td>
+        } @else {
+          <td></td>
+          <td class="cellContent">
+            <div class="grid grid-cols-12 mx-1 py-2">
+              <div class="col-span-10 flex justify-center items-center">
+                @if (item.icon) {
+                  <ng-icon
+                    [svg]="item.icon"
+                    [size]="item.active ? '36' : '24'"
+                  ></ng-icon>
+                }
+                <span>{{ item.time }}</span>
+              </div>
+              <div class="flex justify-end col-span-2 me-2">
+                @if (item.weekday !== viewItems()[$index - 1]?.weekday) {
+                  <div class="badge badge-primary">
+                    {{ item.weekdayName }}
+                  </div>
+                }
+              </div>
             </div>
-            <div class="flex justify-end col-span-2 me-2">
-              @if (item.weekday !== viewItems()[$index - 1]?.weekday) {
-                <div class="badge badge-primary">
-                  {{ item.weekdayName }}
-                </div>
-              }
-            </div>
-          </div>
-        </td>
-        <td></td>
+          </td>
+          <td></td>
+        }
       </tr>
     }
   </tbody>

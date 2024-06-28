@@ -1,8 +1,10 @@
 <app-layout>
   <app-layout-header></app-layout-header>
   <app-layout-content>
-    <p>Світло вмикнеться через 15 хвилин</p>
-    <p>Світла немає вже 2 години 40 хвилин</p>
-    <app-weekdays></app-weekdays>
-    <app-timeline></app-timeline> </app-layout-content
-></app-layout>
+    <div class="mb-5">
+      <app-current-situation />
+    </div>
+    <app-weekdays />
+    <app-timeline />
+  </app-layout-content>
+</app-layout>

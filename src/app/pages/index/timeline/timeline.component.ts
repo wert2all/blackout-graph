@@ -11,6 +11,7 @@ import { Store } from '@ngrx/store';
 import { Info } from 'luxon';
 
 import { LightItemWithBlock, LightType } from '../../../app.types';
+import { CurrentSituationComponent } from '../../../share/current-situation/current-situation.component';
 import { graphFeature } from '../../../store/graph.reducers';
 
 type ViewLigthItem = LightItemWithBlock & {
@@ -22,7 +23,6 @@ type ViewLigthItem = LightItemWithBlock & {
   selector: 'app-timeline',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIconComponent],
   viewProviders: [
     provideIcons({
       saxFlashSlashBold,
@@ -33,6 +33,7 @@ type ViewLigthItem = LightItemWithBlock & {
   ],
   templateUrl: './timeline.component.html',
   styleUrls: ['./timeline.component.scss'],
+  imports: [NgIconComponent, CurrentSituationComponent],
 })
 export class TimelineComponent {
   private readonly store = inject(Store);

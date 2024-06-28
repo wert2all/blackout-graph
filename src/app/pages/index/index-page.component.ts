@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
+import { CurrentSituationComponent } from '../../share/current-situation/current-situation.component';
 import { ContentComponent } from '../../share/layout/content/content.component';
 import { HeaderComponent } from '../../share/layout/header/header.component';
 import { LayoutComponent } from '../../share/layout/layout.component';
@@ -17,6 +18,7 @@ import { WeekdaysComponent } from './weekdays/weekdays.component';
     HeaderComponent,
     TimelineComponent,
     WeekdaysComponent,
+    CurrentSituationComponent,
   ],
 })
 export class IndexPageComponent {}
