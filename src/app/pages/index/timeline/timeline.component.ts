@@ -3,16 +3,14 @@ import {
   Component,
   computed,
   inject,
-  signal,
 } from '@angular/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { saxFlash1Bold, saxFlashSlashBold } from '@ng-icons/iconsax/bold';
 import { saxFlashBulk, saxFlashSlashBulk } from '@ng-icons/iconsax/bulk';
 import { Store } from '@ngrx/store';
-import { DateTime, Info } from 'luxon';
+import { Info } from 'luxon';
 
-import { GraphGroups, LightItem, LightType } from '../../../app.types';
-import { GraphService } from '../../../services/graph.service';
+import { LightItem, LightType } from '../../../app.types';
 import { graphFeature } from '../../../store/graph.reducers';
 
 type ViewLigthItem = LightItem & {
@@ -38,25 +36,14 @@ type ViewLigthItem = LightItem & {
 })
 export class TimelineComponent {
   private readonly store = inject(Store);
-  private readonly graphService = inject(GraphService);
-  private readonly dateTime = DateTime.now();
-  private readonly group: GraphGroups = 'group3';
-
-  LightType = LightType;
-  allItems = this.store.selectSignal(graphFeature.selectThreeDaysItems);
-  newTimeline = this.store.selectSignal(graphFeature.selectTimeline);
-
-  timeItems = signal<LightItem[]>(
-    this.graphService.getLightItems(
-      this.group,
-      this.dateTime.weekday,
-      this.dateTime.hour,
-      14,
-    ),
+  private readonly timeline = this.store.selectSignal(
+    graphFeature.selectTimeline,
   );
 
+  LightType = LightType;
+
   viewItems = computed(() =>
-    this.newTimeline().map(
+    this.timeline().map(
       (item): ViewLigthItem => ({
         ...item,
         icon: this.getIcon(item.type),
@@ -66,11 +53,11 @@ export class TimelineComponent {
   );
 
   isStartBlock(item: LightItem, index: number) {
-    return this.isBlockChange(item, this.timeItems()[index - 1]);
+    return this.isBlockChange(item, this.timeline()[index - 1]);
   }
 
   isEndBlock(item: LightItem, index: number) {
-    return this.isBlockChange(item, this.timeItems()[index + 1]);
+    return this.isBlockChange(item, this.timeline()[index + 1]);
   }
 
   private isBlockChange(item: LightItem, second: LightItem | undefined) {

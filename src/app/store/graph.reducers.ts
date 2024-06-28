@@ -8,9 +8,8 @@ import {
   LightType,
   WeekDay,
 } from '../app.types';
-import { GraphStore } from '../services/graph.store';
 import { WeekDayActions } from './graph.actions';
-import { GraphState } from './graph.types';
+import { GraphState, GraphStore } from './graph.types';
 
 const initialState: GraphState = {
   isToday: true,
