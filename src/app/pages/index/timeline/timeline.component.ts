@@ -46,7 +46,6 @@ export class TimelineComponent {
     this.timeline().map(
       (item): ViewLigthItem => ({
         ...item,
-        icon: this.getIcon(item.type),
         weekdayName: Info.weekdays()[item.weekday - 1],
       }),
     ),
@@ -71,17 +70,6 @@ export class TimelineComponent {
         return second.type === LightType.NORMAL;
       case LightType.BLACKOUT:
         return second.type === LightType.NORMAL;
-    }
-  }
-
-  private getIcon(type: LightType): string | undefined {
-    switch (type) {
-      case LightType.BLACKOUT:
-        return saxFlashSlashBulk;
-      case LightType.MAYBE_BLACKOUT:
-        return saxFlashBulk;
-      case LightType.NORMAL:
-        return saxFlash1Bold;
     }
   }
 }
