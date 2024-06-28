@@ -284,13 +284,24 @@ export const graphFeature = createFeature({
               }),
             )
           : undefined;
-
+        const toEnd = startEnd.end
+          ? getActiveItemDuration(
+              (now.hour < startEnd.end ? now : now.plus({ day: 1 })).set({
+                hour: startEnd.end,
+                minute: 0,
+                second: 0,
+                millisecond: 0,
+              }),
+              now,
+            )
+          : undefined;
         return activeItem
           ? {
               ...activeItem,
               start: startEnd.start,
               end: startEnd.end,
               duration: duration,
+              toEnd: toEnd,
             }
           : undefined;
       },

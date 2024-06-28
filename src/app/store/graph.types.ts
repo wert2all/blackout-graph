@@ -19,6 +19,7 @@ export type ActiveItem = LightItemWithBlock & {
   start: number | undefined;
   end: number | undefined;
   duration: Duration | undefined;
+  toEnd: Duration | undefined;
 };
 export type Graph = Record<GraphGroups, Record<WeekDay, GraphLightItem[]>>;
 

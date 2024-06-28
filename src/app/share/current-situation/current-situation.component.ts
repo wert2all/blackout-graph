@@ -24,6 +24,7 @@ interface Current {
   title: string;
   time: string;
   duration: Duration | undefined;
+  toEnd: Duration | undefined;
   icon: string;
   type: LightType;
 }
@@ -51,6 +52,7 @@ export class CurrentSituationComponent {
       ? {
           title: this.createActiveTitle(activeItem.type),
           duration: activeItem.duration,
+          toEnd: activeItem.toEnd,
           type: activeItem.type,
           icon: activeItem.icon,
           time: activeItem.time,

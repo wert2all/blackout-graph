@@ -31,7 +31,12 @@
         [class.text-secondary]="accent() !== true"
         [class.text-red-500]="accent() === true"
       >
-        {{ future().after }}
+        @if (current.toEnd?.hours) {
+          {{ current.toEnd?.hours }}год
+        }
+        @if (current.toEnd?.minutes) {
+          {{ current.toEnd?.minutes }}хв
+        }
       </div>
       <div
         class="stat-desc"
