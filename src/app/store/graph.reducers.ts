@@ -219,9 +219,13 @@ export const graphFeature = createFeature({
       updateBlock,
     );
 
+    const selectActiveItem = createSelector(selectCurrentItems, (items) =>
+      items.find((item) => item.active),
+    );
     return {
       selectTimelineWithBlocks,
       selectThreeDaysItemsWithBlock,
+      selectActiveItem,
     };
   },
 });

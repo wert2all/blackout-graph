@@ -2,13 +2,16 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   input,
   signal,
 } from '@angular/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { saxFlash1Bold, saxFlashSlashBold } from '@ng-icons/iconsax/bold';
+import { Store } from '@ngrx/store';
 
-import { GraphLightItem, LightType } from '../../app.types';
+import { LightType } from '../../app.types';
+import { graphFeature } from '../../store/graph.reducers';
 
 interface Future {
   title: string;
@@ -18,10 +21,12 @@ interface Future {
 
 interface Current {
   title: string;
+  time: string;
   duration: string;
   icon: string;
   type: LightType;
 }
+
 @Component({
   selector: 'app-current-situation',
   standalone: true,
@@ -31,27 +36,32 @@ interface Current {
   viewProviders: [provideIcons({ saxFlash1Bold, saxFlashSlashBold })],
 })
 export class CurrentSituationComponent {
+  private readonly store = inject(Store);
+  private readonly activeItem = this.store.selectSignal(
+    graphFeature.selectActiveItem,
+  );
+
   LightType = LightType;
   accent = input<boolean>(false);
 
-  activeItem = signal<GraphLightItem>({
-    type: LightType.NORMAL,
-    time: '13:00',
+  current = computed<Current | null>(() => {
+    const activeItem = this.activeItem();
+    return activeItem
+      ? {
+          title: 'Світло мабуть є',
+          duration: '2год 23хв',
+          type: activeItem.type,
+          icon: activeItem.icon,
+          time: activeItem.time,
+        }
+      : null;
   });
 
-  activeTime = computed(() => this.activeItem().time);
   progressValue = signal(74);
 
   future = signal<Future>({
     title: 'Світла не буде через',
     when: 'Після 5:00',
     after: '2год 23хв',
-  });
-
-  current = signal<Current>({
-    title: 'Світло мабуть є',
-    duration: '2год 23хв',
-    type: LightType.BLACKOUT,
-    icon: saxFlashSlashBold,
   });
 }
