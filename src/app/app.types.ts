@@ -14,4 +14,5 @@ export enum LightType {
 export type LightItem = GraphLightItem & {
   active: boolean;
   weekday: WeekDay;
+  icon: string;
 };

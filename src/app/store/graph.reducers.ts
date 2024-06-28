@@ -1,3 +1,5 @@
+import { saxFlash1Bold } from '@ng-icons/iconsax/bold';
+import { saxFlashBulk, saxFlashSlashBulk } from '@ng-icons/iconsax/bulk';
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 import { DateTime } from 'luxon';
 
@@ -24,6 +26,17 @@ const selectItems = (weekday: WeekDay, group: GraphGroups) =>
 const hourToString = (hour: number) =>
   hour < 10 ? `0${hour}:00` : `${hour}:00`;
 
+const getIcon = (type: LightType): string => {
+  switch (type) {
+    case LightType.BLACKOUT:
+      return saxFlashSlashBulk;
+    case LightType.MAYBE_BLACKOUT:
+      return saxFlashBulk;
+    case LightType.NORMAL:
+      return saxFlash1Bold;
+  }
+};
+
 const createActiveItemsProjector =
   (currentWeekday: WeekDay, hourString: string) =>
   (items: GraphLightItem[], weekday: WeekDay): LightItem[] =>
@@ -40,6 +53,7 @@ const createActiveItemsProjector =
         ...item,
         active: currentWeekday == weekday && item.time === hourString,
         weekday: weekday,
+        icon: getIcon(item.type),
       }));
 
 const getSearchStartCheck = (type: LightType) =>
