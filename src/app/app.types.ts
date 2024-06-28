@@ -16,3 +16,8 @@ export type LightItem = GraphLightItem & {
   weekday: WeekDay;
   icon: string;
 };
+
+export type LightItemWithBlock = LightItem & {
+  blockStart: boolean;
+  blockEnd: boolean;
+};

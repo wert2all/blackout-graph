@@ -7,6 +7,7 @@ import {
   GraphGroups,
   GraphLightItem,
   LightItem,
+  LightItemWithBlock,
   LightType,
   WeekDay,
 } from '../app.types';
@@ -39,27 +40,56 @@ const getIcon = (type: LightType): string => {
 
 const createItemsUpdateProjector =
   (currentWeekday: WeekDay, hourString: string) =>
-    (items: GraphLightItem[], weekday: WeekDay): LightItem[] =>
-      Array.from({ length: 24 }, (_, i) => i)
-        .map((hour) => hourToString(hour))
-        .map(
-          (time) =>
-            items.find((item) => item.time === time) || {
-              time: time,
-              type: LightType.NORMAL,
-            },
-        )
-        .map((item) => ({
-          ...item,
-          active: currentWeekday == weekday && item.time === hourString,
-          weekday: weekday,
-          icon: getIcon(item.type),
-        }));
+  (items: GraphLightItem[], weekday: WeekDay): LightItem[] =>
+    Array.from({ length: 24 }, (_, i) => i)
+      .map((hour) => hourToString(hour))
+      .map(
+        (time) =>
+          items.find((item) => item.time === time) || {
+            time: time,
+            type: LightType.NORMAL,
+          },
+      )
+      .map((item) => ({
+        ...item,
+        active: currentWeekday == weekday && item.time === hourString,
+        weekday: weekday,
+        icon: getIcon(item.type),
+      }));
+
+const updateBlock = (items: LightItem[]): LightItemWithBlock[] =>
+  items.map((item, index) => ({
+    ...item,
+    blockStart: isStartBlock(item, index, items),
+    blockEnd: isEndBlock(item, index, items),
+  }));
 
 const getSearchStartCheck = (type: LightType) =>
   type === LightType.NORMAL
     ? (type: LightType) => type !== LightType.NORMAL
     : (type: LightType) => type === LightType.NORMAL;
+
+const isStartBlock = (item: LightItem, index: number, items: LightItem[]) => {
+  return isBlockChange(item, items[index - 1]);
+};
+
+const isEndBlock = (item: LightItem, index: number, items: LightItem[]) => {
+  return isBlockChange(item, items[index + 1]);
+};
+
+const isBlockChange = (item: LightItem, second: LightItem | undefined) => {
+  if (second === undefined) {
+    return true;
+  }
+  switch (item.type) {
+    case LightType.NORMAL:
+      return second.type !== LightType.NORMAL;
+    case LightType.MAYBE_BLACKOUT:
+      return second.type === LightType.NORMAL;
+    case LightType.BLACKOUT:
+      return second.type === LightType.NORMAL;
+  }
+};
 
 export const graphFeature = createFeature({
   name: 'graph',
@@ -178,6 +208,20 @@ export const graphFeature = createFeature({
       selectIsToday,
       (current, today, isToday) => (isToday ? today : current),
     );
-    return { selectThreeDaysItems, selectTimeline };
+
+    const selectThreeDaysItemsWithBlock = createSelector(
+      selectThreeDaysItems,
+      updateBlock,
+    );
+
+    const selectTimelineWithBlocks = createSelector(
+      selectTimeline,
+      updateBlock,
+    );
+
+    return {
+      selectTimelineWithBlocks,
+      selectThreeDaysItemsWithBlock,
+    };
   },
 });
