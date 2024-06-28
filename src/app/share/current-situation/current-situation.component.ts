@@ -22,6 +22,7 @@ interface Future {
 
 interface Current {
   title: string;
+  nextBlockTitle: string;
   time: string;
   duration: Duration | undefined;
   toEnd: Duration | undefined;
@@ -51,6 +52,7 @@ export class CurrentSituationComponent {
     return activeItem
       ? {
           title: this.createActiveTitle(activeItem.type),
+          nextBlockTitle: this.createNextBlockTitle(activeItem.type),
           duration: activeItem.duration,
           toEnd: activeItem.toEnd,
           type: activeItem.type,
@@ -78,6 +80,18 @@ export class CurrentSituationComponent {
 
       case LightType.BLACKOUT:
         return 'Світла немає';
+    }
+  }
+  private createNextBlockTitle(type: LightType): string {
+    switch (type) {
+      case LightType.NORMAL:
+        return 'Світла не буде';
+
+      case LightType.MAYBE_BLACKOUT:
+        return 'Світло мабуть буде';
+
+      case LightType.BLACKOUT:
+        return 'Світла мабуть буде';
     }
   }
 }
