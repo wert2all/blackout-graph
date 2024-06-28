@@ -17,6 +17,13 @@
     &.maybe-blackout .cellContent div.grid {
       background-color: unset;
     }
+
+    &.normal.start .cellContent div.grid {
+      margin-top: 0px;
+    }
+    &.normal.end .cellContent div.grid {
+      margin-bottom: 0px;
+    }
   }
 
   tr.weekday {
