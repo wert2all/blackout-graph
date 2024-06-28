@@ -13,8 +13,8 @@
         [class.blackout]="item.type === LightType.BLACKOUT"
         [class.maybe-blackout]="item.type === LightType.MAYBE_BLACKOUT"
         [class.normal]="item.type === LightType.NORMAL"
-        [class.start]="isStartBlock(item, $index)"
-        [class.end]="isEndBlock(item, $index)"
+        [class.start]="item.blockStart"
+        [class.end]="item.blockEnd"
       >
         <td></td>
         <td class="cellContent">

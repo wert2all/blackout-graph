@@ -10,10 +10,10 @@ import { saxFlashBulk, saxFlashSlashBulk } from '@ng-icons/iconsax/bulk';
 import { Store } from '@ngrx/store';
 import { Info } from 'luxon';
 
-import { LightItem, LightType } from '../../../app.types';
+import { LightItemWithBlock, LightType } from '../../../app.types';
 import { graphFeature } from '../../../store/graph.reducers';
 
-type ViewLigthItem = LightItem & {
+type ViewLigthItem = LightItemWithBlock & {
   icon: string | undefined;
   weekdayName: string;
 };
@@ -37,7 +37,7 @@ type ViewLigthItem = LightItem & {
 export class TimelineComponent {
   private readonly store = inject(Store);
   private readonly timeline = this.store.selectSignal(
-    graphFeature.selectTimeline,
+    graphFeature.selectTimelineWithBlocks,
   );
 
   LightType = LightType;
@@ -50,26 +50,4 @@ export class TimelineComponent {
       }),
     ),
   );
-
-  isStartBlock(item: LightItem, index: number) {
-    return this.isBlockChange(item, this.timeline()[index - 1]);
-  }
-
-  isEndBlock(item: LightItem, index: number) {
-    return this.isBlockChange(item, this.timeline()[index + 1]);
-  }
-
-  private isBlockChange(item: LightItem, second: LightItem | undefined) {
-    if (second === undefined) {
-      return true;
-    }
-    switch (item.type) {
-      case LightType.NORMAL:
-        return second.type !== LightType.NORMAL;
-      case LightType.MAYBE_BLACKOUT:
-        return second.type === LightType.NORMAL;
-      case LightType.BLACKOUT:
-        return second.type === LightType.NORMAL;
-    }
-  }
 }
