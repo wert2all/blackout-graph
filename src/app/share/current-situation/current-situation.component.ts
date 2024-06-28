@@ -48,12 +48,12 @@ export class CurrentSituationComponent {
     const activeItem = this.activeItem();
     return activeItem
       ? {
-          title: 'Світло мабуть є',
-          duration: '2год 23хв',
-          type: activeItem.type,
-          icon: activeItem.icon,
-          time: activeItem.time,
-        }
+        title: this.createActiveTitle(activeItem.type),
+        duration: '2год 23хв',
+        type: activeItem.type,
+        icon: activeItem.icon,
+        time: activeItem.time,
+      }
       : null;
   });
 
@@ -64,4 +64,17 @@ export class CurrentSituationComponent {
     when: 'Після 5:00',
     after: '2год 23хв',
   });
+
+  private createActiveTitle(type: LightType): string {
+    switch (type) {
+      case LightType.NORMAL:
+        return 'Світлo є';
+
+      case LightType.MAYBE_BLACKOUT:
+        return 'Світла мабуть немає';
+
+      case LightType.BLACKOUT:
+        return 'Світла немає';
+    }
+  }
 }
