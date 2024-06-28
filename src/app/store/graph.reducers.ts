@@ -37,24 +37,24 @@ const getIcon = (type: LightType): string => {
   }
 };
 
-const createActiveItemsProjector =
+const createItemsUpdateProjector =
   (currentWeekday: WeekDay, hourString: string) =>
-  (items: GraphLightItem[], weekday: WeekDay): LightItem[] =>
-    Array.from({ length: 24 }, (_, i) => i)
-      .map((hour) => hourToString(hour))
-      .map(
-        (time) =>
-          items.find((item) => item.time === time) || {
-            time: time,
-            type: LightType.NORMAL,
-          },
-      )
-      .map((item) => ({
-        ...item,
-        active: currentWeekday == weekday && item.time === hourString,
-        weekday: weekday,
-        icon: getIcon(item.type),
-      }));
+    (items: GraphLightItem[], weekday: WeekDay): LightItem[] =>
+      Array.from({ length: 24 }, (_, i) => i)
+        .map((hour) => hourToString(hour))
+        .map(
+          (time) =>
+            items.find((item) => item.time === time) || {
+              time: time,
+              type: LightType.NORMAL,
+            },
+        )
+        .map((item) => ({
+          ...item,
+          active: currentWeekday == weekday && item.time === hourString,
+          weekday: weekday,
+          icon: getIcon(item.type),
+        }));
 
 const getSearchStartCheck = (type: LightType) =>
   type === LightType.NORMAL
@@ -91,7 +91,7 @@ export const graphFeature = createFeature({
     const hour = datetime.hour;
     const weekday = datetime.weekday;
 
-    const selectItemProjector = createActiveItemsProjector(
+    const selectItemProjector = createItemsUpdateProjector(
       weekday,
       hourToString(hour),
     );
