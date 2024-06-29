@@ -88,7 +88,7 @@ export class CurrentSituationComponent {
   private createNextBlockTitle(type: LightType): string {
     switch (type) {
       case LightType.NORMAL:
-        return 'Світла не буде';
+        return 'Світла не стане через';
 
       case LightType.MAYBE_BLACKOUT:
         return 'Світло мабуть буде через';

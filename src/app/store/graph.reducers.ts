@@ -249,7 +249,7 @@ export const graphFeature = createFeature({
         const endList = items.slice(activeItemIndex);
         const endIndex = endList.findIndex((item) => item.blockEnd);
 
-        const startList = items.slice(0, activeItemIndex).reverse();
+        const startList = items.slice(0, activeItemIndex + 1).reverse();
         const startIndex = startList.findIndex((item) => item.blockStart);
 
         return [
