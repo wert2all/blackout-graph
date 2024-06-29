@@ -32,7 +32,7 @@
                 <span>{{ item.time }}</span>
               </div>
               <div class="flex justify-end col-span-2 me-2">
-                @if (item.weekday !== viewItems()[$index - 1]?.weekday) {
+                @if (shouldShowWeekday(item.weekday, $index)) {
                   <div class="badge badge-primary">
                     {{ item.weekdayName }}
                   </div>
