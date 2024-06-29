@@ -34,10 +34,10 @@ export class WeekdaysComponent {
   }
 
   switchWeekDay(weekday: WeekdayNumbers) {
-    this.store.dispatch(WeekDayActions.switchWeekDay({ weekday: weekday }));
+    this.store.dispatch(WeekDayActions.switchToWeekday({ weekday: weekday }));
   }
 
   switchToWeek() {
-    throw new Error('Method not implemented.');
+    this.store.dispatch(WeekDayActions.switchToWeek());
   }
 }
