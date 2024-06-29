@@ -4,18 +4,16 @@ import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 import { DateTime } from 'luxon';
 import { Valid } from 'luxon/src/_util';
 
-import { hourToString } from '../app.types';
+import { GraphGroups, hourToString, WeekDay } from '../app.types';
 import { WeekDayActions } from './graph.actions';
 import {
   ActiveItem,
-  GraphGroups,
   GraphLightItem,
   GraphState,
   GraphStore,
   LightItem,
   LightItemWithBlock,
   LightType,
-  WeekDay,
 } from './graph.types';
 
 const initialState: GraphState = {
@@ -61,8 +59,10 @@ const createItemsUpdateProjector =
 const updateBlock = (items: LightItem[]): LightItemWithBlock[] =>
   items.map((item, index) => ({
     ...item,
-    blockStart: isStartBlock(item, index, items),
-    blockEnd: isEndBlock(item, index, items),
+    block: {
+      isStart: isStartBlock(item, index, items),
+      isEnd: isEndBlock(item, index, items),
+    },
   }));
 
 const getSearchStartCheck = (type: LightType) =>
@@ -247,10 +247,10 @@ export const graphFeature = createFeature({
         const activeItemIndex = items.findIndex((item) => item.active);
 
         const endList = items.slice(activeItemIndex);
-        const endIndex = endList.findIndex((item) => item.blockEnd);
+        const endIndex = endList.findIndex((item) => item.block.isEnd);
 
         const startList = items.slice(0, activeItemIndex + 1).reverse();
-        const startIndex = startList.findIndex((item) => item.blockStart);
+        const startIndex = startList.findIndex((item) => item.block.isStart);
 
         return [
           ...startList.slice(0, startIndex + 1).reverse(),
@@ -261,9 +261,9 @@ export const graphFeature = createFeature({
     const selectActiveBlockStartEnd = createSelector(
       selectActiveBlock,
       (items) => {
-        const end = extractBlockHour(items, (item) => item.blockEnd);
+        const end = extractBlockHour(items, (item) => item.block.isEnd);
         return {
-          start: extractBlockHour(items, (item) => item.blockStart),
+          start: extractBlockHour(items, (item) => item.block.isStart),
           end: end ? (end === 23 ? 0 : end + 1) : undefined,
         };
       },
@@ -301,10 +301,13 @@ export const graphFeature = createFeature({
         return activeItem
           ? {
               ...activeItem,
-              start: startEnd.start,
-              end: startEnd.end,
-              duration: duration,
-              toEnd: toEnd,
+              block: {
+                ...activeItem.block,
+                startHour: startEnd.start,
+                endHour: startEnd.end,
+                toNowDuration: duration,
+                toEndDuration: toEnd,
+              },
             }
           : undefined;
       },

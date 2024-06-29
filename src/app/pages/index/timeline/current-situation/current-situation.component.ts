@@ -9,9 +9,9 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { saxFlash1Bold, saxFlashSlashBold } from '@ng-icons/iconsax/bold';
 import { Store } from '@ngrx/store';
 
-import { hourToString, LightType } from '../../../../app.types';
+import { hourToString } from '../../../../app.types';
 import { graphFeature } from '../../../../store/graph.reducers';
-import { Duration } from '../../../../store/graph.types';
+import { Duration, LightType } from '../../../../store/graph.types';
 
 interface Future {
   title: string;
@@ -51,17 +51,17 @@ export class CurrentSituationComponent {
     console.log(activeItem);
     return activeItem
       ? {
-        title: this.createActiveTitle(activeItem.type),
-        nextBlockTitle: this.createNextBlockTitle(activeItem.type),
-        duration: activeItem.block.toNowDuration,
-        toEnd: activeItem.block.toEndDuration,
-        type: activeItem.type,
-        icon: activeItem.icon,
-        time: activeItem.time,
-        nextBlockStart: activeItem.block.endHour
-          ? hourToString(activeItem.block.endHour)
-          : undefined,
-      }
+          title: this.createActiveTitle(activeItem.type),
+          nextBlockTitle: this.createNextBlockTitle(activeItem.type),
+          duration: activeItem.block.toNowDuration,
+          toEnd: activeItem.block.toEndDuration,
+          type: activeItem.type,
+          icon: activeItem.icon,
+          time: activeItem.time,
+          nextBlockStart: activeItem.block.endHour
+            ? hourToString(activeItem.block.endHour)
+            : undefined,
+        }
       : null;
   });
 
