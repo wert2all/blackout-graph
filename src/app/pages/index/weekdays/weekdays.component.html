@@ -1,4 +1,54 @@
-<div class="join">
+<div class="join lg:hidden">
+  <a
+    (click)="switchToToday()"
+    (keyup)="switchToToday()"
+    tabindex="0"
+    class="btn btn-ghost join-item"
+    [class.btn-active]="isTodayActive() === true"
+  >
+    Today
+  </a>
+  <div class="divider divider-horizontal"></div>
+  <a
+    class="btn btn-ghost join-item"
+    tabindex="0"
+    [class.btn-active]="hideWeekPanel() === false"
+    (click)="togglePanel()"
+    (keyup)="togglePanel()"
+  >
+    weekday...
+  </a>
+  <div class="divider divider-horizontal"></div>
+  <a
+    (click)="switchToWeek()"
+    (keyup)="switchToWeek()"
+    tabindex="0"
+    class="btn btn-ghost join-item"
+    [class.btn-active]="isWeekActive() === true"
+  >
+    Week
+  </a>
+</div>
+<div
+  class="lg:hidden grid grid-cols-3 bg-base-200 mx-2 rounded-b-lg p-2"
+  [class.hidden]="hideWeekPanel() === true"
+>
+  @for (item of weekdays(); track $index) {
+    <div>
+      <a
+        class="btn btn-ghost"
+        [attr.tabindex]="$index + 1"
+        [class.btn-active]="item.active"
+        (click)="switchWeekDay(item.day)"
+        (keyup)="switchWeekDay(item.day)"
+      >
+        {{ item.name }}
+      </a>
+    </div>
+  }
+</div>
+
+<div class="join hidden lg:flex">
   <a
     (click)="switchToToday()"
     (keyup)="switchToToday()"

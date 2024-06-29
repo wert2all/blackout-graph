@@ -28,6 +28,7 @@ export class WeekdaysComponent {
       };
     });
   });
+  hideWeekPanel = signal(true);
 
   switchToToday() {
     this.store.dispatch(WeekDayActions.switchToToday());
@@ -39,5 +40,9 @@ export class WeekdaysComponent {
 
   switchToWeek() {
     this.store.dispatch(WeekDayActions.switchToWeek());
+  }
+
+  togglePanel() {
+    this.hideWeekPanel.update((value) => !value);
   }
 }
