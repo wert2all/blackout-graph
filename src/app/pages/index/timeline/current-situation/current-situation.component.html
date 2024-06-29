@@ -1,5 +1,5 @@
 @if (current(); as current) {
-  <div class="stats shadow w-full" [class.bg-warning]="accent() === true">
+  <div class="stats shadow w-full bg-warning">
     <div
       class="stat"
       [class.bg-success]="current.type === LightType.NORMAL"
@@ -9,7 +9,7 @@
       <div class="stat-figure text-primary">
         <ng-icon [svg]="current.icon" size="36"></ng-icon>
       </div>
-      <div class="stat-title" [class.text-base-200]="accent() === true">
+      <div class="stat-title text-base-200">
         {{ current.title }}
       </div>
       <div class="stat-value text-primary">
@@ -23,14 +23,10 @@
     </div>
 
     <div class="stat">
-      <div class="stat-title" [class.text-base-200]="accent() === true">
+      <div class="stat-title text-base-200">
         {{ current.nextBlockTitle }}
       </div>
-      <div
-        class="stat-value"
-        [class.text-secondary]="accent() !== true"
-        [class.text-red-500]="accent() === true"
-      >
+      <div class="stat-value text-red-500">
         @if (current.toEnd?.hours) {
           {{ current.toEnd?.hours }}год
         }
@@ -38,11 +34,7 @@
           {{ current.toEnd?.minutes }}хв
         }
       </div>
-      <div
-        class="stat-desc"
-        [class.text-secondary]="accent() !== true"
-        [class.text-info]="accent() === true"
-      >
+      <div class="stat-desc text-info">
         @if (current.nextBlockStart) {
           Після {{ current.nextBlockStart }}
         }
@@ -52,26 +44,16 @@
     <div class="stat">
       <div class="stat-figure">
         <div
-          class="radial-progress"
-          [class.text-secondary]="accent() !== true"
-          [class.text-info]="accent() === true"
+          class="radial-progress text-info"
           [style]="'--value:' + progressValue()"
           role="progressbar"
         >
           {{ progressValue() }}%
         </div>
       </div>
-      <div class="stat-title" [class.text-base-200]="accent() === true">
-        Зараз
-      </div>
+      <div class="stat-title text-base-200">Зараз</div>
       <div class="stat-value">{{ current.time }}</div>
-      <div
-        class="stat-desc"
-        [class.text-secondary]="accent() !== true"
-        [class.text-info]="accent() === true"
-      >
-        пройшло {{ progressValue() }}% часу
-      </div>
+      <div class="stat-desc text-info">пройшло {{ progressValue() }}% часу</div>
     </div>
   </div>
 }

@@ -3,7 +3,6 @@ import {
   Component,
   computed,
   inject,
-  input,
   signal,
 } from '@angular/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
@@ -46,7 +45,6 @@ export class CurrentSituationComponent {
   );
 
   LightType = LightType;
-  accent = input<boolean>(false);
 
   current = computed<Current | null>(() => {
     const activeItem = this.activeItem();
