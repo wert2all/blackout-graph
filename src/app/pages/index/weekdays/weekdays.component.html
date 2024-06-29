@@ -20,4 +20,14 @@
       {{ item.name }}
     </a>
   }
+  <div class="divider divider-horizontal"></div>
+  <a
+    (click)="switchToWeek()"
+    (keyup)="switchToWeek()"
+    tabindex="0"
+    class="btn btn-ghost join-item"
+    [class.btn-active]="isWeekActive() === true"
+  >
+    Week
+  </a>
 </div>
