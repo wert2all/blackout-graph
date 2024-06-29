@@ -10,9 +10,9 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { saxFlash1Bold, saxFlashSlashBold } from '@ng-icons/iconsax/bold';
 import { Store } from '@ngrx/store';
 
-import { hourToString, LightType } from '../../app.types';
-import { graphFeature } from '../../store/graph.reducers';
-import { Duration } from '../../store/graph.types';
+import { hourToString, LightType } from '../../../../app.types';
+import { graphFeature } from '../../../../store/graph.reducers';
+import { Duration } from '../../../../store/graph.types';
 
 interface Future {
   title: string;

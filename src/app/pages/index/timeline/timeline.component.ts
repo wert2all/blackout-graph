@@ -11,8 +11,8 @@ import { Store } from '@ngrx/store';
 import { Info } from 'luxon';
 
 import { LightItemWithBlock, LightType } from '../../../app.types';
-import { CurrentSituationComponent } from '../../../share/current-situation/current-situation.component';
 import { graphFeature } from '../../../store/graph.reducers';
+import { CurrentSituationComponent } from './current-situation/current-situation.component';
 
 type ViewLigthItem = LightItemWithBlock & {
   icon: string | undefined;
