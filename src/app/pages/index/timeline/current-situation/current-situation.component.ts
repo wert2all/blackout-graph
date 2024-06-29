@@ -51,7 +51,7 @@ export class CurrentSituationComponent {
           icon: activeItem.icon,
           time: activeItem.time,
           nextBlockStart: activeItem.block.endHour
-            ? hourToString(activeItem.block.endHour)
+            ? hourToString(activeItem.block.endHour.hour)
             : undefined,
         }
       : null;

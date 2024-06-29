@@ -101,7 +101,8 @@ const extractBlockHour = (
   filter: (item: LightItemWithBlock) => boolean,
 ) => {
   const item = items.find(filter)?.time.split(':')[0];
-  return item ? Number.parseInt(item, 10) : undefined;
+  const hour = item ? Number.parseInt(item, 10) : undefined;
+  return hour == undefined ? undefined : isNaN(hour) ? undefined : hour;
 };
 
 const getActiveItemDuration = (from: DateTime<Valid>, to: DateTime<Valid>) => {
@@ -267,13 +268,42 @@ export const graphFeature = createFeature({
         ];
       },
     );
+
     const selectActiveBlockStartEnd = createSelector(
       selectActiveBlock,
-      (items) => {
-        const end = extractBlockHour(items, (item) => item.block.isEnd);
+      selectNow,
+      (items, now) => {
+        const startHour = extractBlockHour(items, (item) => item.block.isStart);
+        const endHour = extractBlockHour(items, (item) => item.block.isEnd);
+
+        const start =
+          startHour != undefined
+            ? now.set({
+                hour: startHour,
+                minute: 0,
+                second: 0,
+                millisecond: 0,
+              })
+            : undefined;
+
+        const end =
+          startHour != undefined && endHour != undefined
+            ? now
+                .set({
+                  hour: endHour,
+                  minute: 0,
+                  second: 0,
+                  millisecond: 0,
+                })
+                .plus({
+                  hour: 1,
+                  ...(startHour >= endHour ? { day: 1 } : undefined),
+                })
+            : undefined;
+
         return {
-          start: extractBlockHour(items, (item) => item.block.isStart),
-          end: end ? (end === 23 ? 0 : end + 1) : undefined,
+          start: start,
+          end: end,
         };
       },
     );
@@ -287,48 +317,16 @@ export const graphFeature = createFeature({
 
         const duration =
           startEnd.start != undefined
-            ? getActiveItemDuration(
-                now,
-                (now.hour >= startEnd.start ? now : now.minus({ day: 1 })).set({
-                  hour: startEnd.start,
-                  minute: 0,
-                  second: 0,
-                  millisecond: 0,
-                }),
-              )
+            ? getActiveItemDuration(now, startEnd.start)
             : undefined;
         const toEnd =
           startEnd.end != undefined
-            ? getActiveItemDuration(
-                (now.hour <= startEnd.end ? now : now.plus({ day: 1 })).set({
-                  hour: startEnd.end,
-                  minute: 0,
-                  second: 0,
-                  millisecond: 0,
-                }),
-                now,
-              )
+            ? getActiveItemDuration(startEnd.end, now)
             : undefined;
 
         const blockDuration =
           startEnd.start != undefined && startEnd.end != undefined
-            ? now
-                .set({
-                  day: startEnd.start <= startEnd.end ? 1 : 2,
-                  hour: startEnd.end,
-                  minute: 0,
-                  second: 0,
-                  millisecond: 0,
-                })
-                .diff(
-                  now.set({
-                    day: 1,
-                    hour: startEnd.start,
-                    minute: 0,
-                    second: 0,
-                    millisecond: 0,
-                  }),
-                )
+            ? startEnd.end.diff(startEnd.start)
             : undefined;
 
         return activeItem
