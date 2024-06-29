@@ -25,6 +25,7 @@ interface BlockLimit {
 type Block = BlockLimit & {
   startHour: number | undefined;
   endHour: number | undefined;
+  blockMillisDuration: number | undefined;
   toNowDuration: Duration | undefined;
   toEndDuration: Duration | undefined;
 };
