@@ -28,6 +28,8 @@ type Block = BlockLimit & {
   startHour: DateTime | undefined;
   endHour: DateTime | undefined;
   blockMillisDuration: number | undefined;
+  blockMillisRest: number | undefined;
+  restInPercents: number | undefined;
   toNowDuration: Duration | undefined;
   toEndDuration: Duration | undefined;
 };
