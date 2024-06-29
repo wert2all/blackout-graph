@@ -38,23 +38,28 @@ const getIcon = (type: LightType): string => {
 };
 
 const createItemsUpdateProjector =
-  (currentWeekday: WeekDay, hourString: string) =>
-    (items: GraphLightItem[], weekday: WeekDay): LightItem[] =>
-      Array.from({ length: 24 }, (_, i) => i)
-        .map((hour) => hourToString(hour))
-        .map(
-          (time) =>
-            items.find((item) => item.time === time) || {
-              time: time,
-              type: LightType.NORMAL,
-            },
-        )
-        .map((item) => ({
-          ...item,
-          active: currentWeekday == weekday && item.time === hourString,
-          weekday: weekday,
-          icon: getIcon(item.type),
-        }));
+  () =>
+  (
+    items: GraphLightItem[],
+    weekday: WeekDay,
+    nowWeekday: WeekDay,
+    nowHourString: string,
+  ): LightItem[] =>
+    Array.from({ length: 24 }, (_, i) => i)
+      .map((hour) => hourToString(hour))
+      .map(
+        (time) =>
+          items.find((item) => item.time === time) || {
+            time: time,
+            type: LightType.NORMAL,
+          },
+      )
+      .map((item) => ({
+        ...item,
+        active: nowWeekday == weekday && item.time === nowHourString,
+        weekday: weekday,
+        icon: getIcon(item.type),
+      }));
 
 const updateBlock = (items: LightItem[]): LightItemWithBlock[] =>
   items.map((item, index) => ({
@@ -139,19 +144,17 @@ export const graphFeature = createFeature({
     selectSelectedGroup,
     selectSelectedWeekDay,
   }) => {
-    const datetime = DateTime.now();
-    const hour = datetime.hour;
-    const weekday = datetime.weekday;
-
-    const selectItemProjector = createItemsUpdateProjector(
-      weekday,
-      hourToString(hour),
+    const selectNow = createSelector(() => DateTime.now());
+    const selectNowHourString = createSelector(selectNow, (now) =>
+      hourToString(now.hour),
     );
+    const selectNowWeekday = createSelector(selectNow, (now) => now.weekday);
 
     const selectCurrentWeekday = createSelector(
       selectIsToday,
       selectSelectedWeekDay,
-      (isToday, selectedWeekDay): WeekDay =>
+      selectNowWeekday,
+      (isToday, selectedWeekDay, weekday): WeekDay =>
         isToday ? weekday : selectedWeekDay || 1,
     );
     const selectPreviousWeekday = createSelector(
@@ -183,17 +186,23 @@ export const graphFeature = createFeature({
     const selectCurrentItems = createSelector(
       selectCurrentWeekdayItems,
       selectCurrentWeekday,
-      selectItemProjector,
+      selectNowWeekday,
+      selectNowHourString,
+      createItemsUpdateProjector(),
     );
     const selectPreviousItems = createSelector(
       selectPreviousWeekdayItems,
       selectPreviousWeekday,
-      selectItemProjector,
+      selectNowWeekday,
+      selectNowHourString,
+      createItemsUpdateProjector(),
     );
     const selectNextItems = createSelector(
       selectNextWeekdayItems,
       selectNextWeekday,
-      selectItemProjector,
+      selectNowWeekday,
+      selectNowHourString,
+      createItemsUpdateProjector(),
     );
 
     const selectThreeDaysItems = createSelector(
@@ -270,50 +279,17 @@ export const graphFeature = createFeature({
     );
 
     const selectActiveItem = createSelector(
+      selectNow,
       selectActiveBlock,
       selectActiveBlockStartEnd,
-      (items, startEnd): ActiveItem | undefined => {
+      (now, items, startEnd): ActiveItem | undefined => {
         const activeItem = items.find((item) => item.active);
-        const now = DateTime.now();
 
         const duration =
           startEnd.start != undefined
             ? getActiveItemDuration(
-              now,
-              (now.hour >= startEnd.start ? now : now.minus({ day: 1 })).set({
-                hour: startEnd.start,
-                minute: 0,
-                second: 0,
-                millisecond: 0,
-              }),
-            )
-            : undefined;
-        const toEnd =
-          startEnd.end != undefined
-            ? getActiveItemDuration(
-              (now.hour <= startEnd.end ? now : now.plus({ day: 1 })).set({
-                hour: startEnd.end,
-                minute: 0,
-                second: 0,
-                millisecond: 0,
-              }),
-              now,
-            )
-            : undefined;
-
-        const blockDuration =
-          startEnd.start != undefined && startEnd.end != undefined
-            ? now
-              .set({
-                day: startEnd.start <= startEnd.end ? 1 : 2,
-                hour: startEnd.end,
-                minute: 0,
-                second: 0,
-                millisecond: 0,
-              })
-              .diff(
-                now.set({
-                  day: 1,
+                now,
+                (now.hour >= startEnd.start ? now : now.minus({ day: 1 })).set({
                   hour: startEnd.start,
                   minute: 0,
                   second: 0,
@@ -321,19 +297,52 @@ export const graphFeature = createFeature({
                 }),
               )
             : undefined;
+        const toEnd =
+          startEnd.end != undefined
+            ? getActiveItemDuration(
+                (now.hour <= startEnd.end ? now : now.plus({ day: 1 })).set({
+                  hour: startEnd.end,
+                  minute: 0,
+                  second: 0,
+                  millisecond: 0,
+                }),
+                now,
+              )
+            : undefined;
+
+        const blockDuration =
+          startEnd.start != undefined && startEnd.end != undefined
+            ? now
+                .set({
+                  day: startEnd.start <= startEnd.end ? 1 : 2,
+                  hour: startEnd.end,
+                  minute: 0,
+                  second: 0,
+                  millisecond: 0,
+                })
+                .diff(
+                  now.set({
+                    day: 1,
+                    hour: startEnd.start,
+                    minute: 0,
+                    second: 0,
+                    millisecond: 0,
+                  }),
+                )
+            : undefined;
 
         return activeItem
           ? {
-            ...activeItem,
-            block: {
-              ...activeItem.block,
-              startHour: startEnd.start,
-              endHour: startEnd.end,
-              blockMillisDuration: blockDuration?.toMillis() || undefined,
-              toNowDuration: duration,
-              toEndDuration: toEnd,
-            },
-          }
+              ...activeItem,
+              block: {
+                ...activeItem.block,
+                startHour: startEnd.start,
+                endHour: startEnd.end,
+                blockMillisDuration: blockDuration?.toMillis() || undefined,
+                toNowDuration: duration,
+                toEndDuration: toEnd,
+              },
+            }
           : undefined;
       },
     );
