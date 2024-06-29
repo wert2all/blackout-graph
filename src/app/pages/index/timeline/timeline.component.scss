@@ -5,7 +5,7 @@
   border-collapse: collapse;
 
   tr.active {
-    @apply bg-warning text-3xl;
+    @apply bg-base-100;
 
     td {
       padding-top: 10px;

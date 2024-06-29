@@ -13,10 +13,10 @@ import { WeekdaysComponent } from './weekdays/weekdays.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     LayoutComponent,
-    ContentComponent,
     HeaderComponent,
     TimelineComponent,
     WeekdaysComponent,
+    ContentComponent,
   ],
 })
 export class IndexPageComponent {}

@@ -10,8 +10,10 @@ import { saxFlashBulk, saxFlashSlashBulk } from '@ng-icons/iconsax/bulk';
 import { Store } from '@ngrx/store';
 import { Info } from 'luxon';
 
-import { LightItemWithBlock, LightType } from '../../../app.types';
+import { WeekDay } from '../../../app.types';
 import { graphFeature } from '../../../store/graph.reducers';
+import { LightItemWithBlock, LightType } from '../../../store/graph.types';
+import { CurrentSituationComponent } from './current-situation/current-situation.component';
 
 type ViewLigthItem = LightItemWithBlock & {
   icon: string | undefined;
@@ -22,7 +24,6 @@ type ViewLigthItem = LightItemWithBlock & {
   selector: 'app-timeline',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIconComponent],
   viewProviders: [
     provideIcons({
       saxFlashSlashBold,
@@ -33,6 +34,7 @@ type ViewLigthItem = LightItemWithBlock & {
   ],
   templateUrl: './timeline.component.html',
   styleUrls: ['./timeline.component.scss'],
+  imports: [NgIconComponent, CurrentSituationComponent],
 })
 export class TimelineComponent {
   private readonly store = inject(Store);
@@ -50,4 +52,8 @@ export class TimelineComponent {
       }),
     ),
   );
+
+  shouldShowWeekday(weekday: WeekDay, index: number): boolean {
+    return weekday !== this.viewItems()[index + 1]?.weekday;
+  }
 }
