@@ -1,5 +1,3 @@
-export type WeekDay = 1 | 2 | 3 | 4 | 5 | 6 | 7;
-
 export type GraphGroups = 'group3';
 
 export const hourToString = (hour: number) =>

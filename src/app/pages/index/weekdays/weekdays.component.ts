@@ -1,8 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Info } from 'luxon';
+import { Info, WeekdayNumbers } from 'luxon';
 
-import { WeekDay } from '../../../app.types';
 import { WeekDayActions } from '../../../store/graph.actions';
 import { graphFeature } from '../../../store/graph.reducers';
 
@@ -21,7 +20,7 @@ export class WeekdaysComponent {
     return this.info().map((name, index) => {
       return {
         name: name,
-        day: (index + 1) as WeekDay,
+        day: (index + 1) as WeekdayNumbers,
         active: index + 1 === this.selectedWeekDay(),
       };
     });
@@ -31,7 +30,7 @@ export class WeekdaysComponent {
     this.store.dispatch(WeekDayActions.switchToToday());
   }
 
-  switchWeekDay(weekday: WeekDay) {
+  switchWeekDay(weekday: WeekdayNumbers) {
     this.store.dispatch(WeekDayActions.switchWeekDay({ weekday: weekday }));
   }
 }

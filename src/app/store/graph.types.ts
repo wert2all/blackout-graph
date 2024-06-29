@@ -1,6 +1,6 @@
-import { DateTime } from 'luxon';
+import { DateTime, WeekdayNumbers } from 'luxon';
 
-import { GraphGroups, WeekDay } from '../app.types';
+import { GraphGroups } from '../app.types';
 
 export interface GraphLightItem {
   time: string;
@@ -15,7 +15,7 @@ export enum LightType {
 
 export type LightItem = GraphLightItem & {
   active: boolean;
-  weekday: WeekDay;
+  weekday: WeekdayNumbers;
   icon: string;
 };
 
@@ -40,7 +40,7 @@ export type LightItemWithBlock = LightItem & {
 
 export interface GraphState {
   isToday: boolean;
-  selectedWeekDay: WeekDay | null;
+  selectedWeekDay: WeekdayNumbers | null;
   selectedGroup: GraphGroups;
 }
 
@@ -53,7 +53,10 @@ export type ActiveItem = LightItem & {
   block: Block;
 };
 
-export type Graph = Record<GraphGroups, Record<WeekDay, GraphLightItem[]>>;
+export type Graph = Record<
+  GraphGroups,
+  Record<WeekdayNumbers, GraphLightItem[]>
+>;
 
 export const GraphStore: Graph = {
   group3: {
