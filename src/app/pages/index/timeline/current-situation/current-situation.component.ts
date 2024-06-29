@@ -3,7 +3,6 @@ import {
   Component,
   computed,
   inject,
-  signal,
 } from '@angular/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { saxFlash1Bold, saxFlashSlashBold } from '@ng-icons/iconsax/bold';
@@ -12,12 +11,6 @@ import { Store } from '@ngrx/store';
 import { hourToString } from '../../../../app.types';
 import { graphFeature } from '../../../../store/graph.reducers';
 import { Duration, LightType } from '../../../../store/graph.types';
-
-interface Future {
-  title: string;
-  when: string;
-  after: string;
-}
 
 interface Current {
   title: string;
@@ -48,7 +41,6 @@ export class CurrentSituationComponent {
 
   current = computed<Current | null>(() => {
     const activeItem = this.activeItem();
-    console.log(activeItem);
     return activeItem
       ? {
           title: this.createActiveTitle(activeItem.type),
@@ -63,14 +55,6 @@ export class CurrentSituationComponent {
             : undefined,
         }
       : null;
-  });
-
-  progressValue = signal(74);
-
-  future = signal<Future>({
-    title: 'Світла не буде через',
-    when: 'Після 5:00',
-    after: '2год 23хв',
   });
 
   private createActiveTitle(type: LightType): string {

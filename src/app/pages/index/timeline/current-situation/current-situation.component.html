@@ -1,5 +1,5 @@
 @if (current(); as current) {
-  <div class="stats shadow w-full bg-warning">
+  <div class="stats shadow w-full bg-accent">
     <div
       class="stat"
       [class.bg-success]="current.type === LightType.NORMAL"
@@ -42,18 +42,18 @@
     </div>
 
     <div class="stat">
-      <div class="stat-figure">
-        <div
-          class="radial-progress text-info"
-          [style]="'--value:' + progressValue()"
-          role="progressbar"
-        >
-          {{ progressValue() }}%
-        </div>
-      </div>
+      <!-- <div class="stat-figure"> -->
+      <!--   <div -->
+      <!--     class="radial-progress text-info" -->
+      <!--     [style]="'--value:' + progressValue()" -->
+      <!--     role="progressbar" -->
+      <!--   > -->
+      <!--     {{ progressValue() }}% -->
+      <!--   </div> -->
+      <!-- </div> -->
       <div class="stat-title text-base-200">Зараз</div>
       <div class="stat-value">{{ current.time }}</div>
-      <div class="stat-desc text-info">пройшло {{ progressValue() }}% часу</div>
+      <!-- <div class="stat-desc text-info">пройшло {{ progressValue() }}% часу</div> -->
     </div>
   </div>
 }
