@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.9](https://github.com/wert2all/blackout-graph/compare/v0.0.8...v0.0.9) (2024-06-29)
+
+### Features
+
+- show percents ([fbca295](https://github.com/wert2all/blackout-graph/commit/fbca2953703c08c48b8ab6e19fc786cf708596f9))
+
 ## [0.0.8](https://github.com/wert2all/blackout-graph/compare/v0.0.7...v0.0.8) (2024-06-29)
 
 ### Features
