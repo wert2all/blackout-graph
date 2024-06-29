@@ -4,17 +4,19 @@ import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 import { DateTime } from 'luxon';
 import { Valid } from 'luxon/src/_util';
 
+import { hourToString } from '../app.types';
+import { WeekDayActions } from './graph.actions';
 import {
+  ActiveItem,
   GraphGroups,
   GraphLightItem,
-  hourToString,
+  GraphState,
+  GraphStore,
   LightItem,
   LightItemWithBlock,
   LightType,
   WeekDay,
-} from '../app.types';
-import { WeekDayActions } from './graph.actions';
-import { ActiveItem, GraphState, GraphStore } from './graph.types';
+} from './graph.types';
 
 const initialState: GraphState = {
   isToday: true,
