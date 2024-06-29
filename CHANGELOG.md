@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.7](https://github.com/wert2all/blackout-graph/compare/v0.0.6...v0.0.7) (2024-06-29)
+
+### Bug Fixes
+
+- fix release build ([40e1130](https://github.com/wert2all/blackout-graph/commit/40e11304c0c75135ff129fee3ffeaf07e2c41bc3))
+
 ## [0.0.6](https://github.com/wert2all/blackout-graph/compare/v0.0.5...v0.0.6) (2024-06-29)
 
 ### Bug Fixes
