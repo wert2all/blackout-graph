@@ -1,11 +1,10 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-
-import { WeekDay } from '../app.types';
+import { WeekdayNumbers } from 'luxon';
 
 export const WeekDayActions = createActionGroup({
   source: 'WeekDay',
   events: {
     'Switch to Today': emptyProps(),
-    'Switch Week Day': props<{ weekday: WeekDay }>(),
+    'Switch Week Day': props<{ weekday: WeekdayNumbers }>(),
   },
 });

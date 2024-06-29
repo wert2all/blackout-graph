@@ -1,10 +1,10 @@
 import { saxFlash1Bold } from '@ng-icons/iconsax/bold';
 import { saxFlashBulk, saxFlashSlashBulk } from '@ng-icons/iconsax/bulk';
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
-import { DateTime } from 'luxon';
+import { DateTime, WeekdayNumbers } from 'luxon';
 import { Valid } from 'luxon/src/_util';
 
-import { GraphGroups, hourToString, toPercents, WeekDay } from '../app.types';
+import { GraphGroups, hourToString, toPercents } from '../app.types';
 import { WeekDayActions } from './graph.actions';
 import {
   ActiveItem,
@@ -23,7 +23,7 @@ const initialState: GraphState = {
 };
 
 const store = GraphStore;
-const selectItems = (weekday: WeekDay, group: GraphGroups) =>
+const selectItems = (weekday: WeekdayNumbers, group: GraphGroups) =>
   store[group][weekday];
 
 const getIcon = (type: LightType): string => {
@@ -41,8 +41,8 @@ const createItemsUpdateProjector =
   () =>
   (
     items: GraphLightItem[],
-    weekday: WeekDay,
-    nowWeekday: WeekDay,
+    weekday: WeekdayNumbers,
+    nowWeekday: WeekdayNumbers,
     nowHourString: string,
   ): LightItem[] =>
     Array.from({ length: 24 }, (_, i) => i)
@@ -155,17 +155,19 @@ export const graphFeature = createFeature({
       selectIsToday,
       selectSelectedWeekDay,
       selectNowWeekday,
-      (isToday, selectedWeekDay, weekday): WeekDay =>
+      (isToday, selectedWeekDay, weekday): WeekdayNumbers =>
         isToday ? weekday : selectedWeekDay || 1,
     );
     const selectPreviousWeekday = createSelector(
       selectCurrentWeekday,
-      (weekday): WeekDay => (weekday === 1 ? 7 : ((weekday - 1) as WeekDay)),
+      (weekday): WeekdayNumbers =>
+        weekday === 1 ? 7 : ((weekday - 1) as WeekdayNumbers),
     );
 
     const selectNextWeekday = createSelector(
       selectCurrentWeekday,
-      (weekday): WeekDay => (weekday === 7 ? 1 : ((weekday + 1) as WeekDay)),
+      (weekday): WeekdayNumbers =>
+        weekday === 7 ? 1 : ((weekday + 1) as WeekdayNumbers),
     );
 
     const selectCurrentWeekdayItems = createSelector(

@@ -8,9 +8,8 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { saxFlash1Bold, saxFlashSlashBold } from '@ng-icons/iconsax/bold';
 import { saxFlashBulk, saxFlashSlashBulk } from '@ng-icons/iconsax/bulk';
 import { Store } from '@ngrx/store';
-import { Info } from 'luxon';
+import { Info, WeekdayNumbers } from 'luxon';
 
-import { WeekDay } from '../../../app.types';
 import { graphFeature } from '../../../store/graph.reducers';
 import { LightItemWithBlock, LightType } from '../../../store/graph.types';
 import { CurrentSituationComponent } from './current-situation/current-situation.component';
@@ -53,7 +52,7 @@ export class TimelineComponent {
     ),
   );
 
-  shouldShowWeekday(weekday: WeekDay, index: number): boolean {
+  shouldShowWeekday(weekday: WeekdayNumbers, index: number): boolean {
     return weekday !== this.viewItems()[index + 1]?.weekday;
   }
 }
