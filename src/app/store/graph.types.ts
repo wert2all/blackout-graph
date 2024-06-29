@@ -40,6 +40,7 @@ export type LightItemWithBlock = LightItem & {
 
 export interface GraphState {
   isToday: boolean;
+  isWeek: boolean;
   selectedWeekDay: WeekdayNumbers | null;
   selectedGroup: GraphGroups;
   nowDateTime: DateTime;

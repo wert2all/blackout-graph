@@ -18,6 +18,7 @@ import {
 
 const initialState: GraphState = {
   isToday: true,
+  isWeek: false,
   selectedWeekDay: null,
   selectedGroup: 'group3',
   nowDateTime: DateTime.now(),
@@ -129,6 +130,7 @@ export const graphFeature = createFeature({
       (state): GraphState => ({
         ...state,
         isToday: true,
+        isWeek: false,
         selectedWeekDay: null,
       }),
     ),
@@ -138,6 +140,7 @@ export const graphFeature = createFeature({
         ...state,
         selectedWeekDay: weekday,
         isToday: false,
+        isWeek: false,
       }),
     ),
   ),

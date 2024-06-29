@@ -15,7 +15,10 @@ export class WeekdaysComponent {
   private readonly store = inject(Store);
 
   isTodayActive = this.store.selectSignal(graphFeature.selectIsToday);
+  isWeekActive = this.store.selectSignal(graphFeature.selectIsWeek);
+
   selectedWeekDay = this.store.selectSignal(graphFeature.selectSelectedWeekDay);
+
   weekdays = computed(() => {
     return this.info().map((name, index) => {
       return {
@@ -32,5 +35,9 @@ export class WeekdaysComponent {
 
   switchWeekDay(weekday: WeekdayNumbers) {
     this.store.dispatch(WeekDayActions.switchWeekDay({ weekday: weekday }));
+  }
+
+  switchToWeek() {
+    throw new Error('Method not implemented.');
   }
 }
