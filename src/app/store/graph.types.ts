@@ -42,6 +42,7 @@ export interface GraphState {
   isToday: boolean;
   selectedWeekDay: WeekdayNumbers | null;
   selectedGroup: GraphGroups;
+  nowDateTime: DateTime;
 }
 
 export interface Duration {

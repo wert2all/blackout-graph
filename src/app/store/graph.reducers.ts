@@ -20,6 +20,7 @@ const initialState: GraphState = {
   isToday: true,
   selectedWeekDay: null,
   selectedGroup: 'group3',
+  nowDateTime: DateTime.now(),
 };
 
 const store = GraphStore;
@@ -141,15 +142,19 @@ export const graphFeature = createFeature({
     ),
   ),
   extraSelectors: ({
+    selectNowDateTime,
     selectIsToday,
     selectSelectedGroup,
     selectSelectedWeekDay,
   }) => {
     const selectNow = createSelector(() => DateTime.now());
-    const selectNowHourString = createSelector(selectNow, (now) =>
+    const selectNowHourString = createSelector(selectNowDateTime, (now) =>
       hourToString(now.hour),
     );
-    const selectNowWeekday = createSelector(selectNow, (now) => now.weekday);
+    const selectNowWeekday = createSelector(
+      selectNowDateTime,
+      (now): WeekdayNumbers => now.plus(0).weekday as WeekdayNumbers,
+    );
 
     const selectCurrentWeekday = createSelector(
       selectIsToday,
