@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon';
+
 import { GraphGroups, WeekDay } from '../app.types';
 
 export interface GraphLightItem {
@@ -23,8 +25,8 @@ interface BlockLimit {
 }
 
 type Block = BlockLimit & {
-  startHour: number | undefined;
-  endHour: number | undefined;
+  startHour: DateTime | undefined;
+  endHour: DateTime | undefined;
   blockMillisDuration: number | undefined;
   toNowDuration: Duration | undefined;
   toEndDuration: Duration | undefined;
