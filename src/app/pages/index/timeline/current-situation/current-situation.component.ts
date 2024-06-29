@@ -48,6 +48,7 @@ export class CurrentSituationComponent {
 
   current = computed<Current | null>(() => {
     const activeItem = this.activeItem();
+    console.log(activeItem);
     return activeItem
       ? {
           title: this.createActiveTitle(activeItem.type),
@@ -58,7 +59,7 @@ export class CurrentSituationComponent {
           icon: activeItem.icon,
           time: activeItem.time,
           nextBlockStart: activeItem.end
-            ? hourToString(activeItem.end == 23 ? 0 : activeItem.end + 1)
+            ? hourToString(activeItem.end)
             : undefined,
         }
       : null;

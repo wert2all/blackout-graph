@@ -104,10 +104,10 @@ const getActiveItemDuration = (from: DateTime<Valid>, to: DateTime<Valid>) => {
     .diff(to)
     .shiftTo('hours', 'minutes', 'seconds')
     .toObject();
-  if (duration.hours && duration.minutes) {
+  if (duration.hours || duration.minutes) {
     return {
-      hours: Math.round(duration.hours),
-      minutes: Math.round(duration.minutes),
+      hours: Math.round(duration.hours || 0),
+      minutes: Math.round(duration.minutes || 0),
     };
   }
   return undefined;
@@ -260,10 +260,13 @@ export const graphFeature = createFeature({
     );
     const selectActiveBlockStartEnd = createSelector(
       selectActiveBlock,
-      (items) => ({
-        start: extractBlockHour(items, (item) => item.blockStart),
-        end: extractBlockHour(items, (item) => item.blockEnd),
-      }),
+      (items) => {
+        const end = extractBlockHour(items, (item) => item.blockEnd);
+        return {
+          start: extractBlockHour(items, (item) => item.blockStart),
+          end: end ? (end === 23 ? 0 : end + 1) : undefined,
+        };
+      },
     );
 
     const selectActiveItem = createSelector(
@@ -284,9 +287,10 @@ export const graphFeature = createFeature({
               }),
             )
           : undefined;
+
         const toEnd = startEnd.end
           ? getActiveItemDuration(
-              (now.hour < startEnd.end ? now : now.plus({ day: 1 })).set({
+              (now.hour <= startEnd.end ? now : now.plus({ day: 1 })).set({
                 hour: startEnd.end,
                 minute: 0,
                 second: 0,
