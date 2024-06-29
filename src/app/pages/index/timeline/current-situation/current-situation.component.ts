@@ -55,7 +55,7 @@ export class CurrentSituationComponent {
             ? hourToString(activeItem.block.endHour.hour)
             : undefined,
           restProcents: activeItem.block.restInPercents
-            ? Math.round(activeItem.block.restInPercents)
+            ? 100 - Math.round(activeItem.block.restInPercents)
             : undefined,
         }
       : null;
