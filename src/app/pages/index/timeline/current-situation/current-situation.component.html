@@ -42,18 +42,23 @@
     </div>
 
     <div class="stat">
-      <!-- <div class="stat-figure"> -->
-      <!--   <div -->
-      <!--     class="radial-progress text-info" -->
-      <!--     [style]="'--value:' + progressValue()" -->
-      <!--     role="progressbar" -->
-      <!--   > -->
-      <!--     {{ progressValue() }}% -->
-      <!--   </div> -->
-      <!-- </div> -->
+      @if (current.restProcents; as progressValue) {
+        <div class="stat-figure">
+          <div
+            class="radial-progress text-info"
+            [style]="'--value:' + progressValue"
+            role="progressbar"
+          >
+            {{ progressValue }}%
+          </div>
+        </div>
+      }
+
       <div class="stat-title text-base-200">Зараз</div>
       <div class="stat-value text-accent-content">{{ current.time }}</div>
-      <!-- <div class="stat-desc text-info">пройшло {{ progressValue() }}% часу</div> -->
+      @if (current.restProcents; as progressValue) {
+        <div class="stat-desc text-info">пройшло {{ progressValue }}% часу</div>
+      }
     </div>
   </div>
 }

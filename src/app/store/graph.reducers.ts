@@ -4,7 +4,7 @@ import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 import { DateTime } from 'luxon';
 import { Valid } from 'luxon/src/_util';
 
-import { GraphGroups, hourToString, WeekDay } from '../app.types';
+import { GraphGroups, hourToString, toPercents, WeekDay } from '../app.types';
 import { WeekDayActions } from './graph.actions';
 import {
   ActiveItem,
@@ -329,6 +329,11 @@ export const graphFeature = createFeature({
             ? startEnd.end.diff(startEnd.start)
             : undefined;
 
+        const rest: number | undefined =
+          blockDuration != undefined && startEnd.start != undefined
+            ? blockDuration.toMillis() - now.diff(startEnd.start).toMillis()
+            : undefined;
+
         return activeItem
           ? {
               ...activeItem,
@@ -337,6 +342,8 @@ export const graphFeature = createFeature({
                 startHour: startEnd.start,
                 endHour: startEnd.end,
                 blockMillisDuration: blockDuration?.toMillis() || undefined,
+                blockMillisRest: rest,
+                restInPercents: toPercents(rest, blockDuration?.toMillis()),
                 toNowDuration: duration,
                 toEndDuration: toEnd,
               },

@@ -21,6 +21,7 @@ interface Current {
   icon: string;
   type: LightType;
   nextBlockStart: string | undefined;
+  restProcents: number | undefined;
 }
 
 @Component({
@@ -52,6 +53,9 @@ export class CurrentSituationComponent {
           time: activeItem.time,
           nextBlockStart: activeItem.block.endHour
             ? hourToString(activeItem.block.endHour.hour)
+            : undefined,
+          restProcents: activeItem.block.restInPercents
+            ? Math.round(activeItem.block.restInPercents)
             : undefined,
         }
       : null;
