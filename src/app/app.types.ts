@@ -21,3 +21,6 @@ export type LightItemWithBlock = LightItem & {
   blockStart: boolean;
   blockEnd: boolean;
 };
+
+export const hourToString = (hour: number) =>
+  hour < 10 ? `0${hour}:00` : `${hour}:00`;

@@ -7,6 +7,7 @@ import { Valid } from 'luxon/src/_util';
 import {
   GraphGroups,
   GraphLightItem,
+  hourToString,
   LightItem,
   LightItemWithBlock,
   LightType,
@@ -24,9 +25,6 @@ const initialState: GraphState = {
 const store = GraphStore;
 const selectItems = (weekday: WeekDay, group: GraphGroups) =>
   store[group][weekday];
-
-const hourToString = (hour: number) =>
-  hour < 10 ? `0${hour}:00` : `${hour}:00`;
 
 const getIcon = (type: LightType): string => {
   switch (type) {

@@ -43,7 +43,9 @@
         [class.text-secondary]="accent() !== true"
         [class.text-info]="accent() === true"
       >
-        {{ future().when }}
+        @if (current.nextBlockStart) {
+          Після {{ current.nextBlockStart }}
+        }
       </div>
     </div>
 

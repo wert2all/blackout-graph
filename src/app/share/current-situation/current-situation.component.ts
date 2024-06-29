@@ -10,7 +10,7 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { saxFlash1Bold, saxFlashSlashBold } from '@ng-icons/iconsax/bold';
 import { Store } from '@ngrx/store';
 
-import { LightType } from '../../app.types';
+import { hourToString, LightType } from '../../app.types';
 import { graphFeature } from '../../store/graph.reducers';
 import { Duration } from '../../store/graph.types';
 
@@ -28,6 +28,7 @@ interface Current {
   toEnd: Duration | undefined;
   icon: string;
   type: LightType;
+  nextBlockStart: string | undefined;
 }
 
 @Component({
@@ -58,6 +59,9 @@ export class CurrentSituationComponent {
           type: activeItem.type,
           icon: activeItem.icon,
           time: activeItem.time,
+          nextBlockStart: activeItem.end
+            ? hourToString(activeItem.end == 23 ? 0 : activeItem.end + 1)
+            : undefined,
         }
       : null;
   });
@@ -88,10 +92,10 @@ export class CurrentSituationComponent {
         return 'Світла не буде';
 
       case LightType.MAYBE_BLACKOUT:
-        return 'Світло мабуть буде';
+        return 'Світло мабуть буде через';
 
       case LightType.BLACKOUT:
-        return 'Світла мабуть буде';
+        return 'Світло мабуть буде через';
     }
   }
 }
