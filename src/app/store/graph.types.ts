@@ -19,9 +19,20 @@ export type LightItem = GraphLightItem & {
   icon: string;
 };
 
+interface BlockLimit {
+  isStart: boolean;
+  isEnd: boolean;
+}
+
+type Block = BlockLimit & {
+  startHour: number | undefined;
+  endHour: number | undefined;
+  toNowDuration: Duration | undefined;
+  toEndDuration: Duration | undefined;
+};
+
 export type LightItemWithBlock = LightItem & {
-  blockStart: boolean;
-  blockEnd: boolean;
+  block: BlockLimit;
 };
 
 export interface GraphState {
@@ -29,16 +40,16 @@ export interface GraphState {
   selectedWeekDay: WeekDay | null;
   selectedGroup: GraphGroups;
 }
+
 export interface Duration {
   hours: number;
   minutes: number;
 }
-export type ActiveItem = LightItemWithBlock & {
-  start: number | undefined;
-  end: number | undefined;
-  duration: Duration | undefined;
-  toEnd: Duration | undefined;
+
+export type ActiveItem = LightItem & {
+  block: Block;
 };
+
 export type Graph = Record<GraphGroups, Record<WeekDay, GraphLightItem[]>>;
 
 export const GraphStore: Graph = {

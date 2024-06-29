@@ -51,17 +51,17 @@ export class CurrentSituationComponent {
     console.log(activeItem);
     return activeItem
       ? {
-          title: this.createActiveTitle(activeItem.type),
-          nextBlockTitle: this.createNextBlockTitle(activeItem.type),
-          duration: activeItem.duration,
-          toEnd: activeItem.toEnd,
-          type: activeItem.type,
-          icon: activeItem.icon,
-          time: activeItem.time,
-          nextBlockStart: activeItem.end
-            ? hourToString(activeItem.end)
-            : undefined,
-        }
+        title: this.createActiveTitle(activeItem.type),
+        nextBlockTitle: this.createNextBlockTitle(activeItem.type),
+        duration: activeItem.block.toNowDuration,
+        toEnd: activeItem.block.toEndDuration,
+        type: activeItem.type,
+        icon: activeItem.icon,
+        time: activeItem.time,
+        nextBlockStart: activeItem.block.endHour
+          ? hourToString(activeItem.block.endHour)
+          : undefined,
+      }
       : null;
   });
 

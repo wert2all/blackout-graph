@@ -279,7 +279,7 @@ export const graphFeature = createFeature({
         const duration = startEnd.start
           ? getActiveItemDuration(
               now,
-              (now.hour > startEnd.start ? now : now.minus({ day: 1 })).set({
+              (now.hour >= startEnd.start ? now : now.minus({ day: 1 })).set({
                 hour: startEnd.start,
                 minute: 0,
                 second: 0,
@@ -287,7 +287,6 @@ export const graphFeature = createFeature({
               }),
             )
           : undefined;
-
         const toEnd = startEnd.end
           ? getActiveItemDuration(
               (now.hour <= startEnd.end ? now : now.plus({ day: 1 })).set({
