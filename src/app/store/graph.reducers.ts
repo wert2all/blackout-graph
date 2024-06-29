@@ -135,12 +135,21 @@ export const graphFeature = createFeature({
       }),
     ),
     on(
-      WeekDayActions.switchWeekDay,
+      WeekDayActions.switchToWeekday,
       (state, { weekday }): GraphState => ({
         ...state,
         selectedWeekDay: weekday,
         isToday: false,
         isWeek: false,
+      }),
+    ),
+    on(
+      WeekDayActions.switchToWeek,
+      (state): GraphState => ({
+        ...state,
+        selectedWeekDay: null,
+        isToday: false,
+        isWeek: true,
       }),
     ),
   ),
