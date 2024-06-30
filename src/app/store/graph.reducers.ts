@@ -1,7 +1,7 @@
 import { saxFlash1Bold } from '@ng-icons/iconsax/bold';
 import { saxFlashBulk, saxFlashSlashBulk } from '@ng-icons/iconsax/bulk';
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
-import { DateTime, WeekdayNumbers } from 'luxon';
+import { DateTime, Info, WeekdayNumbers } from 'luxon';
 import { Valid } from 'luxon/src/_util';
 
 import { GraphGroups, hourToString, toPercents } from '../app.types';
@@ -11,6 +11,7 @@ import {
   GraphLightItem,
   GraphState,
   GraphStore,
+  GraphWeek,
   LightItem,
   LightItemWithBlock,
   LightType,
@@ -38,6 +39,8 @@ const getIcon = (type: LightType): string => {
       return saxFlash1Bold;
   }
 };
+const generateHours = () =>
+  Array.from({ length: 24 }, (_, i) => i).map((hour) => hourToString(hour));
 
 const createItemsUpdateProjector =
   () =>
@@ -47,8 +50,7 @@ const createItemsUpdateProjector =
     nowWeekday: WeekdayNumbers,
     nowHourString: string,
   ): LightItem[] =>
-    Array.from({ length: 24 }, (_, i) => i)
-      .map((hour) => hourToString(hour))
+    generateHours()
       .map(
         (time) =>
           items.find((item) => item.time === time) || {
@@ -371,11 +373,34 @@ export const graphFeature = createFeature({
       },
     );
 
+    const selectWeekGraph = createSelector(
+      selectSelectedGroup,
+      selectNowWeekday,
+      selectNowHourString,
+      (group, nowWeekday, nowHourString): GraphWeek => {
+        const weekdaysGroup: Record<string, LightItem[]> = {};
+        Info.weekdays().forEach((name, index) => {
+          const weekday = (index + 1) as WeekdayNumbers;
+          const items = createItemsUpdateProjector()(
+            selectItems(weekday, group),
+            weekday,
+            nowWeekday,
+            nowHourString,
+          );
+          weekdaysGroup[name] = items;
+        });
+        return {
+          hours: generateHours(),
+          weekdays: Object.entries(weekdaysGroup),
+        };
+      },
+    );
     return {
       selectTimelineWithBlocks,
       selectThreeDaysItemsWithBlock,
       selectActiveItem,
       selectActiveBlock,
+      selectWeekGraph,
     };
   },
 });

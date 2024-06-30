@@ -1,1 +1,25 @@
-<h1>Week</h1>
+<div class="overflow-x-auto">
+  <table class="table">
+    <!-- head -->
+    <thead>
+      <tr>
+        <th></th>
+        @for (item of graph().hours; track $index) {
+          <th style="text-orientation: mixed; writing-mode: vertical-rl">
+            {{ item }}
+          </th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of graph().weekdays; track $index) {
+        <tr class="hover">
+          <th>{{ item[0] }}</th>
+          @for (hour of item[1]; track $index) {
+            <td><ng-icon [svg]="hour.icon" size="16"></ng-icon></td>
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
