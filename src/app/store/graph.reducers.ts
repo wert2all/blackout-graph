@@ -17,6 +17,7 @@ import {
   LightType,
   WeekGraphWeekDay,
 } from './graph.types';
+
 const generateNow = () => DateTime.now().setLocale(AppLocale);
 const initialState: GraphState = {
   isToday: true,
@@ -107,7 +108,10 @@ const extractBlockHour = (
 ) => {
   const item = items.find(filter)?.time.split(':')[0];
   const hour = item ? Number.parseInt(item, 10) : undefined;
-  return hour == undefined ? undefined : isNaN(hour) ? undefined : hour;
+  if (hour != undefined && !isNaN(hour)) {
+    return hour;
+  }
+  return undefined;
 };
 
 const getActiveItemDuration = (from: DateTime<Valid>, to: DateTime<Valid>) => {
