@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.12](https://github.com/wert2all/blackout-graph/compare/v0.0.11...v0.0.12) (2024-06-30)
+
+### Features
+
+- add auto-refresh data ([e3e35d4](https://github.com/wert2all/blackout-graph/commit/e3e35d40c3fce60ad19ceac2bb13788c5f1bd2fa))
+
 ## [0.0.11](https://github.com/wert2all/blackout-graph/compare/v0.0.10...v0.0.11) (2024-06-30)
 
 ### Features
