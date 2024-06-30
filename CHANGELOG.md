@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.10](https://github.com/wert2all/blackout-graph/compare/v0.0.9...v0.0.10) (2024-06-30)
+
+### Features
+
+- add active weekday and hour to week graph ([cacfb8c](https://github.com/wert2all/blackout-graph/commit/cacfb8cc0387cb819634b65d46f9da1707dd262a))
+- add switching to week ([1f324f0](https://github.com/wert2all/blackout-graph/commit/1f324f088ccce6cc5b82806c084481c027fdcb0f))
+- add wekk graph component ([f1bbbb8](https://github.com/wert2all/blackout-graph/commit/f1bbbb887295cd8b433d864f99143a8afcad3096))
+- show switcher for showing graph of week ([4c5af73](https://github.com/wert2all/blackout-graph/commit/4c5af739cc635c28945b3fc78f0e9f96ced93255))
+- showing graph of week ([8202e9e](https://github.com/wert2all/blackout-graph/commit/8202e9e090b153d5f3b8a6efbe317025ac4a2d0a))
+
+### Bug Fixes
+
+- add now to state ([8390b59](https://github.com/wert2all/blackout-graph/commit/8390b59efc2fc9a28158aafffc84da5f74b0c783))
+- fix mobile view ([fd52998](https://github.com/wert2all/blackout-graph/commit/fd52998157eca088ccee7f8df5428fc9ff63333b))
+- fix rest procents ([e06d483](https://github.com/wert2all/blackout-graph/commit/e06d483ad27d3bd21754a4f4e6338f9e6994faa1))
+
 ## [0.0.9](https://github.com/wert2all/blackout-graph/compare/v0.0.8...v0.0.9) (2024-06-29)
 
 ### Features
