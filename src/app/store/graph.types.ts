@@ -55,6 +55,10 @@ export type ActiveItem = LightItem & {
   block: Block;
 };
 
+export interface GraphWeek {
+  hours: string[];
+  weekdays: [string, LightItem[]][];
+}
 export type Graph = Record<
   GraphGroups,
   Record<WeekdayNumbers, GraphLightItem[]>
