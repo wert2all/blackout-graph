@@ -1,4 +1,5 @@
 export type GraphGroups = 'group3';
+export const AppLocale = 'uk';
 
 export const hourToString = (hour: number) =>
   hour < 10 ? `0${hour}:00` : `${hour}:00`;

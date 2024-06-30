@@ -4,7 +4,7 @@ import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 import { DateTime, Info, WeekdayNumbers } from 'luxon';
 import { Valid } from 'luxon/src/_util';
 
-import { GraphGroups, hourToString, toPercents } from '../app.types';
+import { AppLocale, GraphGroups, hourToString, toPercents } from '../app.types';
 import { WeekDayActions } from './graph.actions';
 import {
   ActiveItem,
@@ -23,7 +23,7 @@ const initialState: GraphState = {
   isWeek: false,
   selectedWeekDay: null,
   selectedGroup: 'group3',
-  nowDateTime: DateTime.now(),
+  nowDateTime: DateTime.now().setLocale(AppLocale),
 };
 
 const store = GraphStore;
@@ -379,20 +379,22 @@ export const graphFeature = createFeature({
       selectNowWeekday,
       selectNowHourString,
       (group, nowWeekday, nowHourString): GraphWeek => {
-        const weekdays = Info.weekdays().map((name, index) => {
-          const weekday = (index + 1) as WeekdayNumbers;
-          const items = createItemsUpdateProjector()(
-            selectItems(weekday, group),
-            weekday,
-            nowWeekday,
-            nowHourString,
-          );
-          const returnWeekday: WeekGraphWeekDay = {
-            name: name,
-            isActive: weekday === nowWeekday,
-          };
-          return { weekday: returnWeekday, items };
-        });
+        const weekdays = Info.weekdays('long', { locale: AppLocale }).map(
+          (name, index) => {
+            const weekday = (index + 1) as WeekdayNumbers;
+            const items = createItemsUpdateProjector()(
+              selectItems(weekday, group),
+              weekday,
+              nowWeekday,
+              nowHourString,
+            );
+            const returnWeekday: WeekGraphWeekDay = {
+              name: name,
+              isActive: weekday === nowWeekday,
+            };
+            return { weekday: returnWeekday, items };
+          },
+        );
         return {
           hours: generateHours(),
           weekdays: weekdays,
