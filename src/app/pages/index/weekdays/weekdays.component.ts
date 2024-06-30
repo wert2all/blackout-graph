@@ -2,6 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Info, WeekdayNumbers } from 'luxon';
 
+import { AppLocale } from '../../../app.types';
 import { WeekDayActions } from '../../../store/graph.actions';
 import { graphFeature } from '../../../store/graph.reducers';
 
@@ -11,7 +12,7 @@ import { graphFeature } from '../../../store/graph.reducers';
   templateUrl: './weekdays.component.html',
 })
 export class WeekdaysComponent {
-  private readonly info = signal(Info.weekdays());
+  private readonly info = signal(Info.weekdays('long', { locale: AppLocale }));
   private readonly store = inject(Store);
 
   isTodayActive = this.store.selectSignal(graphFeature.selectIsToday);

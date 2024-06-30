@@ -6,7 +6,7 @@
     class="btn btn-ghost join-item"
     [class.btn-active]="isTodayActive() === true"
   >
-    Today
+    Сьогодні
   </a>
   <div class="divider divider-horizontal"></div>
   <a
@@ -16,7 +16,7 @@
     (click)="togglePanel()"
     (keyup)="togglePanel()"
   >
-    weekday...
+    день неділі...
   </a>
   <div class="divider divider-horizontal"></div>
   <a
@@ -26,7 +26,7 @@
     class="btn btn-ghost join-item"
     [class.btn-active]="isWeekActive() === true"
   >
-    Week
+    Неділя
   </a>
 </div>
 <div
@@ -56,7 +56,7 @@
     class="btn btn-ghost join-item"
     [class.btn-active]="isTodayActive() === true"
   >
-    Today
+    Сьогодні
   </a>
   <div class="divider divider-horizontal"></div>
   @for (item of weekdays(); track $index) {
@@ -78,6 +78,6 @@
     class="btn btn-ghost join-item"
     [class.btn-active]="isWeekActive() === true"
   >
-    Week
+    Неділя
   </a>
 </div>
