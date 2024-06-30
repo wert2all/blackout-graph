@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.11](https://github.com/wert2all/blackout-graph/compare/v0.0.10...v0.0.11) (2024-06-30)
+
+### Features
+
+- add tooltip to week graph ([95a4bdc](https://github.com/wert2all/blackout-graph/commit/95a4bdcc9a12c401918b8d46103e4ce10462f20a))
+
+### Bug Fixes
+
+- fix app localzation ([fc7d8a3](https://github.com/wert2all/blackout-graph/commit/fc7d8a39550198cce892288025f1d9483eba2a22))
+
 ## [0.0.10](https://github.com/wert2all/blackout-graph/compare/v0.0.9...v0.0.10) (2024-06-30)
 
 ### Features
