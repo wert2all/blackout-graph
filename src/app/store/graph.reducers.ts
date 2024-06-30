@@ -15,6 +15,7 @@ import {
   LightItem,
   LightItemWithBlock,
   LightType,
+  WeekGraphWeekDay,
 } from './graph.types';
 
 const initialState: GraphState = {
@@ -378,8 +379,7 @@ export const graphFeature = createFeature({
       selectNowWeekday,
       selectNowHourString,
       (group, nowWeekday, nowHourString): GraphWeek => {
-        const weekdaysGroup: Record<string, LightItem[]> = {};
-        Info.weekdays().forEach((name, index) => {
+        const weekdays = Info.weekdays().map((name, index) => {
           const weekday = (index + 1) as WeekdayNumbers;
           const items = createItemsUpdateProjector()(
             selectItems(weekday, group),
@@ -387,11 +387,15 @@ export const graphFeature = createFeature({
             nowWeekday,
             nowHourString,
           );
-          weekdaysGroup[name] = items;
+          const returnWeekday: WeekGraphWeekDay = {
+            name: name,
+            isActive: weekday === nowWeekday,
+          };
+          return { weekday: returnWeekday, items };
         });
         return {
           hours: generateHours(),
-          weekdays: Object.entries(weekdaysGroup),
+          weekdays: weekdays,
         };
       },
     );
