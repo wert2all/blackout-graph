@@ -17,13 +17,13 @@ import {
   LightType,
   WeekGraphWeekDay,
 } from './graph.types';
-
+const generateNow = () => DateTime.now().setLocale(AppLocale);
 const initialState: GraphState = {
   isToday: true,
   isWeek: false,
   selectedWeekDay: null,
   selectedGroup: 'group3',
-  nowDateTime: DateTime.now().setLocale(AppLocale),
+  nowDateTime: generateNow(),
 };
 
 const store = GraphStore;
@@ -155,6 +155,13 @@ export const graphFeature = createFeature({
         isWeek: true,
       }),
     ),
+    on(
+      WeekDayActions.autoRefresh,
+      (state): GraphState => ({
+        ...state,
+        nowDateTime: generateNow(),
+      }),
+    ),
   ),
   extraSelectors: ({
     selectNowDateTime,
@@ -162,7 +169,6 @@ export const graphFeature = createFeature({
     selectSelectedGroup,
     selectSelectedWeekDay,
   }) => {
-    const selectNow = createSelector(() => DateTime.now());
     const selectNowHourString = createSelector(selectNowDateTime, (now) =>
       hourToString(now.hour),
     );
@@ -293,7 +299,7 @@ export const graphFeature = createFeature({
 
     const selectActiveBlockStartEnd = createSelector(
       selectActiveBlock,
-      selectNow,
+      selectNowDateTime,
       (items, now) => {
         const startHour = extractBlockHour(items, (item) => item.block.isStart);
         const endHour = extractBlockHour(items, (item) => item.block.isEnd);
@@ -331,7 +337,7 @@ export const graphFeature = createFeature({
     );
 
     const selectActiveItem = createSelector(
-      selectNow,
+      selectNowDateTime,
       selectActiveBlock,
       selectActiveBlockStartEnd,
       (now, items, startEnd): ActiveItem | undefined => {
