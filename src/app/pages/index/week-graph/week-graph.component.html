@@ -1,10 +1,10 @@
-<div class="overflow-x-auto">
-  <table class="table">
+<div class="overflow-x-auto lg:overflow-x-visible">
+  <table class="table" style="border-spacing: 1px; border-collapse: separate">
     <!-- head -->
     <thead>
       <tr>
         <th></th>
-        @for (item of graph().hours; track $index) {
+        @for (item of viewGraph().hours; track $index) {
           <th style="text-orientation: mixed; writing-mode: vertical-rl">
             {{ item }}
           </th>
@@ -12,15 +12,18 @@
       </tr>
     </thead>
     <tbody>
-      @for (item of graph().weekdays; track $index) {
+      @for (item of viewGraph().weekdays; track $index) {
         <tr class="hover" [class.bg-info]="item.weekday.isActive">
           <th>{{ item.weekday.name }}</th>
           @for (hour of item.items; track $index) {
             <td
-              [class.bg-accent]="hour.active"
+              [class.bg-success]="hour.type === 'normal' && !hour.active"
               [class.text-accent-content]="hour.active"
+              [class.bg-accent]="hour.active"
             >
-              <ng-icon [svg]="hour.icon" size="16"></ng-icon>
+              <div class="tooltip" [attr.data-tip]="hour.tooltip">
+                <ng-icon [svg]="hour.icon" size="16"></ng-icon>
+              </div>
             </td>
           }
         </tr>
