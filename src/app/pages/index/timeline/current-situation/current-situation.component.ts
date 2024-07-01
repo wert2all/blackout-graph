@@ -6,11 +6,17 @@ import {
 } from '@angular/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { saxFlash1Bold, saxFlashSlashBold } from '@ng-icons/iconsax/bold';
+import { saxFlashBulk, saxFlashSlashBulk } from '@ng-icons/iconsax/bulk';
 import { Store } from '@ngrx/store';
 
 import { hourToString } from '../../../../app.types';
 import { graphFeature } from '../../../../store/graph/graph.reducers';
 import { Duration, LightType } from '../../../../store/graph/graph.types';
+
+interface Icon {
+  current: string;
+  nigate: string;
+}
 
 interface Current {
   title: string;
@@ -18,7 +24,7 @@ interface Current {
   time: string;
   duration: Duration | undefined;
   toEnd: Duration | undefined;
-  icon: string;
+  icon: Icon;
   type: LightType;
   nextBlockStart: string | undefined;
   restProcents: number | undefined;
@@ -44,20 +50,23 @@ export class CurrentSituationComponent {
     const activeItem = this.activeItem();
     return activeItem
       ? {
-          title: this.createActiveTitle(activeItem.type),
-          nextBlockTitle: this.createNextBlockTitle(activeItem.type),
-          duration: activeItem.block.toNowDuration,
-          toEnd: activeItem.block.toEndDuration,
-          type: activeItem.type,
-          icon: activeItem.icon,
-          time: activeItem.time,
-          nextBlockStart: activeItem.block.endHour
-            ? hourToString(activeItem.block.endHour.hour)
-            : undefined,
-          restProcents: activeItem.block.restInPercents
-            ? 100 - Math.round(activeItem.block.restInPercents)
-            : undefined,
-        }
+        title: this.createActiveTitle(activeItem.type),
+        nextBlockTitle: this.createNextBlockTitle(activeItem.type),
+        duration: activeItem.block.toNowDuration,
+        toEnd: activeItem.block.toEndDuration,
+        type: activeItem.type,
+        icon: {
+          current: activeItem.icon,
+          nigate: this.getNigateIcon(activeItem.type),
+        },
+        time: activeItem.time,
+        nextBlockStart: activeItem.block.endHour
+          ? hourToString(activeItem.block.endHour.hour)
+          : undefined,
+        restProcents: activeItem.block.restInPercents
+          ? 100 - Math.round(activeItem.block.restInPercents)
+          : undefined,
+      }
       : null;
   });
 
@@ -83,6 +92,17 @@ export class CurrentSituationComponent {
 
       case LightType.BLACKOUT:
         return 'Світло мабуть буде через';
+    }
+  }
+
+  private getNigateIcon(type: LightType): string {
+    switch (type) {
+      case LightType.NORMAL:
+        return saxFlashSlashBulk;
+      case LightType.MAYBE_BLACKOUT:
+        return saxFlashBulk;
+      case LightType.BLACKOUT:
+        return saxFlashBulk;
     }
   }
 }
