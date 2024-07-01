@@ -7,7 +7,20 @@
       [class.bg-secondary]="current.type === LightType.BLACKOUT"
     >
       <div class="stat-figure text-primary">
-        <ng-icon [svg]="current.icon" size="36"></ng-icon>
+        <label class="swap swap-rotate">
+          <input type="checkbox" />
+
+          <ng-icon
+            class="swap-off"
+            [svg]="current.icon.current"
+            size="36"
+          ></ng-icon>
+          <ng-icon
+            class="swap-on"
+            [svg]="current.icon.nigate"
+            size="36"
+          ></ng-icon>
+        </label>
       </div>
       <div class="stat-title text-base-200">
         {{ current.title }}
