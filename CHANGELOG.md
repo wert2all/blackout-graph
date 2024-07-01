@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.13](https://github.com/wert2all/blackout-graph/compare/v0.0.12...v0.0.13) (2024-07-01)
+
+### Features
+
+- update favicon ([33422e2](https://github.com/wert2all/blackout-graph/commit/33422e2273da5c36477068dc86095d2c1ff8156e))
+
+### Bug Fixes
+
+- some fixes ([6479738](https://github.com/wert2all/blackout-graph/commit/6479738dfe0053b3e5d3b696cb652c0a0ef9121a))
+- weekday showing correct now ([3319302](https://github.com/wert2all/blackout-graph/commit/3319302f0550725890637d7252f5294579e50200))
+
 ## [0.0.12](https://github.com/wert2all/blackout-graph/compare/v0.0.11...v0.0.12) (2024-06-30)
 
 ### Features
