@@ -7,8 +7,8 @@ import {
 import { NgIconComponent } from '@ng-icons/core';
 import { Store } from '@ngrx/store';
 
-import { graphFeature } from '../../../store/graph.reducers';
-import { LightType } from '../../../store/graph.types';
+import { graphFeature } from '../../../store/graph/graph.reducers';
+import { LightType } from '../../../store/graph/graph.types';
 
 @Component({
   standalone: true,
