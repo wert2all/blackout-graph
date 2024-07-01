@@ -9,7 +9,7 @@ import { provideState, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 import { routes } from './app.routes';
-import { graphFeature } from './store/graph.reducers';
+import { graphFeature } from './store/graph/graph.reducers';
 
 export const appConfig: ApplicationConfig = {
   providers: [

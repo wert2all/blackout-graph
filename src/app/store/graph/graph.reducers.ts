@@ -4,7 +4,12 @@ import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 import { DateTime, Info, WeekdayNumbers } from 'luxon';
 import { Valid } from 'luxon/src/_util';
 
-import { AppLocale, GraphGroups, hourToString, toPercents } from '../app.types';
+import {
+  AppLocale,
+  GraphGroups,
+  hourToString,
+  toPercents,
+} from '../../app.types';
 import { WeekDayActions } from './graph.actions';
 import {
   ActiveItem,

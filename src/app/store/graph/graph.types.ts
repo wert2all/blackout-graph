@@ -1,6 +1,6 @@
 import { DateTime, WeekdayNumbers } from 'luxon';
 
-import { GraphGroups } from '../app.types';
+import { GraphGroups } from '../../app.types';
 
 export interface GraphLightItem {
   time: string;

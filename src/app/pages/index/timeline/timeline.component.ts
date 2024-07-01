@@ -10,8 +10,11 @@ import { saxFlashBulk, saxFlashSlashBulk } from '@ng-icons/iconsax/bulk';
 import { Store } from '@ngrx/store';
 import { Info, WeekdayNumbers } from 'luxon';
 
-import { graphFeature } from '../../../store/graph.reducers';
-import { LightItemWithBlock, LightType } from '../../../store/graph.types';
+import { graphFeature } from '../../../store/graph/graph.reducers';
+import {
+  LightItemWithBlock,
+  LightType,
+} from '../../../store/graph/graph.types';
 import { CurrentSituationComponent } from './current-situation/current-situation.component';
 
 type ViewLigthItem = LightItemWithBlock & {

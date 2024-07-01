@@ -9,8 +9,8 @@ import { saxFlash1Bold, saxFlashSlashBold } from '@ng-icons/iconsax/bold';
 import { Store } from '@ngrx/store';
 
 import { hourToString } from '../../../../app.types';
-import { graphFeature } from '../../../../store/graph.reducers';
-import { Duration, LightType } from '../../../../store/graph.types';
+import { graphFeature } from '../../../../store/graph/graph.reducers';
+import { Duration, LightType } from '../../../../store/graph/graph.types';
 
 interface Current {
   title: string;

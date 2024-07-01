@@ -3,8 +3,8 @@ import { Store } from '@ngrx/store';
 import { Info, WeekdayNumbers } from 'luxon';
 
 import { AppLocale } from '../../../app.types';
-import { WeekDayActions } from '../../../store/graph.actions';
-import { graphFeature } from '../../../store/graph.reducers';
+import { WeekDayActions } from '../../../store/graph/graph.actions';
+import { graphFeature } from '../../../store/graph/graph.reducers';
 
 @Component({
   standalone: true,
