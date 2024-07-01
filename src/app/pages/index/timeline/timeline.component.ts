@@ -53,6 +53,6 @@ export class TimelineComponent {
   );
 
   shouldShowWeekday(weekday: WeekdayNumbers, index: number): boolean {
-    return weekday !== this.viewItems()[index + 1]?.weekday;
+    return weekday !== this.viewItems()[index - 1]?.weekday;
   }
 }
