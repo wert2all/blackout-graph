@@ -36,6 +36,7 @@
     "luxon": "^3.4.4",
     "rxjs": "~7.8.1",
     "tslib": "^2.6.3",
+    "uuid": "^10.0.0",
     "zone.js": "~0.14.7"
   },
   "devDependencies": {
@@ -47,6 +48,7 @@
     "@ngrx/eslint-plugin": "^18.0.1",
     "@types/jasmine": "~5.1.4",
     "@types/luxon": "^3.4.2",
+    "@types/uuid": "^10.0.0",
     "angular-eslint": "18.0.1",
     "autoprefixer": "^10.4.19",
     "commit-and-tag-version": "^12.4.1",

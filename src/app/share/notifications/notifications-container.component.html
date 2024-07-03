@@ -1,0 +1,32 @@
+<div class="notification-bar fixed right-0 top-0 z-10 w-96 p-2 pe-6">
+  @for (message of messages(); track $index) {
+    <div
+      [tabindex]="message.uuid"
+      class="notification-item mb-2 rounded-b-lg shadow-lg"
+      [class.bg-success]="message.type === NotificationType.SUCCESS"
+      [class.bg-warning]="message.type === NotificationType.WARNING"
+      [class.bg-error]="message.type === NotificationType.ERROR"
+      (click)="onItemClick(message)"
+      (keyup)="onItemClick(message)"
+    >
+      <div
+        class="content"
+        [class.text-warning-content]="message.type === NotificationType.WARNING"
+        [class.text-success-content]="message.type === NotificationType.SUCCESS"
+        [class.text-error-content]="message.type === NotificationType.ERROR"
+      >
+        <div
+          class="flex w-full flex-grow flex-col flex-wrap py-1 sm:flex-row sm:flex-nowrap"
+        >
+          <div class="w-full flex-grow px-3 pt-1">
+            <p>{{ message.message }}</p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="indicator m-0 h-0.5 bg-neutral-content p-0"
+        (animationend)="onAnimationEnd(message)"
+      ></div>
+    </div>
+  }
+</div>
