@@ -9,12 +9,7 @@
       (click)="onItemClick(message)"
       (keyup)="onItemClick(message)"
     >
-      <div
-        class="content"
-        [class.text-warning-content]="message.type === NotificationType.WARNING"
-        [class.text-success-content]="message.type === NotificationType.SUCCESS"
-        [class.text-error-content]="message.type === NotificationType.ERROR"
-      >
+      <div class="content">
         <div
           class="flex w-full flex-grow flex-col flex-wrap py-1 sm:flex-row sm:flex-nowrap"
         >
@@ -24,7 +19,7 @@
         </div>
       </div>
       <div
-        class="indicator m-0 h-0.5 bg-neutral-content p-0"
+        class="indicator m-0 h-0.5 bg-neutral p-0"
         (animationend)="onAnimationEnd(message)"
       ></div>
     </div>
