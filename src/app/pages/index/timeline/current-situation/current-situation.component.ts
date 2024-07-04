@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 import { hourToString } from '../../../../app.types';
 import { graphFeature } from '../../../../store/graph/graph.reducers';
 import { Duration, LightType } from '../../../../store/graph/graph.types';
+import { NotificationActions } from '../../../../store/notification/notification.actions';
 
 interface Icon {
   current: string;
@@ -50,25 +51,38 @@ export class CurrentSituationComponent {
     const activeItem = this.activeItem();
     return activeItem
       ? {
-        title: this.createActiveTitle(activeItem.type),
-        nextBlockTitle: this.createNextBlockTitle(activeItem.type),
-        duration: activeItem.block.toNowDuration,
-        toEnd: activeItem.block.toEndDuration,
-        type: activeItem.type,
-        icon: {
-          current: activeItem.icon,
-          nigate: this.getNigateIcon(activeItem.type),
-        },
-        time: activeItem.time,
-        nextBlockStart: activeItem.block.endHour
-          ? hourToString(activeItem.block.endHour.hour)
-          : undefined,
-        restProcents: activeItem.block.restInPercents
-          ? 100 - Math.round(activeItem.block.restInPercents)
-          : undefined,
-      }
+          title: this.createActiveTitle(activeItem.type),
+          nextBlockTitle: this.createNextBlockTitle(activeItem.type),
+          duration: activeItem.block.toNowDuration,
+          toEnd: activeItem.block.toEndDuration,
+          type: activeItem.type,
+          icon: {
+            current: activeItem.icon,
+            nigate: this.getNigateIcon(activeItem.type),
+          },
+          time: activeItem.time,
+          nextBlockStart: activeItem.block.endHour
+            ? hourToString(activeItem.block.endHour.hour)
+            : undefined,
+          restProcents: activeItem.block.restInPercents
+            ? 100 - Math.round(activeItem.block.restInPercents)
+            : undefined,
+        }
       : null;
   });
+
+  lightChange(event: Event) {
+    const switchElement = event.currentTarget as HTMLInputElement;
+    const action = this.isLightOn(switchElement)
+      ? NotificationActions.sendSuccessMessage({ message: 'Світло є' })
+      : NotificationActions.sendWarningMessage({ message: 'Світла немає' });
+
+    this.store.dispatch(action);
+  }
+
+  private isLightOn(switchElement: HTMLInputElement) {
+    return switchElement.checked && this.current()?.type !== LightType.NORMAL;
+  }
 
   private createActiveTitle(type: LightType): string {
     switch (type) {
