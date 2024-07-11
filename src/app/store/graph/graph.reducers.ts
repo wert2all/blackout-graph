@@ -24,6 +24,7 @@ import {
 } from './graph.types';
 
 const generateNow = () => DateTime.now().setLocale(AppLocale);
+
 const initialState: GraphState = {
   isToday: true,
   isWeek: false,
@@ -313,34 +314,35 @@ export const graphFeature = createFeature({
         const startHour = extractBlockHour(items, (item) => item.block.isStart);
         const endHour = extractBlockHour(items, (item) => item.block.isEnd);
 
-        const start =
-          startHour != undefined
-            ? now.set({
-                hour: startHour,
-                minute: 0,
-                second: 0,
-                millisecond: 0,
-              })
-            : undefined;
+        if (startHour == undefined || endHour == undefined) {
+          return {
+            start: undefined,
+            end: undefined,
+          };
+        }
 
-        const end =
-          startHour != undefined && endHour != undefined
-            ? now
-                .set({
-                  hour: endHour,
-                  minute: 0,
-                  second: 0,
-                  millisecond: 0,
-                })
-                .plus({
-                  hour: 1,
-                  ...(startHour >= endHour ? { day: 1 } : undefined),
-                })
-            : undefined;
+        const start = now.set({
+          hour: startHour,
+          minute: 0,
+          second: 0,
+          millisecond: 0,
+        });
+
+        const end = now
+          .set({
+            hour: endHour,
+            minute: 0,
+            second: 0,
+            millisecond: 0,
+          })
+          .plus({
+            hour: 1,
+            ...(startHour >= endHour ? { day: 1 } : undefined),
+          });
 
         return {
-          start: start,
-          end: end,
+          start: startHour < now.hour ? start : start.minus({ day: 1 }),
+          end: startHour < now.hour ? end : end.minus({ day: 1 }),
         };
       },
     );
