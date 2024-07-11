@@ -23,8 +23,7 @@ import {
   WeekGraphWeekDay,
 } from './graph.types';
 
-const generateNow = () =>
-  DateTime.now().setLocale(AppLocale).set({ hour: 19, minute: 10 });
+const generateNow = () => DateTime.now().setLocale(AppLocale);
 
 const initialState: GraphState = {
   isToday: true,
