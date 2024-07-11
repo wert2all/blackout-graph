@@ -51,23 +51,23 @@ export class CurrentSituationComponent {
     const activeItem = this.activeItem();
     return activeItem
       ? {
-        title: this.createActiveTitle(activeItem.type),
-        nextBlockTitle: this.createNextBlockTitle(activeItem.type),
-        duration: activeItem.block.toNowDuration,
-        toEnd: activeItem.block.toEndDuration,
-        type: activeItem.type,
-        icon: {
-          current: activeItem.icon,
-          nigate: this.getNigateIcon(activeItem.type),
-        },
-        time: activeItem.time,
-        nextBlockStart: activeItem.block.endHour
-          ? hourToString(activeItem.block.endHour.hour)
-          : undefined,
-        restProcents: activeItem.block.restInPercents
-          ? 100 - Math.round(activeItem.block.restInPercents)
-          : undefined,
-      }
+          title: this.createActiveTitle(activeItem.type),
+          nextBlockTitle: this.createNextBlockTitle(activeItem.type),
+          duration: activeItem.block.toNowDuration,
+          toEnd: activeItem.block.toEndDuration,
+          type: activeItem.type,
+          icon: {
+            current: activeItem.icon,
+            nigate: this.getNigateIcon(activeItem.type),
+          },
+          time: activeItem.time,
+          nextBlockStart: activeItem.block.endHour
+            ? hourToString(activeItem.block.endHour.hour)
+            : undefined,
+          restProcents: activeItem.block.restInPercents
+            ? 100 - Math.round(activeItem.block.restInPercents)
+            : undefined,
+        }
       : null;
   });
 
