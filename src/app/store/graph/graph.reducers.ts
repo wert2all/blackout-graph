@@ -23,7 +23,8 @@ import {
   WeekGraphWeekDay,
 } from './graph.types';
 
-const generateNow = () => DateTime.now().setLocale(AppLocale);
+const generateNow = () =>
+  DateTime.now().setLocale(AppLocale).set({ hour: 19, minute: 10 });
 
 const initialState: GraphState = {
   isToday: true,
@@ -341,8 +342,8 @@ export const graphFeature = createFeature({
           });
 
         return {
-          start: startHour < now.hour ? start : start.minus({ day: 1 }),
-          end: startHour < now.hour ? end : end.minus({ day: 1 }),
+          start: startHour <= now.hour ? start : start.minus({ day: 1 }),
+          end: startHour <= now.hour ? end : end.minus({ day: 1 }),
         };
       },
     );
