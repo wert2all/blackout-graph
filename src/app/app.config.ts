@@ -5,11 +5,14 @@ import {
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
+import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 import { routes } from './app.routes';
 import { graphFeature } from './store/graph/graph.reducers';
+import { lightEffects } from './store/light/light.effects';
+import { lightFeature } from './store/light/light.reducers';
 import { notificationFeature } from './store/notification/notification.reducers';
 
 export const appConfig: ApplicationConfig = {
@@ -19,7 +22,9 @@ export const appConfig: ApplicationConfig = {
     provideStore({
       [graphFeature.name]: graphFeature.reducer,
       [notificationFeature.name]: notificationFeature.reducer,
+      [lightFeature.name]: lightFeature.reducer,
     }),
+    provideEffects([lightEffects]),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states
       logOnly: !isDevMode(), // Restrict extension to log-only mode
