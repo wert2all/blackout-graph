@@ -84,7 +84,9 @@ export class CurrentSituationComponent {
   }
 
   private isLightOn(switchElement: HTMLInputElement) {
-    return switchElement.checked && this.current()?.type !== LightType.NORMAL;
+    return this.current()?.type === LightType.NORMAL
+      ? switchElement.checked
+      : !switchElement.checked;
   }
 
   private createActiveTitle(type: LightType): string {
