@@ -8,15 +8,18 @@
     >
       <div class="stat-figure text-primary">
         <label class="swap swap-rotate">
-          <input type="checkbox" (change)="lightChange($event)" />
-
+          <input
+            type="checkbox"
+            (change)="lightChange($event)"
+            [attr.checked]="current.type === LightType.NORMAL"
+          />
           <ng-icon
-            class="swap-off"
+            class="swap-on"
             [svg]="current.icon.current"
             size="36"
           ></ng-icon>
           <ng-icon
-            class="swap-on"
+            class="swap-off"
             [svg]="current.icon.nigate"
             size="36"
           ></ng-icon>
