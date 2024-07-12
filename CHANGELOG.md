@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.14](https://github.com/wert2all/blackout-graph/compare/v0.0.13...v0.0.14) (2024-07-12)
+
+### Features
+
+- add design for switch light ([791dfc9](https://github.com/wert2all/blackout-graph/commit/791dfc9d03515b993101ed2d6668a5199503db3b))
+- add ligth store ([b82845d](https://github.com/wert2all/blackout-graph/commit/b82845df79376c6c7be5e1d1e62431a7a6020426))
+- add notifications ([a8006f4](https://github.com/wert2all/blackout-graph/commit/a8006f440e1e7373ae8bb604dde07648c1f1d4c8))
+- show notifications on click to light button ([4537f81](https://github.com/wert2all/blackout-graph/commit/4537f81f2d328e2e404416a733a6a37ac5bf5ea5))
+
+### Bug Fixes
+
+- fix 00:00 issue ([6901101](https://github.com/wert2all/blackout-graph/commit/6901101f98978608aa89fc26e89390bb4364f028))
+- fix light on/off and notifications ([362fd55](https://github.com/wert2all/blackout-graph/commit/362fd5540539b878478b6beee36ca90ad815a66d))
+- fix now ([9a4a948](https://github.com/wert2all/blackout-graph/commit/9a4a94807b423d11d9489e8f37799114a1496499))
+- fix start/end datetime ([58750ad](https://github.com/wert2all/blackout-graph/commit/58750adfa137830dbc6e757d49b063ae0b0be448))
+- fix static tests ([0bd8d61](https://github.com/wert2all/blackout-graph/commit/0bd8d618665d516b465bf4f8bd98f906feb26d3e))
+
 ## [0.0.13](https://github.com/wert2all/blackout-graph/compare/v0.0.12...v0.0.13) (2024-07-01)
 
 ### Features
