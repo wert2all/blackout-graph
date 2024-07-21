@@ -23,10 +23,6 @@ jobs:
       - uses: pnpm/action-setup@v3
         with:
           version: 9
-      - name: Decrypt large secret
-        run: ./decrypt_secret.sh
-        env:
-          ENV_DECODE_PASSPHRASE: ${{ secrets.ENV_DECODE_PASSPHRASE }}
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
@@ -41,6 +37,14 @@ jobs:
             node_modules
             ~/.cache/Cypress # needed for the Cypress binary
           key: npm-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Decrypt large secret
+        run: ./decrypt_secret.sh
+        env:
+          ENV_DECODE_PASSPHRASE: ${{ secrets.ENV_DECODE_PASSPHRASE }}
+
+      - name: Ls
+        run: ls -la src/environments/
 
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
