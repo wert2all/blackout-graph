@@ -5,6 +5,7 @@ import {
   inject,
 } from '@angular/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { hugeIdea, hugeIdea01 } from '@ng-icons/huge-icons';
 import { saxFlash1Bold, saxFlashSlashBold } from '@ng-icons/iconsax/bold';
 import { saxFlashBulk, saxFlashSlashBulk } from '@ng-icons/iconsax/bulk';
 import { Store } from '@ngrx/store';
@@ -19,6 +20,11 @@ interface Icon {
   nigate: string;
 }
 
+export interface ViewLight {
+  on: boolean;
+  icon: string;
+}
+
 interface Current {
   title: string;
   nextBlockTitle: string;
@@ -29,6 +35,7 @@ interface Current {
   type: LightType;
   nextBlockStart: string | undefined;
   restProcents: number | undefined;
+  light: ViewLight;
 }
 
 @Component({
@@ -37,7 +44,9 @@ interface Current {
   imports: [NgIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './current-situation.component.html',
-  viewProviders: [provideIcons({ saxFlash1Bold, saxFlashSlashBold })],
+  viewProviders: [
+    provideIcons({ saxFlash1Bold, saxFlashSlashBold, hugeIdea, hugeIdea01 }),
+  ],
 })
 export class CurrentSituationComponent {
   private readonly store = inject(Store);
@@ -67,6 +76,10 @@ export class CurrentSituationComponent {
           restProcents: activeItem.block.restInPercents
             ? 100 - Math.round(activeItem.block.restInPercents)
             : undefined,
+          light: {
+            on: false,
+            icon: hugeIdea01,
+          },
         }
       : null;
   });
@@ -92,7 +105,7 @@ export class CurrentSituationComponent {
   private createActiveTitle(type: LightType): string {
     switch (type) {
       case LightType.NORMAL:
-        return 'Світлo є';
+        return 'Світлo мабуть є';
 
       case LightType.MAYBE_BLACKOUT:
         return 'Світла мабуть немає';
