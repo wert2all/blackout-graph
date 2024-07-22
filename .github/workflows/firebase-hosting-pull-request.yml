@@ -24,6 +24,11 @@ jobs:
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
 
+      - name: Decrypt large secret
+        run: ./decrypt_secret.sh
+        env:
+          ENV_DECODE_PASSPHRASE: ${{ secrets.ENV_DECODE_PASSPHRASE }}
+
       - name: Build
         run: pnpm build
 

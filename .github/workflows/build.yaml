@@ -43,9 +43,6 @@ jobs:
         env:
           ENV_DECODE_PASSPHRASE: ${{ secrets.ENV_DECODE_PASSPHRASE }}
 
-      - name: Ls
-        run: ls -la src/environments/
-
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
 
