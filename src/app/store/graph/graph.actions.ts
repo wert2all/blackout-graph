@@ -7,6 +7,5 @@ export const WeekDayActions = createActionGroup({
     'Switch to Today': emptyProps(),
     'Switch to Weekday': props<{ weekday: WeekdayNumbers }>(),
     'Switch to Week': emptyProps(),
-    AutoRefresh: emptyProps(),
   },
 });
