@@ -7,37 +7,7 @@
       [class.bg-secondary]="current.type === LightType.BLACKOUT"
     >
       <div class="stat-figure text-primary">
-        <label class="swap swap-rotate">
-          <input
-            type="checkbox"
-            (change)="lightChange($event)"
-            [attr.checked]="current.type === LightType.NORMAL"
-          />
-          <ng-icon
-            class="swap-on"
-            [svg]="current.icon.current"
-            size="36"
-          ></ng-icon>
-          <ng-icon
-            class="swap-off"
-            [svg]="current.icon.nigate"
-            size="36"
-          ></ng-icon>
-        </label>
-      </div>
-      <div class="stat-figure text-primary">
-        <div class="grid row-auto">
-          <ng-icon
-            class="swap-on"
-            [svg]="current.light.icon"
-            size="84"
-          ></ng-icon>
-          <input
-            type="checkbox"
-            class="toggle toggle-md toggle-success"
-            [attr.checked]="current.light.on"
-          />
-        </div>
+        <app-light-switch [light]="current.light"></app-light-switch>
       </div>
       <div class="stat-title text-base-200">
         {{ current.title }}

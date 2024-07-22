@@ -7,23 +7,16 @@ import {
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { hugeIdea, hugeIdea01 } from '@ng-icons/huge-icons';
 import { saxFlash1Bold, saxFlashSlashBold } from '@ng-icons/iconsax/bold';
-import { saxFlashBulk, saxFlashSlashBulk } from '@ng-icons/iconsax/bulk';
 import { Store } from '@ngrx/store';
 
 import { hourToString } from '../../../../app.types';
 import { graphFeature } from '../../../../store/graph/graph.reducers';
 import { Duration, LightType } from '../../../../store/graph/graph.types';
 import { LightActions } from '../../../../store/light/light.actions';
-
-interface Icon {
-  current: string;
-  nigate: string;
-}
-
-export interface ViewLight {
-  on: boolean;
-  icon: string;
-}
+import {
+  LightSwitchComponent,
+  ViewLight,
+} from '../light-switch/light-switch.component';
 
 interface Current {
   title: string;
@@ -31,7 +24,6 @@ interface Current {
   time: string;
   duration: Duration | undefined;
   toEnd: Duration | undefined;
-  icon: Icon;
   type: LightType;
   nextBlockStart: string | undefined;
   restProcents: number | undefined;
@@ -41,12 +33,12 @@ interface Current {
 @Component({
   selector: 'app-current-situation',
   standalone: true,
-  imports: [NgIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './current-situation.component.html',
   viewProviders: [
     provideIcons({ saxFlash1Bold, saxFlashSlashBold, hugeIdea, hugeIdea01 }),
   ],
+  imports: [NgIconComponent, LightSwitchComponent],
 })
 export class CurrentSituationComponent {
   private readonly store = inject(Store);
@@ -65,10 +57,6 @@ export class CurrentSituationComponent {
           duration: activeItem.block.toNowDuration,
           toEnd: activeItem.block.toEndDuration,
           type: activeItem.type,
-          icon: {
-            current: activeItem.icon,
-            nigate: this.getNigateIcon(activeItem.type),
-          },
           time: activeItem.time,
           nextBlockStart: activeItem.block.endHour
             ? hourToString(activeItem.block.endHour.hour)
@@ -124,17 +112,6 @@ export class CurrentSituationComponent {
 
       case LightType.BLACKOUT:
         return 'Світло мабуть буде через';
-    }
-  }
-
-  private getNigateIcon(type: LightType): string {
-    switch (type) {
-      case LightType.NORMAL:
-        return saxFlashSlashBulk;
-      case LightType.MAYBE_BLACKOUT:
-        return saxFlashBulk;
-      case LightType.BLACKOUT:
-        return saxFlashBulk;
     }
   }
 }
