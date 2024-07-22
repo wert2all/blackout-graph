@@ -1,11 +1,10 @@
-import { Component, input } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { hugeIdea, hugeIdea01 } from '@ng-icons/huge-icons';
 
-export interface ViewLight {
-  on: boolean;
-  icon: string;
-}
+import { getLightTooltip } from '../../../../share/lib.functions';
+import { LightStatus } from '../../../../store/graph/graph.types';
+import { Status } from '../../../../store/light/light.types';
 
 @Component({
   selector: 'app-light-switch',
@@ -15,5 +14,27 @@ export interface ViewLight {
   imports: [NgIconComponent],
 })
 export class LightSwitchComponent {
-  light = input.required<ViewLight>();
+  status = input.required<LightStatus>();
+  switch = output<Status>();
+
+  light = computed(() => {
+    const status = this.status();
+    return {
+      isMaybe:
+        status == LightStatus.MAYBE_OFF || status == LightStatus.MAYBE_ON,
+      icon:
+        status == LightStatus.MAYBE_ON || status == LightStatus.ON
+          ? hugeIdea01
+          : hugeIdea,
+      tooltip: getLightTooltip(status),
+    };
+  });
+
+  toggle() {
+    this.switch.emit(
+      this.status() == LightStatus.MAYBE_ON || this.status() == LightStatus.ON
+        ? 'off'
+        : 'on',
+    );
+  }
 }

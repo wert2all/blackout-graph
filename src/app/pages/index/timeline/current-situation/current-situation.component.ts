@@ -3,20 +3,25 @@ import {
   Component,
   computed,
   inject,
+  Signal,
 } from '@angular/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { hugeIdea, hugeIdea01 } from '@ng-icons/huge-icons';
 import { saxFlash1Bold, saxFlashSlashBold } from '@ng-icons/iconsax/bold';
 import { Store } from '@ngrx/store';
+import { DateTime } from 'luxon';
 
 import { hourToString } from '../../../../app.types';
+import { getLightTooltip } from '../../../../share/lib.functions';
 import { graphFeature } from '../../../../store/graph/graph.reducers';
-import { Duration, LightType } from '../../../../store/graph/graph.types';
-import { LightActions } from '../../../../store/light/light.actions';
 import {
-  LightSwitchComponent,
-  ViewLight,
-} from '../light-switch/light-switch.component';
+  Duration,
+  LightStatus,
+  LightType,
+} from '../../../../store/graph/graph.types';
+import { LightActions } from '../../../../store/light/light.actions';
+import { lightFeature } from '../../../../store/light/light.reducers';
+import { LightSwitch, Status } from '../../../../store/light/light.types';
+import { LightSwitchComponent } from '../light-switch/light-switch.component';
 
 interface Current {
   title: string;
@@ -27,7 +32,7 @@ interface Current {
   type: LightType;
   nextBlockStart: string | undefined;
   restProcents: number | undefined;
-  light: ViewLight;
+  lightStatus: LightStatus;
 }
 
 @Component({
@@ -35,24 +40,29 @@ interface Current {
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './current-situation.component.html',
-  viewProviders: [
-    provideIcons({ saxFlash1Bold, saxFlashSlashBold, hugeIdea, hugeIdea01 }),
-  ],
+  viewProviders: [provideIcons({ saxFlash1Bold, saxFlashSlashBold })],
   imports: [NgIconComponent, LightSwitchComponent],
 })
 export class CurrentSituationComponent {
   private readonly store = inject(Store);
+
   private readonly activeItem = this.store.selectSignal(
     graphFeature.selectActiveItem,
   );
+  private readonly activeLight: Signal<LightSwitch | undefined> =
+    this.store.selectSignal(lightFeature.selectCurrentLight);
 
   LightType = LightType;
 
   current = computed<Current | null>(() => {
     const activeItem = this.activeItem();
+    const activeLight = this.activeLight();
+
     return activeItem
       ? {
-          title: this.createActiveTitle(activeItem.type),
+          title: getLightTooltip(
+            this.getLightStatus(activeLight, activeItem.type),
+          ),
           nextBlockTitle: this.createNextBlockTitle(activeItem.type),
           duration: activeItem.block.toNowDuration,
           toEnd: activeItem.block.toEndDuration,
@@ -64,24 +74,17 @@ export class CurrentSituationComponent {
           restProcents: activeItem.block.restInPercents
             ? 100 - Math.round(activeItem.block.restInPercents)
             : undefined,
-          light: {
-            on: false,
-            icon: hugeIdea01,
-          },
+          lightStatus: this.getLightStatus(activeLight, activeItem.type),
         }
       : null;
   });
 
-  lightChange(event: Event) {
-    const time = this.current()?.time;
-    if (time) {
-      const switchElement = event.currentTarget as HTMLInputElement;
-      const action = this.isLightOn(switchElement)
-        ? LightActions.setLightOn({ time: time })
-        : LightActions.setLightOff({ time: time });
-
-      this.store.dispatch(action);
-    }
+  switchLight(status: Status) {
+    this.store.dispatch(
+      status === 'on'
+        ? LightActions.setLightOn({ time: DateTime.now() })
+        : LightActions.setLightOff({ time: DateTime.now() }),
+    );
   }
 
   private isLightOn(switchElement: HTMLInputElement) {
@@ -90,18 +93,6 @@ export class CurrentSituationComponent {
       : !switchElement.checked;
   }
 
-  private createActiveTitle(type: LightType): string {
-    switch (type) {
-      case LightType.NORMAL:
-        return 'Світлo мабуть є';
-
-      case LightType.MAYBE_BLACKOUT:
-        return 'Світла мабуть немає';
-
-      case LightType.BLACKOUT:
-        return 'Світла немає';
-    }
-  }
   private createNextBlockTitle(type: LightType): string {
     switch (type) {
       case LightType.NORMAL:
@@ -112,6 +103,19 @@ export class CurrentSituationComponent {
 
       case LightType.BLACKOUT:
         return 'Світло мабуть буде через';
+    }
+  }
+
+  private getLightStatus(
+    activeLight: LightSwitch | undefined,
+    type: LightType,
+  ): LightStatus {
+    if (activeLight) {
+      return activeLight.status === 'off' ? LightStatus.OFF : LightStatus.ON;
+    } else {
+      return type === LightType.NORMAL
+        ? LightStatus.MAYBE_ON
+        : LightStatus.MAYBE_OFF;
     }
   }
 }
