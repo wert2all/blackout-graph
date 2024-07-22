@@ -50,13 +50,13 @@ export const appConfig: ApplicationConfig = {
       registrationStrategy: 'registerWhenStable:30000',
     }),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideFirestore((injector) =>
-      initializeFirestore(injector.get(FirebaseApp), {
+    provideFirestore((injector) => {
+      return initializeFirestore(injector.get(FirebaseApp), {
         experimentalAutoDetectLongPolling: true,
         localCache: persistentLocalCache({
           tabManager: persistentMultipleTabManager(),
         }),
-      }),
-    ),
+      });
+    }),
   ],
 };
