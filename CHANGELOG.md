@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.15](https://github.com/wert2all/blackout-graph/compare/v0.0.14...v0.0.15) (2024-07-22)
+
+### Features
+
+- add environments support ([1af831d](https://github.com/wert2all/blackout-graph/commit/1af831dca8eccc947427f317e4397c7dfd53cdeb))
+- add firebase support ([3df5c56](https://github.com/wert2all/blackout-graph/commit/3df5c5643c9f02de3aca9dc04108512135987984))
+- add light icon ([847b767](https://github.com/wert2all/blackout-graph/commit/847b7671dc61b3d081905eda5b42f5cb241ad728))
+- add light service ([4835a2e](https://github.com/wert2all/blackout-graph/commit/4835a2ef8f9c9af75fbf6c2a963bd092836013e2))
+- add time state ([d21c311](https://github.com/wert2all/blackout-graph/commit/d21c311fef6f162a306b408ad21413946baeae3b))
+- encript production env file ([22b33d1](https://github.com/wert2all/blackout-graph/commit/22b33d16545dfea384a7542b2d7fc2661442af53))
+- extract light status to separate component ([375a892](https://github.com/wert2all/blackout-graph/commit/375a89298bcc98c685d971fa6ca81faf7207f5f4))
+- load lights state from db ([f45017b](https://github.com/wert2all/blackout-graph/commit/f45017b879bca9a51053ce8184ff6428019d5ad2))
+- save light status to firestore ([0fd5580](https://github.com/wert2all/blackout-graph/commit/0fd5580f5b2066155ce681e59c668f69d355b0eb))
+- showing light status ([4e05a69](https://github.com/wert2all/blackout-graph/commit/4e05a694b9984d67ac33b93d074ea7def7986c0f))
+
 ## [0.0.14](https://github.com/wert2all/blackout-graph/compare/v0.0.13...v0.0.14) (2024-07-12)
 
 ### Features
