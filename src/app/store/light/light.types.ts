@@ -8,9 +8,9 @@ export interface LightSwitch {
   time: DateTime;
   status: Status;
 }
-
+export type ListLights = Record<DateString, Record<string, LightSwitch>>;
 export interface LightState {
-  list: Record<DateString, Record<string, LightSwitch>>;
+  list: ListLights;
 }
 
 export interface LightEntity {

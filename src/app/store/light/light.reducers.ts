@@ -40,6 +40,10 @@ export const lightFeature = createFeature({
     initialState,
 
     on(
+      LightActions.successLoadLight,
+      (state, { lights }): LightState => ({ ...state, list: lights }),
+    ),
+    on(
       LightActions.updateLight,
       (state, { light }): LightState =>
         updateLight(state, light.status, light.time),
