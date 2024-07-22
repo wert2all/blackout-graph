@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.17](https://github.com/wert2all/blackout-graph/compare/v0.0.16...v0.0.17) (2024-07-22)
+
+### Features
+
+- add offline mode ([5e4f5bb](https://github.com/wert2all/blackout-graph/commit/5e4f5bb768458c341c2bb6d879bb82266043611b))
+
 ## [0.0.16](https://github.com/wert2all/blackout-graph/compare/v0.0.15...v0.0.16) (2024-07-22)
 
 ### Bug Fixes
