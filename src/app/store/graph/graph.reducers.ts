@@ -10,6 +10,7 @@ import {
   hourToString,
   toPercents,
 } from '../../app.types';
+import { timeFeature } from '../time/time.reducers';
 import { WeekDayActions } from './graph.actions';
 import {
   ActiveItem,
@@ -23,14 +24,11 @@ import {
   WeekGraphWeekDay,
 } from './graph.types';
 
-const generateNow = () => DateTime.now().setLocale(AppLocale);
-
 const initialState: GraphState = {
   isToday: true,
   isWeek: false,
   selectedWeekDay: null,
   selectedGroup: 'group3',
-  nowDateTime: generateNow(),
 };
 
 const store = GraphStore;
@@ -165,32 +163,16 @@ export const graphFeature = createFeature({
         isWeek: true,
       }),
     ),
-    on(
-      WeekDayActions.autoRefresh,
-      (state): GraphState => ({
-        ...state,
-        nowDateTime: generateNow(),
-      }),
-    ),
   ),
   extraSelectors: ({
-    selectNowDateTime,
     selectIsToday,
     selectSelectedGroup,
     selectSelectedWeekDay,
   }) => {
-    const selectNowHourString = createSelector(selectNowDateTime, (now) =>
-      hourToString(now.hour),
-    );
-    const selectNowWeekday = createSelector(
-      selectNowDateTime,
-      (now): WeekdayNumbers => now.plus(0).weekday as WeekdayNumbers,
-    );
-
     const selectCurrentWeekday = createSelector(
       selectIsToday,
       selectSelectedWeekDay,
-      selectNowWeekday,
+      timeFeature.selectNowWeekday,
       (isToday, selectedWeekDay, weekday): WeekdayNumbers =>
         isToday ? weekday : selectedWeekDay || 1,
     );
@@ -225,22 +207,22 @@ export const graphFeature = createFeature({
     const selectCurrentItems = createSelector(
       selectCurrentWeekdayItems,
       selectCurrentWeekday,
-      selectNowWeekday,
-      selectNowHourString,
+      timeFeature.selectNowWeekday,
+      timeFeature.selectNowHourString,
       createItemsUpdateProjector(),
     );
     const selectPreviousItems = createSelector(
       selectPreviousWeekdayItems,
       selectPreviousWeekday,
-      selectNowWeekday,
-      selectNowHourString,
+      timeFeature.selectNowWeekday,
+      timeFeature.selectNowHourString,
       createItemsUpdateProjector(),
     );
     const selectNextItems = createSelector(
       selectNextWeekdayItems,
       selectNextWeekday,
-      selectNowWeekday,
-      selectNowHourString,
+      timeFeature.selectNowWeekday,
+      timeFeature.selectNowHourString,
       createItemsUpdateProjector(),
     );
 
@@ -309,7 +291,7 @@ export const graphFeature = createFeature({
 
     const selectActiveBlockStartEnd = createSelector(
       selectActiveBlock,
-      selectNowDateTime,
+      timeFeature.selectNow,
       (items, now) => {
         const startHour = extractBlockHour(items, (item) => item.block.isStart);
         const endHour = extractBlockHour(items, (item) => item.block.isEnd);
@@ -348,7 +330,7 @@ export const graphFeature = createFeature({
     );
 
     const selectActiveItem = createSelector(
-      selectNowDateTime,
+      timeFeature.selectNow,
       selectActiveBlock,
       selectActiveBlockStartEnd,
       (now, items, startEnd): ActiveItem | undefined => {
@@ -393,8 +375,8 @@ export const graphFeature = createFeature({
 
     const selectWeekGraph = createSelector(
       selectSelectedGroup,
-      selectNowWeekday,
-      selectNowHourString,
+      timeFeature.selectNowWeekday,
+      timeFeature.selectNowHourString,
       (group, nowWeekday, nowHourString): GraphWeek => {
         const weekdays = Info.weekdays('long', { locale: AppLocale }).map(
           (name, index) => {

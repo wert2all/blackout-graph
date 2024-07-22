@@ -18,12 +18,14 @@ import { graphFeature } from './store/graph/graph.reducers';
 import { lightEffects } from './store/light/light.effects';
 import { lightFeature } from './store/light/light.reducers';
 import { notificationFeature } from './store/notification/notification.reducers';
+import { timeFeature } from './store/time/time.reducers';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideStore({
+      [timeFeature.name]: timeFeature.reducer,
       [graphFeature.name]: graphFeature.reducer,
       [notificationFeature.name]: notificationFeature.reducer,
       [lightFeature.name]: lightFeature.reducer,

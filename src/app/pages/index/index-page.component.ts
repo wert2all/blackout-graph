@@ -7,8 +7,8 @@ import { interval } from 'rxjs';
 import { ContentComponent } from '../../share/layout/content/content.component';
 import { HeaderComponent } from '../../share/layout/header/header.component';
 import { LayoutComponent } from '../../share/layout/layout.component';
-import { WeekDayActions } from '../../store/graph/graph.actions';
 import { graphFeature } from '../../store/graph/graph.reducers';
+import { TimeActions } from '../../store/time/time.actopns';
 import { TimelineComponent } from './timeline/timeline.component';
 import { WeekGraphComponent } from './week-graph/week-graph.component';
 import { WeekdaysComponent } from './weekdays/weekdays.component';
@@ -36,7 +36,7 @@ export class IndexPageComponent {
 
   constructor() {
     this.timer$.subscribe(() => {
-      this.store.dispatch(WeekDayActions.autoRefresh());
+      this.store.dispatch(TimeActions.autoRefresh());
     });
   }
 }
