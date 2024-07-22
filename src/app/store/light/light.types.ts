@@ -12,3 +12,8 @@ export interface LightSwitch {
 export interface LightState {
   list: Record<DateString, Record<string, LightSwitch>>;
 }
+
+export interface LightEntity {
+  status: string;
+  time: string;
+}
