@@ -13,6 +13,13 @@ export enum LightType {
   NORMAL = 'normal',
 }
 
+export enum LightStatus {
+  MAYBE_OFF = 'maybe-off',
+  MAYBE_ON = 'maybe-on',
+  OFF = 'off',
+  ON = 'on',
+}
+
 export type LightItem = GraphLightItem & {
   active: boolean;
   weekday: WeekdayNumbers;

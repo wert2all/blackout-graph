@@ -1,8 +1,8 @@
-<!-- <div>
-  <ng-icon class="swap-on" [svg]="light().icon" size="84"></ng-icon>
-  <input
-    type="checkbox"
-    class="toggle toggle-md toggle-success"
-    [attr.checked]="light().on"
-  />
-</div> -->
+<div
+  class="tooltip tooltip-left tooltip-info"
+  [attr.data-tip]="light().tooltip"
+>
+  <button (click)="toggle()" class="btn btn-circle btn-lg btn-primary">
+    <ng-icon [svg]="light().icon" size="32"></ng-icon>
+  </button>
+</div>

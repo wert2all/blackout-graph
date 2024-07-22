@@ -1,12 +1,14 @@
 import { DateTime } from 'luxon';
 
-export type LightStatus = 'on' | 'off';
+import { DateString } from '../../app.types';
+
+export type Status = 'on' | 'off';
 
 export interface LightSwitch {
   time: DateTime;
-  status: LightStatus;
+  status: Status;
 }
 
 export interface LightState {
-  list: Record<string, LightSwitch>;
+  list: Record<DateString, Record<string, LightSwitch>>;
 }

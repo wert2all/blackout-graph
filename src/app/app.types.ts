@@ -3,6 +3,8 @@ import { EffectConfig } from '@ngrx/effects';
 export type GraphGroups = 'group3';
 export const AppLocale = 'uk';
 
+export type DateString = {} & string;
+
 export const StoreDispatchEffect: EffectConfig & {
   functional: true;
   dispatch?: true;

@@ -7,7 +7,10 @@
       [class.bg-secondary]="current.type === LightType.BLACKOUT"
     >
       <div class="stat-figure text-primary">
-        <app-light-switch [light]="current.light"></app-light-switch>
+        <app-light-switch
+          [status]="current.lightStatus"
+          (switch)="switchLight($event)"
+        ></app-light-switch>
       </div>
       <div class="stat-title text-base-200">
         {{ current.title }}
