@@ -40,12 +40,9 @@ export const lightFeature = createFeature({
     initialState,
 
     on(
-      LightActions.setLightOn,
-      (state, { time }): LightState => updateLight(state, 'on', time),
-    ),
-    on(
-      LightActions.setLightOff,
-      (state, { time }): LightState => updateLight(state, 'off', time),
+      LightActions.updateLight,
+      (state, { light }): LightState =>
+        updateLight(state, light.status, light.time),
     ),
   ),
   extraSelectors: ({ selectList }) => {
