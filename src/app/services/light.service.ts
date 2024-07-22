@@ -3,8 +3,7 @@ import {
   collection,
   doc,
   Firestore,
-  getDocs,
-  query,
+  getDoc,
   runTransaction,
 } from '@angular/fire/firestore';
 import { DateTime } from 'luxon';
@@ -21,9 +20,9 @@ export class LightService {
   private readonly collectionName = 'light';
   private readonly firestore = inject(Firestore);
 
-  getLights() {
-    return from(getDocs(query(this.getCollection()))).pipe(
-      map((result) => result.docs.map((doc) => doc.data())),
+  getLights(now: DateTime<true>): Observable<Record<string, LightEntity>> {
+    return from(getDoc(doc(this.getCollection(), this.getKey(now)))).pipe(
+      map((snap) => (snap.exists() ? snap.data() : {})),
     );
   }
 
@@ -37,9 +36,13 @@ export class LightService {
         const sfDoc = await transaction.get(docRef);
         const newDoc = { status: status, time: validTime };
         if (!sfDoc.exists()) {
-          transaction.set(docRef, newDoc);
+          transaction.set(docRef, {
+            [hourToString(time.hour)]: newDoc,
+          });
         } else {
-          transaction.update(docRef, newDoc);
+          const data = { ...sfDoc.data() };
+          data[hourToString(time.hour)] = newDoc;
+          transaction.update(docRef, data);
         }
         return newDoc;
       }),
@@ -49,6 +52,6 @@ export class LightService {
     return collection(this.firestore, this.collectionName);
   }
   private getKey(time: DateTime<boolean>): string {
-    return dateStringFromTime(time) + '-' + hourToString(time.hour);
+    return dateStringFromTime(time);
   }
 }
