@@ -26,7 +26,7 @@
 
     <div class="stat">
       <div class="stat-title text-base-200">
-        {{ current.nextBlockTitle }}
+        {{ current.nextBlock.title }}
       </div>
       <div class="stat-value text-red-500">
         @if (current.toEnd?.hours) {
@@ -37,8 +37,8 @@
         }
       </div>
       <div class="stat-desc text-info">
-        @if (current.nextBlockStart) {
-          Після {{ current.nextBlockStart }}
+        @if (current.nextBlock.start) {
+          Після {{ current.nextBlock.start }}
         }
       </div>
     </div>

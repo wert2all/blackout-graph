@@ -14,6 +14,7 @@ import { hourToString } from '../../../../app.types';
 import { getLightTooltip } from '../../../../share/lib.functions';
 import { graphFeature } from '../../../../store/graph/graph.reducers';
 import {
+  ActiveItem,
   Duration,
   LightStatus,
   LightType,
@@ -23,15 +24,19 @@ import { lightFeature } from '../../../../store/light/light.reducers';
 import { LightSwitch, Status } from '../../../../store/light/light.types';
 import { LightSwitchComponent } from '../light-switch/light-switch.component';
 
+interface NextBlock {
+  title: string;
+  start: string | undefined;
+}
+
 interface Current {
   title: string;
   lightStatus: LightStatus;
-  nextBlockTitle: string;
   time: string;
   duration: Duration | undefined;
   toEnd: Duration | undefined;
-  nextBlockStart: string | undefined;
   restProcents: number | undefined;
+  nextBlock: NextBlock;
 }
 
 @Component({
@@ -63,18 +68,15 @@ export class CurrentSituationComponent {
           title: getLightTooltip(
             this.getLightStatus(activeLight, activeItem.type),
           ),
-          nextBlockTitle: this.createNextBlockTitle(activeItem.type),
           duration: activeItem.block.toNowDuration,
           toEnd: activeItem.block.toEndDuration,
           type: activeItem.type,
           time: activeItem.time,
-          nextBlockStart: activeItem.block.endHour
-            ? hourToString(activeItem.block.endHour.hour)
-            : undefined,
           restProcents: activeItem.block.restInPercents
             ? 100 - Math.round(activeItem.block.restInPercents)
             : undefined,
           lightStatus: this.getLightStatus(activeLight, activeItem.type),
+          nextBlock: this.getNextBlock(activeItem),
         }
       : null;
   });
@@ -92,6 +94,15 @@ export class CurrentSituationComponent {
       current.lightStatus === LightStatus.ON ||
       current.lightStatus === LightStatus.MAYBE_ON
     );
+  }
+
+  private getNextBlock(activeItem: ActiveItem): NextBlock {
+    return {
+      title: this.createNextBlockTitle(activeItem.type),
+      start: activeItem.block.endHour
+        ? hourToString(activeItem.block.endHour.hour)
+        : undefined,
+    };
   }
 
   private createNextBlockTitle(type: LightType): string {
