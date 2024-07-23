@@ -20,6 +20,7 @@ import { LightEntity, LightSwitch } from './light.types';
 const switchFromEntity = (entity: LightEntity): LightSwitch => ({
   status: entity.status == 'on' ? 'on' : 'off',
   time: DateTime.fromISO(entity.time),
+  hourString: hourToString(DateTime.fromISO(entity.time).hour),
 });
 
 const initLights = (

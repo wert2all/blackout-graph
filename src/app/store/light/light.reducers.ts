@@ -19,6 +19,7 @@ const updateLight = (
   const switchValue: LightSwitch = {
     status: status,
     time: time,
+    hourString: hourToString(time.hour),
   };
 
   if (!list[dateString]) {
@@ -50,14 +51,12 @@ export const lightFeature = createFeature({
     ),
   ),
   extraSelectors: ({ selectList }) => {
-    const selectCurrentLight = createSelector(
+    const selectCurrentdayLightList = createSelector(
       timeFeature.selectNow,
       selectList,
-      (now, list): LightSwitch | undefined =>
-        list[dateStringFromTime(now)]
-          ? list[dateStringFromTime(now)][hourToString(now.hour)]
-          : undefined,
+      (now, list): Record<string, LightSwitch> | undefined =>
+        list[dateStringFromTime(now)],
     );
-    return { selectCurrentLight };
+    return { selectCurrentLight: selectCurrentdayLightList };
   },
 });

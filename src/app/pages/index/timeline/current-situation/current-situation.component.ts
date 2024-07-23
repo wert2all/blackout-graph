@@ -53,8 +53,31 @@ export class CurrentSituationComponent {
   private readonly activeItem = this.store.selectSignal(
     graphFeature.selectActiveItem,
   );
-  private readonly activeLight: Signal<LightSwitch | undefined> =
-    this.store.selectSignal(lightFeature.selectCurrentLight);
+  private readonly currentDayLightList: Signal<
+    Record<string, LightSwitch> | undefined
+  > = this.store.selectSignal(lightFeature.selectCurrentLight);
+
+  private readonly activeLight = computed(() => {
+    const lightList = this.currentDayLightList();
+    const blockTimes = this.activeItem()?.block.items.map((item) => item.time);
+
+    if (lightList && blockTimes) {
+      return Object.values(lightList)
+        .filter((light) => blockTimes.includes(light.hourString))
+        .sort((n1, n2) => {
+          if (n1.hourString > n2.hourString) {
+            return 1;
+          }
+
+          if (n1.hourString < n2.hourString) {
+            return -1;
+          }
+          return 0;
+        })
+        .at(-1);
+    }
+    return undefined;
+  });
 
   LightType = LightType;
   LightStatus = LightStatus;
