@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.19](https://github.com/wert2all/blackout-graph/compare/v0.0.18...v0.0.19) (2024-07-23)
+
+### Features
+
+- add block items to ActiveBlock ([c21a00d](https://github.com/wert2all/blackout-graph/commit/c21a00d46d18435f02aa07d498624282ab41d098))
+- add next block to active block selector ([604c419](https://github.com/wert2all/blackout-graph/commit/604c4199580ed2409feaf67eb1bb4be101ec2fa4))
+
+### Bug Fixes
+
+- fix bg color for light status ([20ce39b](https://github.com/wert2all/blackout-graph/commit/20ce39b153c37aa666e4310378a69d8e77b7f9e7))
+- fix light ([5db1449](https://github.com/wert2all/blackout-graph/commit/5db1449b4a0a59e6ecea76636f8795f3668d18c3))
+- fix name of time action file ([1e796c6](https://github.com/wert2all/blackout-graph/commit/1e796c6fec749c16f11733f5a6e01f178d41cc42))
+
 ## [0.0.18](https://github.com/wert2all/blackout-graph/compare/v0.0.17...v0.0.18) (2024-07-22)
 
 ### Bug Fixes
