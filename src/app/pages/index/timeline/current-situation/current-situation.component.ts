@@ -25,14 +25,13 @@ import { LightSwitchComponent } from '../light-switch/light-switch.component';
 
 interface Current {
   title: string;
+  lightStatus: LightStatus;
   nextBlockTitle: string;
   time: string;
   duration: Duration | undefined;
   toEnd: Duration | undefined;
-  type: LightType;
   nextBlockStart: string | undefined;
   restProcents: number | undefined;
-  lightStatus: LightStatus;
 }
 
 @Component({
@@ -53,6 +52,7 @@ export class CurrentSituationComponent {
     this.store.selectSignal(lightFeature.selectCurrentLight);
 
   LightType = LightType;
+  LightStatus = LightStatus;
 
   current = computed<Current | null>(() => {
     const activeItem = this.activeItem();
@@ -87,10 +87,11 @@ export class CurrentSituationComponent {
     );
   }
 
-  private isLightOn(switchElement: HTMLInputElement) {
-    return this.current()?.type === LightType.NORMAL
-      ? switchElement.checked
-      : !switchElement.checked;
+  isLightOn(current: Current) {
+    return (
+      current.lightStatus === LightStatus.ON ||
+      current.lightStatus === LightStatus.MAYBE_ON
+    );
   }
 
   private createNextBlockTitle(type: LightType): string {

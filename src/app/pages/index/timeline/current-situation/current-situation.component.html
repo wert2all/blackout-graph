@@ -2,9 +2,8 @@
   <div class="stats w-full bg-accent stats-vertical shadow lg:stats-horizontal">
     <div
       class="stat"
-      [class.bg-success]="current.type === LightType.NORMAL"
-      [class.bg-neutral]="current.type === LightType.MAYBE_BLACKOUT"
-      [class.bg-secondary]="current.type === LightType.BLACKOUT"
+      [class.bg-neutral]="!isLightOn(current)"
+      [class.bg-success]="isLightOn(current)"
     >
       <div class="stat-figure text-primary">
         <app-light-switch
