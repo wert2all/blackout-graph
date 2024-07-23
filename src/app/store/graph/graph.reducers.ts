@@ -375,8 +375,6 @@ export const graphFeature = createFeature({
       selectActiveBlockStartEnd,
       selectNextActiveBlock,
       (now, items, startEnd, nextBlock): ActiveItem | undefined => {
-        console.log(nextBlock);
-
         const activeItem = items.find((item) => item.active);
         const duration =
           startEnd.start != undefined
@@ -402,6 +400,7 @@ export const graphFeature = createFeature({
               ...activeItem,
               block: {
                 ...activeItem.block,
+                items: items,
                 startHour: startEnd.start,
                 endHour: startEnd.end,
                 blockMillisDuration: blockDuration?.toMillis() || undefined,
