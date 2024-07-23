@@ -318,6 +318,17 @@ export const graphFeature = createFeature({
       },
     );
 
+    const selectNextActiveBlock = createSelector(
+      selectTimelineBlockGroups,
+      (groups): LightItemWithBlock[] => {
+        const activeIndex = groups.findIndex((block) => {
+          return !!block.find((item) => item.active);
+        });
+
+        return activeIndex >= 0 ? groups[activeIndex + 1] || [] : [];
+      },
+    );
+
     const selectActiveBlockStartEnd = createSelector(
       selectActiveBlock,
       timeFeature.selectNow,
@@ -362,9 +373,11 @@ export const graphFeature = createFeature({
       timeFeature.selectNow,
       selectActiveBlock,
       selectActiveBlockStartEnd,
-      (now, items, startEnd): ActiveItem | undefined => {
-        const activeItem = items.find((item) => item.active);
+      selectNextActiveBlock,
+      (now, items, startEnd, nextBlock): ActiveItem | undefined => {
+        console.log(nextBlock);
 
+        const activeItem = items.find((item) => item.active);
         const duration =
           startEnd.start != undefined
             ? getActiveItemDuration(now, startEnd.start)
@@ -396,6 +409,10 @@ export const graphFeature = createFeature({
                 restInPercents: toPercents(rest, blockDuration?.toMillis()),
                 toNowDuration: duration,
                 toEndDuration: toEnd,
+              },
+              next: {
+                items: nextBlock,
+                end: nextBlock.at(-1)?.time,
               },
             }
           : undefined;
