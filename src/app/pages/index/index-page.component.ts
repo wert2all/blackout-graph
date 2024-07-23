@@ -8,7 +8,7 @@ import { ContentComponent } from '../../share/layout/content/content.component';
 import { HeaderComponent } from '../../share/layout/header/header.component';
 import { LayoutComponent } from '../../share/layout/layout.component';
 import { graphFeature } from '../../store/graph/graph.reducers';
-import { TimeActions } from '../../store/time/time.actopns';
+import { TimeActions } from '../../store/time/time.actions';
 import { TimelineComponent } from './timeline/timeline.component';
 import { WeekGraphComponent } from './week-graph/week-graph.component';
 import { WeekdaysComponent } from './weekdays/weekdays.component';

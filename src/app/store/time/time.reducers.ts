@@ -2,7 +2,7 @@ import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 import { DateTime, WeekdayNumbers } from 'luxon';
 
 import { AppLocale, hourToString } from '../../app.types';
-import { TimeActions } from './time.actopns';
+import { TimeActions } from './time.actions';
 
 const generateNow = () => DateTime.now().setLocale(AppLocale);
 
