@@ -271,21 +271,50 @@ export const graphFeature = createFeature({
       updateBlock,
     );
 
-    const selectActiveBlock = createSelector(
+    const selectTimelineBlockGroups = createSelector(
       selectTimelineWithBlocks,
       (items) => {
-        const activeItemIndex = items.findIndex((item) => item.active);
+        return items.reduce(
+          (prev: LightItemWithBlock[][], curr: LightItemWithBlock) => {
+            const lastString = Object.keys(prev).at(-1);
+            let last = lastString ? Number.parseInt(lastString) : 0;
+            if (!prev[last]) {
+              prev[last] = [];
+            }
 
-        const endList = items.slice(activeItemIndex);
-        const endIndex = endList.findIndex((item) => item.block.isEnd);
+            const lastElement = prev[last].at(-1);
 
-        const startList = items.slice(0, activeItemIndex + 1).reverse();
-        const startIndex = startList.findIndex((item) => item.block.isStart);
+            if (lastElement) {
+              if (curr.type === LightType.NORMAL) {
+                if (lastElement.type != curr.type) {
+                  last = last + 1;
+                  prev[last] = [];
+                }
+              } else {
+                if (lastElement.type === LightType.NORMAL) {
+                  last = last + 1;
+                  prev[last] = [];
+                }
+              }
+              prev[last].push(curr);
+            } else {
+              prev[last] = [curr];
+            }
+            return prev;
+          },
+          [],
+        );
+      },
+    );
 
-        return [
-          ...startList.slice(0, startIndex + 1).reverse(),
-          ...endList.slice(0, endIndex + 1),
-        ];
+    const selectActiveBlock = createSelector(
+      selectTimelineBlockGroups,
+      (groups): LightItemWithBlock[] => {
+        return (
+          groups
+            .filter((block) => !!block.find((item) => item.active))
+            .at(-1) || []
+        );
       },
     );
 
