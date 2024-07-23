@@ -31,15 +31,20 @@ interface BlockLimit {
   isEnd: boolean;
 }
 
-type Block = BlockLimit & {
-  startHour: DateTime | undefined;
-  endHour: DateTime | undefined;
-  blockMillisDuration: number | undefined;
-  blockMillisRest: number | undefined;
-  restInPercents: number | undefined;
-  toNowDuration: Duration | undefined;
-  toEndDuration: Duration | undefined;
-};
+export interface BlockItems {
+  items: LightItemWithBlock[];
+}
+
+type Block = BlockLimit &
+  BlockItems & {
+    startHour: DateTime | undefined;
+    endHour: DateTime | undefined;
+    blockMillisDuration: number | undefined;
+    blockMillisRest: number | undefined;
+    restInPercents: number | undefined;
+    toNowDuration: Duration | undefined;
+    toEndDuration: Duration | undefined;
+  };
 
 export type LightItemWithBlock = LightItem & {
   block: BlockLimit;
@@ -59,8 +64,7 @@ export interface Duration {
 
 export type ActiveItem = LightItem & {
   block: Block;
-  next: {
-    items: LightItemWithBlock[];
+  next: BlockItems & {
     end: string | undefined;
   };
 };
