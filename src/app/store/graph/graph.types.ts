@@ -59,6 +59,10 @@ export interface Duration {
 
 export type ActiveItem = LightItem & {
   block: Block;
+  next: {
+    items: LightItemWithBlock[];
+    end: string | undefined;
+  };
 };
 
 export interface WeekGraphWeekDay {
